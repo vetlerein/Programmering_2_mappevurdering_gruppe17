@@ -9,12 +9,9 @@ public class LadderTile extends Tile {
     /**
      * Constructs a LadderTile with the specified location, color, and travel location.
      *
-     * @param location the location of the tile
-     * @param color the color of the tile
      * @param travelLocation the travel location of the tile
      */
-    public LadderTile(int location, String color, int travelLocation) {
-        super(location, color);
+    public LadderTile(int travelLocation) {
         this.travelLocation = travelLocation;
     }
 

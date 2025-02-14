@@ -1,6 +1,7 @@
 package no.ntnu.idatt2003;
 
 import java.util.ArrayList;
+import no.ntnu.idatt2003.tile.*;
 
 public class Game {
     public boolean gameActiveStatus;

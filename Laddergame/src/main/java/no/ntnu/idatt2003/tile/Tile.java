@@ -14,9 +14,9 @@ public class Tile {
      * @param location the location of the tile
      * @param color the color of the tile (Special tiles have different colors) 
      */
-    public Tile(int location, String color) {
+    public Tile() {
         this.location = 0;
-        this.color = color;
+        this.color = "white";
     }
 
     /**

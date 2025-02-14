@@ -4,17 +4,14 @@ package no.ntnu.idatt2003.tile;
  * SpecialTile class that extends superclass Tile.
  */
 public class SpecialTile extends Tile {
-    private String tileType;
+    private final String tileType;
 
     /**
      * Constructs a SpecialTile with the specified location, color, and tile type.
      *
-     * @param location the location of the tile
-     * @param color the color of the tile
      * @param tileType the type of the tile
      */
-    public SpecialTile(int location, String color, String tileType) {
-        super(location, color);
+    public SpecialTile(String tileType) {
         this.tileType = tileType;
     }
 
