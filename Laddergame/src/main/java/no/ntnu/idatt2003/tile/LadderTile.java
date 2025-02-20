@@ -1,9 +1,11 @@
 package no.ntnu.idatt2003.tile;
 
+import no.ntnu.idatt2003.Player;
+
 /**
  * LadderTile class that extends superclass Tile.
  */
-public class LadderTile extends Tile {
+public class LadderTile extends Tile implements TileAction{
     private int travelLocation;
 
     /**
@@ -11,7 +13,8 @@ public class LadderTile extends Tile {
      *
      * @param travelLocation the travel location of the tile
      */
-    public LadderTile(int travelLocation) {
+    public LadderTile(int travelLocation, int location) {
+        super(location);
         this.travelLocation = travelLocation;
     }
 
@@ -33,11 +36,9 @@ public class LadderTile extends Tile {
         this.travelLocation = travelLocation;
     }
 
-    /**
-     * Sets the color of the tile.
-     * To be implemented.
-     */
-    public void setColor() {
-        // TBA
+   @Override
+    public void action(Player player) {
+ 
     }
+ 
 }

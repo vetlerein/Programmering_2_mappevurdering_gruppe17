@@ -3,20 +3,17 @@ package no.ntnu.idatt2003.tile;
 /**
  * Represents a tile in the game.
  */
-public class Tile {
+public class Tile{
     
-    private int location;    
-    private String color;
+    public int location;    
     
     /**
      * Constructs a Tile with a location and color.
      *
-     * @param location the location of the tile
-     * @param color the color of the tile (Special tiles have different colors) 
+     * @param location the location of the tile 
      */
-    public Tile() {
-        this.location = 0;
-        this.color = "white";
+    public Tile(int location) {
+        this.location = location;
     }
 
     /**
@@ -36,14 +33,4 @@ public class Tile {
     public void setLocation(int location) {
         this.location = location;
     }
-
-    /**
-     * Gets the color of the tile.
-     *
-     * @return the color of the tile
-     */
-    public String getColor() {
-        return color;
-    }
-
 }
