@@ -29,7 +29,7 @@ public class Game {
         this.players = players;
         this.gameboard = new ArrayList<>();
         for(int i = 0; i < boardWidth*boardHeight; i++){
-            gameboard.add(new Tile());
+            gameboard.add(new Tile(10));
         }
     }
 
