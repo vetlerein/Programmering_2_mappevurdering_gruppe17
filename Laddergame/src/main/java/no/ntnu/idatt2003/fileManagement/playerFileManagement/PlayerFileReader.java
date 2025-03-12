@@ -26,18 +26,17 @@ public class PlayerFileReader {
 
         FileReader fileReader;
         try {
-            fileReader = new FileReader("main/resources/players.csv");
+            fileReader = new FileReader("Laddergame/data/players.csv");
             CSVReader csvReader = new CSVReader(fileReader);
             //https://www.geeksforgeeks.org/reading-csv-file-java-using-opencsv/
             String[] nextRecord;
 
             try {
-                while (csvReader.readNext() != null) {
-                    nextRecord=csvReader.readNext();
+                while ((nextRecord = csvReader.readNext()) != null){
                     name = nextRecord[0];
                     number = Integer.parseInt(nextRecord[1]);
                     birthDate = dateFormat.parse(nextRecord[2]);
-                    players.add(new Player(name, number, birthDate));               
+                    players.add(new Player(name, number, birthDate));              
                 }
             } catch (CsvValidationException | NumberFormatException | IOException | ParseException e) {
                 
