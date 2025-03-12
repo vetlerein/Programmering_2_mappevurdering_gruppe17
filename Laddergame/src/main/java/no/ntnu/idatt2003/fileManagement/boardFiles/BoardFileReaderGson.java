@@ -1,6 +1,7 @@
 package no.ntnu.idatt2003.fileManagement.boardFiles;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 
 import com.google.gson.JsonArray;
@@ -16,12 +17,13 @@ public class BoardFileReaderGson implements BoardFileReader {
 
     @Override
     public Board readBoardFromFile(String jsonString) throws IOException {
-       
-        String description = JsonParser.parseString(jsonString).getAsJsonObject().get("description").getAsString();
-        String name = JsonParser.parseString(jsonString).getAsJsonObject().get("name").getAsString();
+        
 
+        //TODO Noe er galt her
         JsonObject boardJson = JsonParser.parseString(jsonString).getAsJsonObject();
-        JsonArray tilesJson = boardJson.getAsJsonArray("tiles");
+        JsonArray tilesJson = boardJson.getAsJsonArray("board");
+        String description = boardJson.get("description").getAsString();
+        String name = boardJson.get("name").getAsString();
 
         ArrayList<Tile> gameboard = new ArrayList<>();
         for (JsonElement jsonElement : tilesJson) {
@@ -54,9 +56,7 @@ public class BoardFileReaderGson implements BoardFileReader {
                     break;
             }
         }
-
         Board board = new Board(gameboard, name, description);
         return board;
-
     }
 }

@@ -18,5 +18,13 @@ public class Board {
     public ArrayList<Tile> getGameboard() {
         return gameboard;
     }
+    public String getName() {
+        return name;
+    }
+    public String getDescription() {
+        return description;
+    }
     
+    
+
 }

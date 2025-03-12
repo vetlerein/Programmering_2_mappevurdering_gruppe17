@@ -224,7 +224,8 @@
         {
             "location": 53,
             "tileType": "ladderTile",
-            "travellocation": 62        },
+            "travellocation": 62
+        },
         {
             "location": 54,
             "tileType": "normal"
