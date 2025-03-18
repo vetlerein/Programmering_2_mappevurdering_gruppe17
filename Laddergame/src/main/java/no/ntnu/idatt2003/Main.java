@@ -10,7 +10,7 @@ public class Main {
 
 
         BoardFileReaderGson boardReader = new BoardFileReaderGson();
-        Board board = boardReader.readBoardFromFile("resources/boards/laddergame1.json");
+        Board board = boardReader.readBoardFromFile("src/main/resources/boards/laddergame1.json");
         
         System.out.println("Name: "+board.getName());
         System.out.println("Description: "+board.getDescription());

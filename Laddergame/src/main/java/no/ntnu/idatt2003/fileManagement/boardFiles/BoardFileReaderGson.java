@@ -1,13 +1,14 @@
 package no.ntnu.idatt2003.fileManagement.boardFiles;
 
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 import no.ntnu.idatt2003.Board;
 import no.ntnu.idatt2003.tile.LadderTile;
@@ -16,11 +17,15 @@ import no.ntnu.idatt2003.tile.Tile;
 public class BoardFileReaderGson implements BoardFileReader {
 
     @Override
-    public Board readBoardFromFile(String jsonString) throws IOException {
+    public Board readBoardFromFile(String jsonPath) throws IOException {
         
-
-        //TODO Noe er galt her
-        JsonObject boardJson = JsonParser.parseString(jsonString).getAsJsonObject();
+        //Filereader
+        FileReader fileReader = new FileReader(jsonPath);
+        JsonReader reader = new JsonReader(fileReader);
+        //Parses read file to json
+        JsonElement element = JsonParser.parseReader(reader);
+        JsonObject boardJson = element.getAsJsonObject();
+        //Extracts the board array from the json
         JsonArray tilesJson = boardJson.getAsJsonArray("board");
         String description = boardJson.get("description").getAsString();
         String name = boardJson.get("name").getAsString();
@@ -37,7 +42,7 @@ public class BoardFileReaderGson implements BoardFileReader {
 
                 case "ladderTile":
                     
-                    int travelLocation = jsonElement.getAsJsonObject().get("travelLocation").getAsInt();  
+                    int travelLocation = jsonElement.getAsJsonObject().get("travellocation").getAsInt();  
                     gameboard.add(new LadderTile(travelLocation, travelLocation));
                     break;
 
