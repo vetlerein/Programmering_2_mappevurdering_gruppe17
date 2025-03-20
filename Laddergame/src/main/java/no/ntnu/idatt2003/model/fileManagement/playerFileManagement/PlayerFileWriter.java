@@ -1,4 +1,4 @@
-package no.ntnu.idatt2003.fileManagement.playerFileManagement;
+package no.ntnu.idatt2003.model.fileManagement.playerFileManagement;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 
 import com.opencsv.CSVWriter;
 
-import no.ntnu.idatt2003.Player;
+import no.ntnu.idatt2003.model.Player;
 
 public class PlayerFileWriter {
 

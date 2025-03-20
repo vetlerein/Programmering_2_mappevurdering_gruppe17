@@ -1,4 +1,4 @@
-package no.ntnu.idatt2003.fileManagement.playerFileManagement;
+package no.ntnu.idatt2003.model.fileManagement.playerFileManagement;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 
 import com.opencsv.exceptions.CsvValidationException;
 
-import no.ntnu.idatt2003.Player;
+import no.ntnu.idatt2003.model.Player;
 
 public class PlayerFileReader {
     public ArrayList<Player> readPlayers() {

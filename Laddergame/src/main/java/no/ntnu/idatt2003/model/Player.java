@@ -1,4 +1,4 @@
-package no.ntnu.idatt2003;
+package no.ntnu.idatt2003.model;
 import java.util.Date;
 
 /**

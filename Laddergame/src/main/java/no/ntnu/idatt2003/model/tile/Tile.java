@@ -1,4 +1,4 @@
-package no.ntnu.idatt2003.tile;
+package no.ntnu.idatt2003.model.tile;
 
 /**
  * Represents a tile in the game.
