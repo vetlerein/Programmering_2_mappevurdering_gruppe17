@@ -15,7 +15,14 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import no.ntnu.idatt2003.model.Player;
 
+/**
+ * This class reads player information from a CSV file.
+ */
 public class PlayerFileReader {
+
+    /**
+     * @return the method returns an ArrayList with Player objects within.
+     */
     public ArrayList<Player> readPlayers() {
         String name;
         int number;

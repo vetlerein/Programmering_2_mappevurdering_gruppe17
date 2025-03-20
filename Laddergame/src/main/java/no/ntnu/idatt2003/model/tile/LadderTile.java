@@ -40,5 +40,4 @@ public class LadderTile extends Tile implements TileAction{
     public void action(Player player) {
  
     }
- 
 }

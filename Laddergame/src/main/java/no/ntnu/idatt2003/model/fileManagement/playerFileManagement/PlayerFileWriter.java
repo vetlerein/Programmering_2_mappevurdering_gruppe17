@@ -9,8 +9,14 @@ import com.opencsv.CSVWriter;
 
 import no.ntnu.idatt2003.model.Player;
 
+/**
+ * This class writes player information to a CSV file.
+ */
 public class PlayerFileWriter {
 
+    /**
+     * @param player Input: a player object.
+     */
     public void writeToFile(Player player){
             File file = new File("Laddergame/data/players.csv"); 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

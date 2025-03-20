@@ -19,9 +19,18 @@ import no.ntnu.idatt2003.model.tile.Tile;
 //Board board = boardReader.readBoardFromFile("src/main/resources/boards/laddergame1.json");
 
 
-
+/**
+ * This class reads jsonfiles
+ */
 public class BoardFileReaderGson implements BoardFileReader {
 
+    /**
+     * The method that reads the Json file.
+     *
+     * @param jsonPath The input variable. Input the path to the Json-file.
+     * @return Returns a board object.
+     * @throws IOException
+     */
     @Override
     public Board readBoardFromFile(String jsonPath) throws IOException {
         

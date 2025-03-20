@@ -5,6 +5,9 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+/**
+ * This is the launch method for the program and the main GUI class.
+ */
 public class View extends Application{
     public static void main(String[] args) throws IOException {
         launch(args);
@@ -16,5 +19,4 @@ public class View extends Application{
     window.show();
 
     }
-
 }
