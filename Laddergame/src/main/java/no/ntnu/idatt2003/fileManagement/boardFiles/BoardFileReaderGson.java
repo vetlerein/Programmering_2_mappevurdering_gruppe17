@@ -14,6 +14,12 @@ import no.ntnu.idatt2003.Board;
 import no.ntnu.idatt2003.tile.LadderTile;
 import no.ntnu.idatt2003.tile.Tile;
 
+//How to read
+//BoardFileReaderGson boardReader = new BoardFileReaderGson();
+//Board board = boardReader.readBoardFromFile("src/main/resources/boards/laddergame1.json");
+
+
+
 public class BoardFileReaderGson implements BoardFileReader {
 
     @Override
