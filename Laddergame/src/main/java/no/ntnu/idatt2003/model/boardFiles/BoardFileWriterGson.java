@@ -1,6 +1,6 @@
-package no.ntnu.idatt2003.fileManagement.boardFiles;
+package no.ntnu.idatt2003.model.boardFiles;
 
-import no.ntnu.idatt2003.Board;
+import no.ntnu.idatt2003.model.Board;
 
 public class BoardFileWriterGson implements BoardFileWriter{
     

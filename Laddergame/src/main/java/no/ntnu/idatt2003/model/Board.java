@@ -1,8 +1,8 @@
-package no.ntnu.idatt2003;
+package no.ntnu.idatt2003.model;
 
 import java.util.ArrayList;
 
-import no.ntnu.idatt2003.tile.Tile;
+import no.ntnu.idatt2003.model.tile.Tile;
 
 public class Board {
     private ArrayList<Tile> gameboard;

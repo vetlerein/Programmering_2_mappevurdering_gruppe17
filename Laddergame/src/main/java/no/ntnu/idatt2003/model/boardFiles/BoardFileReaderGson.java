@@ -1,4 +1,4 @@
-package no.ntnu.idatt2003.fileManagement.boardFiles;
+package no.ntnu.idatt2003.model.boardFiles;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,9 +10,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
-import no.ntnu.idatt2003.Board;
-import no.ntnu.idatt2003.tile.LadderTile;
-import no.ntnu.idatt2003.tile.Tile;
+import no.ntnu.idatt2003.model.Board;
+import no.ntnu.idatt2003.model.tile.LadderTile;
+import no.ntnu.idatt2003.model.tile.Tile;
 
 //How to read
 //BoardFileReaderGson boardReader = new BoardFileReaderGson();

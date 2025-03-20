@@ -1,6 +1,6 @@
-package no.ntnu.idatt2003.tile;
+package no.ntnu.idatt2003.model.tile;
 
-import no.ntnu.idatt2003.Player;
+import no.ntnu.idatt2003.model.Player;
 
 public class BackToStartTile extends Tile implements TileAction{
 
