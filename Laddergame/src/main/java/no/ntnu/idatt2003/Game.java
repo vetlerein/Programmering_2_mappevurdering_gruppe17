@@ -2,8 +2,6 @@ package no.ntnu.idatt2003;
 
 import java.util.ArrayList;
 
-import no.ntnu.idatt2003.tile.Tile;
-
 /**
  * Controls the game.
  */
@@ -11,7 +9,6 @@ public class Game {
     public boolean gameActiveStatus;
     public int playerAmount;
     public int activePlayer;
-    public ArrayList<Tile> gameboard;
     public ArrayList<Player> players;
 
     /**
@@ -27,9 +24,6 @@ public class Game {
         this.gameActiveStatus = true;
         this.playerAmount = playerAmount;
         this.players = players;
-        this.gameboard = new ArrayList<>();
-
-        //Les brett fra json
     }
 
     /**

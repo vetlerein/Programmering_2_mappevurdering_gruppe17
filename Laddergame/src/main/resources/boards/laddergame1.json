@@ -1,0 +1,382 @@
+{
+    "name": "laddergame1",
+    "description": "Board for laddergame1",
+    "board": [
+        {
+            "location": 1,
+            "tileType": "normal"
+        },
+        {
+            "location": 2,
+            "tileType": "pauseTile"
+        },
+        {
+            "location": 3,
+            "tileType": "normal"
+        },
+        {
+            "location": 4,
+            "tileType": "normal"
+        },
+        {
+            "location": 5,
+            "tileType": "ladderTile",
+            "travellocation": 10
+        },
+        {
+            "location": 6,
+            "tileType": "normal"
+        },
+        {
+            "location": 7,
+            "tileType": "normal"
+        },
+        {
+            "location": 8,
+            "tileType": "normal"
+        },
+        {
+            "location": 9,
+            "tileType": "normal"
+        },
+        {
+            "location": 10,
+            "tileType": "normal"
+        },
+        {
+            "location": 11,
+            "tileType": "ladderTile",
+            "travellocation": 2
+        },
+        {
+            "location": 12,
+            "tileType": "normal"
+        },
+        {
+            "location": 13,
+            "tileType": "ladderTile",
+            "travellocation": 23
+        },
+        {
+            "location": 14,
+            "tileType": "normal"
+        },
+        {
+            "location": 15,
+            "tileType": "normal"
+        },
+        {
+            "location": 16,
+            "tileType": "normal"
+        },
+        {
+            "location": 17,
+            "tileType": "normal"
+        },
+        {
+            "location": 18,
+            "tileType": "ladderTile",
+            "travellocation": 16
+        },
+        {
+            "location": 19,
+            "tileType": "ladderTile",
+            "travellocation": 45
+        },
+        {
+            "location": 20,
+            "tileType": "normal"
+        },
+        {
+            "location": 21,
+            "tileType": "normal"
+        },
+        {
+            "location": 22,
+            "tileType": "ladderTile",
+            "travellocation": 34
+        },
+        {
+            "location": 23,
+            "tileType": "playerSwapTile"
+        },
+        {
+            "location": 24,
+            "tileType": "pauseTile"
+        },
+        {
+            "location": 25,
+            "tileType": "normal"
+        },
+        {
+            "location": 26,
+            "tileType": "normal"
+        },
+        {
+            "location": 27,
+            "tileType": "ladderTile",
+            "travellocation": 37
+        },
+        {
+            "location": 28,
+            "tileType": "ladderTile",
+            "travellocation": 17
+        },
+        {
+            "location": 29,
+            "tileType": "normal"
+        },
+        {
+            "location": 30,
+            "tileType": "ladderTile",
+            "travellocation": 38
+        },
+        {
+            "location": 31,
+            "tileType": "normal"
+        },
+        {
+            "location": 32,
+            "tileType": "normal"
+        },
+        {
+            "location": 33,
+            "tileType": "normal"
+        },
+        {
+            "location": 34,
+            "tileType": "normal"
+        },
+        {
+            "location": 35,
+            "tileType": "normal"
+        },
+        {
+            "location": 36,
+            "tileType": "normal"
+        },
+        {
+            "location": 37,
+            "tileType": "ladderTile",
+            "travellocation": 52
+        },
+        {
+            "location": 38,
+            "tileType": "normal"
+        },
+        {
+            "location": 39,
+            "tileType": "normal"
+        },
+        {
+            "location": 40,
+            "tileType": "normal"
+        },
+        {
+            "location": 41,
+            "tileType": "normal"
+        },
+        {
+            "location": 42,
+            "tileType": "normal"
+        },
+        {
+            "location": 43,
+            "tileType": "normal"
+        },
+        {
+            "location": 44,
+            "tileType": "normal"
+        },
+        {
+            "location": 45,
+            "tileType": "normal"
+        },
+        {
+            "location": 46,
+            "tileType": "normal"
+        },
+        {
+            "location": 47,
+            "tileType": "normal"
+        },
+        {
+            "location": 48,
+            "tileType": "normal"
+        },
+        {
+            "location": 49,
+            "tileType": "pauseTile"
+        },
+        {
+            "location": 50,
+            "tileType": "normal"
+        },
+        {
+            "location": 51,
+            "tileType": "normal"
+        },
+        {
+            "location": 52,
+            "tileType": "ladderTile",
+            "travellocation": 10
+        },
+        {
+            "location": 53,
+            "tileType": "ladderTile",
+            "travellocation": 62
+        },
+        {
+            "location": 54,
+            "tileType": "normal"
+        },
+        {
+            "location": 55,
+            "tileType": "normal"
+        },
+        {
+            "location": 56,
+            "tileType": "normal"
+        },
+        {
+            "location": 57,
+            "tileType": "normal"
+        },
+        {
+            "location": 58,
+            "tileType": "ladderTile",
+            "travellocation": 67
+        },
+        {
+            "location": 59,
+            "tileType": "normal"
+        },
+        {
+            "location": 60,
+            "tileType": "normal"
+        },
+        {
+            "location": 61,
+            "tileType": "normal"
+        },
+        {
+            "location": 62,
+            "tileType": "normal"
+        },
+        {
+            "location": 63,
+            "tileType": "playerSwapTile"
+        },
+        {
+            "location": 64,
+            "tileType": "normal"
+        },
+        {
+            "location": 65,
+            "tileType": "normal"
+        },
+        {
+            "location": 66,
+            "tileType": "normal"
+        },
+        {
+            "location": 67,
+            "tileType": "normal"
+        },
+        {
+            "location": 68,
+            "tileType": "normal"
+        },
+        {
+            "location": 69,
+            "tileType": "ladderTile",
+            "travellocation": 43
+        },
+        {
+            "location": 70,
+            "tileType": "normal"
+        },
+        {
+            "location": 71,
+            "tileType": "normal"
+        },
+        {
+            "location": 72,
+            "tileType": "normal"
+        },
+        {
+            "location": 73,
+            "tileType": "normal"
+        },
+        {
+            "location": 74,
+            "tileType": "ladderTile",
+            "travellocation": 87
+        },
+        {
+            "location": 75,
+            "tileType": "normal"
+        },
+        {
+            "location": 76,
+            "tileType": "normal"
+        },
+        {
+            "location": 77,
+            "tileType": "normal"
+        },
+        {
+            "location": 78,
+            "tileType": "normal"
+        },
+        {
+            "location": 79,
+            "tileType": "normal"
+        },
+        {
+            "location": 80,
+            "tileType": "normal"
+        },
+        {
+            "location": 81,
+            "tileType": "normal"
+        },
+        {
+            "location": 82,
+            "tileType": "normal"
+        },
+        {
+            "location": 83,
+            "tileType": "normal"
+        },
+        {
+            "location": 84,
+            "tileType": "normal"
+        },
+        {
+            "location": 85,
+            "tileType": "normal"
+        },
+        {
+            "location": 86,
+            "tileType": "normal"
+        },
+        {
+            "location": 87,
+            "tileType": "normal"
+        },
+        {
+            "location": 88,
+            "tileType": "normal"
+        },
+        {
+            "location": 89,
+            "tileType": "ladderTile",
+            "travellocation": 1
+        },
+        {
+            "location": 90,
+            "tileType": "finishTile"
+        }
+    ]
+}
