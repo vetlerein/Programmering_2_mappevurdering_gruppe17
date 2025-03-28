@@ -1,0 +1,33 @@
+#mainLayout{
+    -fx-background-color: rgb(231, 92, 92);
+    -fx-text-fill: black;
+    -fx-padding: 5px;
+}
+#topMenu{
+    -fx-background-color: rgb(160, 152, 152);
+    -fx-text-fill: black;
+    -fx-min-height: 40px;
+    -fx-padding: 20px;
+    -fx-spacing: 20px;
+}
+
+
+
+#gameBoard{
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-min-height: 300px;
+    -fx-min-width: 300px;
+}
+#rightMenu{
+    -fx-background-color: rgb(202, 191, 191);
+    -fx-text-fill: black;
+    -fx-min-width: 100px;
+}
+#bottomBox{
+    -fx-background-color: rgb(105, 91, 91);
+    -fx-text-fill: black;
+    -fx-min-height: 50px ;
+    -fx-padding: 20px;
+    -fx-spacing: 20px;
+}

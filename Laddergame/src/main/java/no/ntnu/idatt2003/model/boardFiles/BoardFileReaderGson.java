@@ -44,7 +44,7 @@ public class BoardFileReaderGson implements BoardFileReader {
         JsonArray tilesJson = boardJson.getAsJsonArray("board");
         String description = boardJson.get("description").getAsString();
         String name = boardJson.get("name").getAsString();
-
+        
         ArrayList<Tile> gameboard = new ArrayList<>();
         for (JsonElement jsonElement : tilesJson) {
             String tileType = jsonElement.getAsJsonObject().get("tileType").getAsString();
