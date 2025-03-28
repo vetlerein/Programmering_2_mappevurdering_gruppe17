@@ -28,12 +28,11 @@ public class View extends Application{
         //Main layout
         BorderPane mainLayout = new BorderPane();
         mainLayout.setId("mainLayout");
-        mainLayout.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
 
         //Middle box
         GridPane gameBoard = new GridPane();
         gameBoard.setId("gameBoard");
-          //gameBoard.setGridLinesVisible(true);
+          //gameBoard.setGridLinesVisible(true);    
         gameBoard.setHgap(10);
         gameBoard.setVgap(10);
 
@@ -43,7 +42,6 @@ public class View extends Application{
         Button newGameButton = new Button("New game");
         Button newPlayerButton = new Button("New player");
         topMenu.getChildren().addAll(newGameButton, newPlayerButton);
-        
 
         //Right box
         VBox rightMenu = new VBox();
@@ -55,8 +53,7 @@ public class View extends Application{
         Button throwDice = new Button("Throw dice");
         bottomBox.getChildren().add(throwDice);
 
-        
-
+        //Scene
         Scene scene = new Scene(mainLayout, 800, 600);
         scene.getStylesheets().add(getClass().getResource("/Style.css").toExternalForm());
         
