@@ -10,20 +10,21 @@ public class Game {
     public int playerAmount;
     public int activePlayer;
     public ArrayList<Player> players;
+    public Board board;
 
     /**
      * Constructs a game with a given amount of players, board width, board height and players.
      *
      * @param playerAmount the amount of players in the game
-     * @param boardWidth number of horizontal tiles
-     * @param boardHeight number of vertical tiles 
+     * @param board the active gameboard
      * @param players the active players in the game
      */
 
-    public Game(int playerAmount,  int boardWidth, int boardHeight, ArrayList<Player> players){
-        this.gameActiveStatus = true;
+    public Game(int playerAmount, ArrayList<Player> players, Board gameboard){
+        gameActiveStatus = true;
         this.playerAmount = playerAmount;
         this.players = players;
+        board = gameboard;
     }
 
     /**
@@ -46,5 +47,17 @@ public class Game {
                 player.move();
             }
         }
+    }
+
+    /**
+     * Returns the active game board
+     * @return gameboard the active board
+     */
+    public Board getBoard() {
+        return board;
+    }
+
+    public ArrayList<Player> getPlayers(){
+        return this.players;
     }
 }
