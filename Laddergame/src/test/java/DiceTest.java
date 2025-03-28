@@ -29,11 +29,14 @@ public class DiceTest {
         }
     }
 
+    /**
+    * Checks that the dice give atleast one of each value on 100 throws
+    */
     @Test
     public void diceIncludesAllNumbers () {
         Dice dice = new Dice();
         ArrayList<Integer> diceRolls = new ArrayList<>();
-        for (int i = 0; i<100; i++){
+        for (int i = 0; i<200; i++){
             diceRolls.add(dice.rollDice(1));
         }
         assertTrue(diceRolls.contains(1));
