@@ -7,8 +7,8 @@ import no.ntnu.idatt2003.model.Player;
  */
 public class PlayerSwapTile extends Tile implements TileAction{
 
-    public PlayerSwapTile(int location) {
-        super(location);
+    public PlayerSwapTile(int location, int[] coordinate) {
+        super(location, coordinate);
     }
 
     @Override

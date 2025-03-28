@@ -5,15 +5,17 @@ package no.ntnu.idatt2003.model.tile;
  */
 public class Tile{
     
-    public int location;    
+    public int location;   
+    public int[] coordinate = new int[2];
     
     /**
      * Constructs a Tile with a location and color.
      *
      * @param location the location of the tile 
      */
-    public Tile(int location) {
+    public Tile(int location, int[] coordinate) {
         this.location = location;
+        this.coordinate = coordinate;
     }
 
     /**
@@ -23,6 +25,16 @@ public class Tile{
      */
     public int getLocation() {
         return location;
+    }
+
+
+    /**
+     * Gets the coordinate of the tile.
+     *
+     * @return the coordinate of the tile
+     */
+    public int[] getCoordinate() {
+        return coordinate;
     }
 
     /**

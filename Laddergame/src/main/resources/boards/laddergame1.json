@@ -4,379 +4,469 @@
     "board": [
         {
             "location": 1,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [0, 8]
         },
         {
             "location": 2,
-            "tileType": "pauseTile"
+            "tileType": "pauseTile",
+            "coordinate": [1, 8]
         },
         {
             "location": 3,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [2, 8]
         },
         {
             "location": 4,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [3, 8]
         },
         {
             "location": 5,
             "tileType": "ladderTile",
-            "travellocation": 10
+            "travellocation": 10,
+            "coordinate": [4, 8]
         },
         {
             "location": 6,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [5, 8]
         },
         {
             "location": 7,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [6, 8]
         },
         {
             "location": 8,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [7, 8]
         },
         {
             "location": 9,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [8, 8]
         },
         {
             "location": 10,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [9, 8]
         },
         {
             "location": 11,
             "tileType": "ladderTile",
-            "travellocation": 2
+            "travellocation": 2,
+            "coordinate": [9, 7]
         },
         {
             "location": 12,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [8, 7]
         },
         {
             "location": 13,
             "tileType": "ladderTile",
-            "travellocation": 23
+            "travellocation": 23,
+            "coordinate": [7, 7]
         },
         {
             "location": 14,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [6, 7]
         },
         {
             "location": 15,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [5, 7]
         },
         {
             "location": 16,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [4, 7]
         },
         {
             "location": 17,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [3, 7]
         },
         {
             "location": 18,
             "tileType": "ladderTile",
-            "travellocation": 16
+            "travellocation": 16,
+            "coordinate": [2, 7]
         },
         {
             "location": 19,
             "tileType": "ladderTile",
-            "travellocation": 45
+            "travellocation": 45,
+            "coordinate": [1, 7]
         },
         {
             "location": 20,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [0, 7]
         },
         {
             "location": 21,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [0, 6]
         },
         {
             "location": 22,
             "tileType": "ladderTile",
-            "travellocation": 34
+            "travellocation": 34,
+            "coordinate": [1, 6]
         },
         {
             "location": 23,
-            "tileType": "playerSwapTile"
+            "tileType": "playerSwapTile",
+            "coordinate": [2, 6]
         },
         {
             "location": 24,
-            "tileType": "pauseTile"
+            "tileType": "pauseTile",
+            "coordinate": [3, 6]
         },
         {
             "location": 25,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [4, 6]
         },
         {
             "location": 26,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [5, 6]
         },
         {
             "location": 27,
             "tileType": "ladderTile",
-            "travellocation": 37
+            "travellocation": 37,
+            "coordinate": [6, 6]
         },
         {
             "location": 28,
             "tileType": "ladderTile",
-            "travellocation": 17
+            "travellocation": 17,
+            "coordinate": [7, 6]
         },
         {
             "location": 29,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [8, 6]
         },
         {
             "location": 30,
             "tileType": "ladderTile",
-            "travellocation": 38
+            "travellocation": 38,
+            "coordinate": [9, 6]
         },
         {
             "location": 31,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [9, 5]
         },
         {
             "location": 32,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [8, 5]
         },
         {
             "location": 33,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [7, 5]
         },
         {
             "location": 34,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [6, 5]
         },
         {
             "location": 35,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [5, 5]
         },
         {
             "location": 36,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [4, 5]
         },
         {
             "location": 37,
             "tileType": "ladderTile",
-            "travellocation": 52
+            "travellocation": 52,
+            "coordinate": [3, 5]
         },
         {
             "location": 38,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [2, 5]
         },
         {
             "location": 39,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [1, 5]
         },
         {
             "location": 40,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [0, 5]
         },
         {
             "location": 41,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [0, 4]
         },
         {
             "location": 42,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [1, 4]
         },
         {
             "location": 43,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [2, 4]
         },
         {
             "location": 44,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [3, 4]
         },
         {
             "location": 45,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [4, 4]
         },
         {
             "location": 46,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [5, 4]
         },
         {
             "location": 47,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [6, 4]
         },
         {
             "location": 48,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [7, 4]
         },
         {
             "location": 49,
-            "tileType": "pauseTile"
+            "tileType": "pauseTile",
+            "coordinate": [8, 4]
         },
         {
             "location": 50,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [9, 4]
         },
         {
             "location": 51,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [9, 3]
         },
         {
             "location": 52,
             "tileType": "ladderTile",
-            "travellocation": 10
+            "travellocation": 10,
+            "coordinate": [8, 3]
         },
         {
             "location": 53,
             "tileType": "ladderTile",
-            "travellocation": 62
+            "travellocation": 62,
+            "coordinate": [7, 3]
         },
         {
             "location": 54,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [6, 3]
         },
         {
             "location": 55,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [5, 3]
         },
         {
             "location": 56,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [4, 3]
         },
         {
             "location": 57,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [3, 3]
         },
         {
             "location": 58,
             "tileType": "ladderTile",
-            "travellocation": 67
+            "travellocation": 67,
+            "coordinate": [2, 3]
         },
         {
             "location": 59,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [1, 3]
         },
         {
             "location": 60,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [0, 3]
         },
         {
             "location": 61,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [0, 2]
         },
         {
             "location": 62,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [1, 2]
         },
         {
             "location": 63,
-            "tileType": "playerSwapTile"
+            "tileType": "playerSwapTile",
+            "coordinate": [2, 2]
         },
         {
             "location": 64,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [3, 2]
         },
         {
             "location": 65,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [4, 2]
         },
         {
             "location": 66,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [5, 2]
         },
         {
             "location": 67,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [6, 2]
         },
         {
             "location": 68,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [7, 2]
         },
         {
             "location": 69,
             "tileType": "ladderTile",
-            "travellocation": 43
+            "travellocation": 43,
+            "coordinate": [8, 2]
         },
         {
             "location": 70,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [9, 2]
         },
         {
             "location": 71,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [9, 1]
         },
         {
             "location": 72,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [8, 1]
         },
         {
             "location": 73,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [7, 1]
         },
         {
             "location": 74,
             "tileType": "ladderTile",
-            "travellocation": 87
+            "travellocation": 87,
+            "coordinate": [6, 1]
         },
         {
             "location": 75,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [5, 1]
         },
         {
             "location": 76,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [4, 1]
         },
         {
             "location": 77,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [3, 1]
         },
         {
             "location": 78,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [2, 1]
         },
         {
             "location": 79,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [1, 1]
         },
         {
             "location": 80,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [0, 1]
         },
         {
             "location": 81,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [0, 0]
         },
         {
             "location": 82,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [1, 0]
         },
         {
             "location": 83,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [2, 0]
         },
         {
             "location": 84,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [3, 0]
         },
         {
             "location": 85,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [4, 0]
         },
         {
             "location": 86,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [5, 0]
         },
         {
             "location": 87,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [6, 0]
         },
         {
             "location": 88,
-            "tileType": "normal"
+            "tileType": "normal",
+            "coordinate": [7, 0]
         },
         {
             "location": 89,
             "tileType": "ladderTile",
-            "travellocation": 1
+            "travellocation": 1,
+            "coordinate": [8, 0]
         },
         {
             "location": 90,
-            "tileType": "finishTile"
+            "tileType": "finishTile",
+            "coordinate": [9, 0]
         }
     ]
 }
