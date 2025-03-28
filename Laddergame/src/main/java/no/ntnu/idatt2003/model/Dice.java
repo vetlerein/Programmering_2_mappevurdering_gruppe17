@@ -15,6 +15,10 @@ public class Dice {
      * @return the sum of the dice rolls
      */
     public int rollDice(int diceAmount) {
+        if (diceAmount < 1) {
+            throw new IllegalArgumentException("Dice needs to be thrown atleast once");
+        }
+
         Random random = new Random();
         diceValue = 0;
         for(int i = 0; i < diceAmount; i++){

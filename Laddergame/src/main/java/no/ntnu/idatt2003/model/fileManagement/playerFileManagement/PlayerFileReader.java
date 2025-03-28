@@ -1,16 +1,13 @@
 package no.ntnu.idatt2003.model.fileManagement.playerFileManagement;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import com.opencsv.CSVReader;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 import com.opencsv.exceptions.CsvValidationException;
 
 import no.ntnu.idatt2003.model.Player;
@@ -31,10 +28,7 @@ public class PlayerFileReader {
         ArrayList<Player> players = new ArrayList<Player>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        FileReader fileReader;
-        try {
-            fileReader = new FileReader("Laddergame/data/players.csv");
-            CSVReader csvReader = new CSVReader(fileReader);
+        try (CSVReader csvReader = new CSVReader(new FileReader("Laddergame/data/players.csv"))) {
             //https://www.geeksforgeeks.org/reading-csv-file-java-using-opencsv/
             String[] nextRecord;
 
@@ -46,12 +40,11 @@ public class PlayerFileReader {
                     players.add(new Player(name, number, birthDate));              
                 }
             } catch (CsvValidationException | NumberFormatException | IOException | ParseException e) {
-                
+                e.printStackTrace();
             }
-    
             
-        } catch (FileNotFoundException ex) {
-            
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return players;
     }
