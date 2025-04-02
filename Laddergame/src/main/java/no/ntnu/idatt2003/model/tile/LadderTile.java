@@ -36,6 +36,10 @@ public class LadderTile extends Tile implements TileAction{
         this.travelLocation = travelLocation;
     }
 
+    /**
+     * Moves the player to the travel location
+     * @param player the player to move
+     */
    @Override
     public void action(Player player) {
         player.setPosition(this.travelLocation);

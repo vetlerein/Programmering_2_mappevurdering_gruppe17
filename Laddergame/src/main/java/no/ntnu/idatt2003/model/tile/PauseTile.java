@@ -7,11 +7,19 @@ import no.ntnu.idatt2003.model.Player;
  */
 public class PauseTile extends Tile implements TileAction{
     
+    /**
+     * Constructor for the pause tile
+     * @param location the location of the tile on the board  
+     */ 
     public PauseTile(int location) {
         super(location);
     }
 
-   @Override
+    /**
+     * Pauses the inputed player
+     * @param player the player to pause
+     */
+    @Override
     public void action(Player player) {
         player.setPlayerPause();
     }
