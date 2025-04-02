@@ -9,10 +9,15 @@ public class FinishTile extends Tile implements TileAction{
     
     public FinishTile(int location, int[] coordinate) {
         super(location, coordinate);
+
     }
 
+    /**
+     * Decides who won the game
+     * @param player the player who won
+     */
    @Override
     public void action(Player player) {
- 
+        player.getGame().finish(player);
     }
 }

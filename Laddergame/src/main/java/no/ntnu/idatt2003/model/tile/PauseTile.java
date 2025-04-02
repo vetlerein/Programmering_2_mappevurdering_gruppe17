@@ -9,11 +9,16 @@ public class PauseTile extends Tile implements TileAction{
     
     public PauseTile(int location, int[] coordinate) {
         super(location, coordinate);
+
     }
 
-   @Override
+    /**
+     * Pauses the inputed player
+     * @param player the player to pause
+     */
+    @Override
     public void action(Player player) {
- 
+        player.setPlayerPause();
     }
 
 }

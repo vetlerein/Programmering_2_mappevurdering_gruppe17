@@ -11,6 +11,8 @@ public class Player {
     private final Date birthDate;
     private final Dice playerDice = new Dice();
     public boolean playerActive;
+    public boolean playerPause = false;
+    public Game game;
 
     /**
      * Constructs a player with a start position, name, number and birthdate.
@@ -34,6 +36,29 @@ public class Player {
     }
 
     /**
+     * sets the active game
+     * @param game
+     */
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    /**
+     * sets the position of the player
+     * @param position
+     */
+    public void setPosition(int Position) {
+        this.position = position;
+    }
+
+    /**
+     * pauses the player
+     */
+    public void setPlayerPause() {
+        this.playerPause = true;
+    }
+
+    /**
      * Checks if player is active.
      * @return wether the player is active or not
      */
@@ -47,6 +72,14 @@ public class Player {
      */
     public int getPosition() {
         return this.position;
+    }
+
+    /**
+     * Returns the current position of the player on the board.
+     * @return the active game
+     */
+    public Game getGame() {
+        return this.game;
     }
 
     /**
@@ -74,18 +107,22 @@ public class Player {
     }
 
     /**
-     * Throws the dice and moves the player on the board.
+     * Throws the dice and moves the player on the board, and does actions according on where it lands
      */
     public void move(){
-        this.position += playerDice.rollDice(2);
-        //Flytt spiller fysisk
-    }
+        if(playerPause == false) {
+            int diceRoll = playerDice.rollDice(2);
+            int finalTile = game.getBoard().getGameboard().size();
+            if (this.position + diceRoll <= finalTile) {
+                this.position += diceRoll;
+            } else if (this.position + diceRoll > finalTile) {
+                this.position = finalTile - (diceRoll-(finalTile-this.position));
+            }
 
-    /**
-     * Switches the position of the player with another player.
-     * @param newPosition the new position of the player
-     */
-    public void playerSwapped(int newPosition){
-        this.position = newPosition;
+            this.game.getBoard().getGameboard().get(this.position).action(this);
+
+        } else if (playerPause == true) {
+            playerPause = false;
+        }
     }
 }

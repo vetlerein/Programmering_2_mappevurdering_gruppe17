@@ -1,9 +1,11 @@
 package no.ntnu.idatt2003.model.tile;
 
+import no.ntnu.idatt2003.model.Player;
+
 /**
  * Represents a tile in the game.
  */
-public class Tile{
+public class Tile implements TileAction{
     
     public int location;   
     public int[] coordinate = new int[2];
@@ -44,5 +46,9 @@ public class Tile{
      */
     public void setLocation(int location) {
         this.location = location;
+    }
+
+    @Override
+    public void action(Player player) {
     }
 }
