@@ -14,6 +14,10 @@ public class BackToStartTile extends Tile implements TileAction{
         super(location);
     }
 
+    /**
+     * Moves the player back to start
+     * @param player the player to move back to start
+     */
     @Override
     public void action(Player player) {
         player.setPosition(0);

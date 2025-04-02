@@ -7,10 +7,18 @@ import no.ntnu.idatt2003.model.Player;
  */
 public class FinishTile extends Tile implements TileAction{
     
+    /**
+     * The constructor for the finish tile
+     * @param location
+     */
     public FinishTile(int location) {
         super(location);
     }
 
+    /**
+     * Decides who won the game
+     * @param player the player who won
+     */
    @Override
     public void action(Player player) {
         player.getGame().finish(player);
