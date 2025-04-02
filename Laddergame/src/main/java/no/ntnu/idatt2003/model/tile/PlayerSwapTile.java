@@ -9,12 +9,10 @@ import no.ntnu.idatt2003.model.Player;
  */
 public class PlayerSwapTile extends Tile implements TileAction{
 
-    /**
-     * Constructor for the player swap tile
-     * @param location
-     */
-    public PlayerSwapTile(int location) {
-        super(location);
+
+    public PlayerSwapTile(int location, int[] coordinate) {
+        super(location, coordinate);
+
     }
 
     /**

@@ -10,8 +10,8 @@ public class BackToStartTile extends Tile implements TileAction{
     /**
      * @param location
      */
-    public BackToStartTile(int location) {
-        super(location);
+    public BackToStartTile(int location, int[] coordinate) {
+        super(location, coordinate);
     }
 
     /**

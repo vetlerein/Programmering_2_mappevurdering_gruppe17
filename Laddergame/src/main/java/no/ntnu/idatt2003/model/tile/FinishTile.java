@@ -7,12 +7,9 @@ import no.ntnu.idatt2003.model.Player;
  */
 public class FinishTile extends Tile implements TileAction{
     
-    /**
-     * The constructor for the finish tile
-     * @param location
-     */
-    public FinishTile(int location) {
-        super(location);
+    public FinishTile(int location, int[] coordinate) {
+        super(location, coordinate);
+
     }
 
     /**

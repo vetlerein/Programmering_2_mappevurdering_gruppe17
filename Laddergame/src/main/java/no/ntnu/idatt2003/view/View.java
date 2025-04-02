@@ -32,7 +32,7 @@ public class View extends Application{
         //Middle box
         GridPane gameBoard = new GridPane();
         gameBoard.setId("gameBoard");
-          //gameBoard.setGridLinesVisible(true);    
+        //gameBoard.setGridLinesVisible(true);
         gameBoard.setHgap(10);
         gameBoard.setVgap(10);
 
@@ -67,4 +67,7 @@ public class View extends Application{
         window.setTitle("Laddergame");
         window.show();
     }
+
+
+    
 }

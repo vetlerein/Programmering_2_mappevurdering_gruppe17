@@ -13,8 +13,8 @@ public class LadderTile extends Tile implements TileAction{
      *
      * @param travelLocation the travel location of the tile
      */
-    public LadderTile(int travelLocation, int location) {
-        super(location);
+    public LadderTile(int travelLocation, int location, int[] coordinate) {
+        super(location, coordinate);
         this.travelLocation = travelLocation;
     }
 
