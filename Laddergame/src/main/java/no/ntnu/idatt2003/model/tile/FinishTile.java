@@ -13,6 +13,6 @@ public class FinishTile extends Tile implements TileAction{
 
    @Override
     public void action(Player player) {
- 
+        player.getGame().finish(player);
     }
 }

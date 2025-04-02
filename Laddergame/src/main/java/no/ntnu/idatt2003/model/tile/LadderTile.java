@@ -38,6 +38,6 @@ public class LadderTile extends Tile implements TileAction{
 
    @Override
     public void action(Player player) {
- 
+        player.setPosition(this.travelLocation);
     }
 }
