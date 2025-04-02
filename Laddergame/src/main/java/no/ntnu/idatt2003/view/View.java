@@ -67,4 +67,7 @@ public class View extends Application{
         window.setTitle("Laddergame");
         window.show();
     }
+
+
+    
 }

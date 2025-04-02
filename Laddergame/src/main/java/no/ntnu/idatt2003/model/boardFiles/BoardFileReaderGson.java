@@ -12,7 +12,10 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
 import no.ntnu.idatt2003.model.Board;
+import no.ntnu.idatt2003.model.tile.FinishTile;
 import no.ntnu.idatt2003.model.tile.LadderTile;
+import no.ntnu.idatt2003.model.tile.PauseTile;
+import no.ntnu.idatt2003.model.tile.PlayerSwapTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
 //How to read
@@ -69,16 +72,23 @@ public class BoardFileReaderGson implements BoardFileReader {
 
                     case "pauseTile":
 
-                        //idk what to do here
+                        gameboard.add(new PauseTile(location, coordinate));
                         break;
 
                     case "playerSwapTile":
                         
-                        //idk, finne location til en annen og gjøre noe greier
+                        gameboard.add(new PlayerSwapTile(location, coordinate));
 
                         break;
 
+
+                    case "finishTile":
+                        gameboard.add(new FinishTile(location, coordinate));
+                        break;
+                        
                     default:
+                        System.err.println("Unknown tile type: " + tileType);
+                        // Handle unknown tile type if necessary
                         break;
                 }
             }
@@ -86,10 +96,10 @@ public class BoardFileReaderGson implements BoardFileReader {
             return new Board(gameboard, name, description);
 
         } catch (IOException e) {
-            System.err.println("Feil ved lesing av JSON-fil: " + e.getMessage());
-            throw e;  // Kaster feilen videre
+            System.err.println("Error reading JSON-file: " + e.getMessage());
+            throw e;  
         } catch (JsonSyntaxException | IllegalStateException e) {
-            throw new IOException("Feil i JSON-struktur: " + jsonPath, e);
+            throw new IOException("Error in JSON-structure: " + jsonPath, e);
         }
     }
 }
