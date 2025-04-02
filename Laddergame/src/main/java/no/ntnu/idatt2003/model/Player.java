@@ -1,8 +1,6 @@
 package no.ntnu.idatt2003.model;
 import java.util.Date;
 
-import no.ntnu.idatt2003.model.tile.LadderTile;
-
 /**
  * Represents a player in the game.
  */
@@ -46,6 +44,21 @@ public class Player {
     }
 
     /**
+     * sets the position of the player
+     * @param position
+     */
+    public void setPosition(int Position) {
+        this.position = position;
+    }
+
+    /**
+     * pauses the player
+     */
+    public void setPlayerPause() {
+        this.playerPause = true;
+    }
+
+    /**
      * Checks if player is active.
      * @return wether the player is active or not
      */
@@ -59,6 +72,14 @@ public class Player {
      */
     public int getPosition() {
         return this.position;
+    }
+
+    /**
+     * Returns the current position of the player on the board.
+     * @return the active game
+     */
+    public Game getGame() {
+        return this.game;
     }
 
     /**
@@ -92,43 +113,16 @@ public class Player {
         if(playerPause == false) {
             int diceRoll = playerDice.rollDice(2);
             int finalTile = game.getBoard().getGameboard().size();
-            if (this.position + diceRoll < finalTile) {
+            if (this.position + diceRoll <= finalTile) {
                 this.position += diceRoll;
-            } else if (this.position + diceRoll == finalTile) {
-                game.finish(this);
             } else if (this.position + diceRoll > finalTile) {
                 this.position = finalTile - (diceRoll-(finalTile-this.position));
             }
 
-            //Different actions for the special tiles
-            switch (game.getBoard().getGameboard().get(this.position).getClass().getSimpleName()) {
-                case "BackToStartTile" -> {
-                    this.position = 0;
-                }
-                case "LadderTile" -> {
-                    LadderTile ladderTile = (LadderTile) game.getBoard().getGameboard().get(this.position);
-                    this.position = ladderTile.getTravelLocation();
-                }
-                case "PauseTile" -> {
-                    playerPause = true;
-                }
-                case "PlayerSwapTile" -> {
-                    game.getPlayers().stream()
-                        .max((p1, p2) -> Integer.compare(p1.getPosition(), p2.getPosition()))
-                        .ifPresent(player -> this.position = player.getPosition());
-                }
-            }
+            this.game.getBoard().getGameboard().get(this.position).action(this);
+
         } else if (playerPause == true) {
             playerPause = false;
         }
-        //Flytt spiller fysisk
-    }
-
-    /**
-     * Switches the position of the player with another player.
-     * @param newPosition the new position of the player
-     */
-    public void playerSwapped(int newPosition){
-        this.position = newPosition;
     }
 }

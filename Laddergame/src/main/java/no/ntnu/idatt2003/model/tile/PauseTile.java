@@ -13,7 +13,7 @@ public class PauseTile extends Tile implements TileAction{
 
    @Override
     public void action(Player player) {
- 
+        player.setPlayerPause();
     }
 
 }

@@ -16,6 +16,6 @@ public class BackToStartTile extends Tile implements TileAction{
 
     @Override
     public void action(Player player) {
-
+        player.setPosition(0);
     }
 }

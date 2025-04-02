@@ -13,6 +13,11 @@ public class PlayerSwapTile extends Tile implements TileAction{
 
     @Override
     public void action(Player player) {
- 
+        int newPosition = player.getGame().getPlayers().stream()
+        .mapToInt(Player::getPosition)
+        .max()
+        .orElse(player.getPosition());
+        
+        player.setPosition(newPosition);
     }
 }
