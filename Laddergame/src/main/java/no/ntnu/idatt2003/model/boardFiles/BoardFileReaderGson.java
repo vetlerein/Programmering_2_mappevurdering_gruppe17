@@ -41,25 +41,30 @@ public class BoardFileReaderGson implements BoardFileReader {
             JsonElement element = JsonParser.parseReader(reader);
             JsonObject boardJson = element.getAsJsonObject();
             //Extracts the board array from the json
-            JsonArray tilesJson = boardJson.getAsJsonArray("board");
+            JsonArray board = boardJson.getAsJsonArray("board");
             String description = boardJson.get("description").getAsString();
             String name = boardJson.get("name").getAsString();
-            
+
             ArrayList<Tile> gameboard = new ArrayList<>();
-            for (JsonElement jsonElement : tilesJson) {
+
+            for (JsonElement jsonElement : board) {
                 String tileType = jsonElement.getAsJsonObject().get("tileType").getAsString();
                 int location = jsonElement.getAsJsonObject().get("location").getAsInt();
-                //add coordinate
+                JsonArray coordinateArray = jsonElement.getAsJsonObject().getAsJsonArray("coordinate");
+                int[] coordinate = new int[2];
+                for (int i = 0; i < 2; i++) {
+                    coordinate[i] = coordinateArray.get(i).getAsInt();
+                }
                 switch (tileType) {
                     case "normal":
 
-                        gameboard.add(new Tile(location));
+                        gameboard.add(new Tile(location, coordinate));
                         break;
 
                     case "ladderTile":
                         
                         int travelLocation = jsonElement.getAsJsonObject().get("travellocation").getAsInt();  
-                        gameboard.add(new LadderTile(travelLocation, travelLocation));
+                        gameboard.add(new LadderTile(travelLocation, location, coordinate));
                         break;
 
                     case "pauseTile":
