@@ -1,31 +1,15 @@
 package no.ntnu.idatt2003.view;
 
-import java.io.IOException;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
-
-/**
- * This is the launch method for the program and the main GUI class.
- */
-public class View extends Application{
-    public static void main(String[] args) throws IOException {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage window) throws Exception {
-
-        //Main layout
+public class LaddergameView {
+    //Main layout
+    public BorderPane mainLayout(){
         BorderPane mainLayout = new BorderPane();
         mainLayout.setId("mainLayout");
 
@@ -53,21 +37,12 @@ public class View extends Application{
         Button throwDice = new Button("Throw dice");
         bottomBox.getChildren().add(throwDice);
 
-        //Scene
-        Scene scene = new Scene(mainLayout, 800, 600);
-        scene.getStylesheets().add(getClass().getResource("/Style.css").toExternalForm());
-        
         //Adding everything to the final window
         mainLayout.setTop(topMenu);
         mainLayout.setRight(rightMenu);
         mainLayout.setBottom(bottomBox);
         mainLayout.setCenter(gameBoard);
 
-        window.setScene(scene);
-        window.setTitle("Laddergame");
-        window.show();
+        return mainLayout;
     }
-
-
-    
 }
