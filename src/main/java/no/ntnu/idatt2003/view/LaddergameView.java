@@ -6,10 +6,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import no.ntnu.idatt2003.controller.laddergameController.GameController;
+import no.ntnu.idatt2003.controller.laddergameController.PlayerController;
 
 public class LaddergameView {
     //Main layout
     public BorderPane mainLayout(){
+
+        PlayerController playerController = new PlayerController();
+        GameController gameController = new GameController();
+
         BorderPane mainLayout = new BorderPane();
         mainLayout.setId("mainLayout");
 
@@ -23,8 +29,10 @@ public class LaddergameView {
         //Top box
         HBox topMenu = new HBox();
         topMenu.setId("topMenu");
-        Button newGameButton = new Button("New game");
+        Button newGameButton = new Button("Start new game");
+        newGameButton.setOnAction(e -> gameController.newGame());
         Button newPlayerButton = new Button("New player");
+        newPlayerButton.setOnAction(e -> playerController.addPlayerWindow());
         topMenu.getChildren().addAll(newGameButton, newPlayerButton);
 
         //Right box
