@@ -7,8 +7,8 @@ import no.ntnu.idatt2003.model.Player;
  */
 public class PauseTile extends Tile implements TileAction{
     
-    public PauseTile(int location, int[] coordinate) {
-        super(location, coordinate);
+    public PauseTile(int location) {
+        super(location);
 
     }
 
