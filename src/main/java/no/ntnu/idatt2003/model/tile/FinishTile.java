@@ -9,7 +9,6 @@ public class FinishTile extends Tile implements TileAction{
     
     public FinishTile(int location) {
         super(location);
-
     }
 
     /**

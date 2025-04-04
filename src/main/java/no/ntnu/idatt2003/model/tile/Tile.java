@@ -5,7 +5,7 @@ import no.ntnu.idatt2003.model.Player;
 /**
  * Represents a tile in the game.
  */
-public class Tile implements TileAction{
+public class Tile implements TileAction {
     
     public int location;   
     
@@ -37,6 +37,7 @@ public class Tile implements TileAction{
     }
 
     @Override
-    public void action(Player player) {
+    public void action (Player player){
+        // No action needed 
     }
 }
