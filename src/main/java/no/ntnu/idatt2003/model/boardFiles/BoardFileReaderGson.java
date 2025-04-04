@@ -47,6 +47,8 @@ public class BoardFileReaderGson implements BoardFileReader {
             JsonArray board = boardJson.getAsJsonArray("board");
             String description = boardJson.get("description").getAsString();
             String name = boardJson.get("name").getAsString();
+            int rows = boardJson.get("rows").getAsInt();
+            int cols = boardJson.get("cols").getAsInt();
 
             ArrayList<Tile> gameboard = new ArrayList<>();
 
@@ -61,29 +63,29 @@ public class BoardFileReaderGson implements BoardFileReader {
                 switch (tileType) {
                     case "normal":
 
-                        gameboard.add(new Tile(location, coordinate));
+                        gameboard.add(new Tile(location));
                         break;
 
                     case "ladderTile":
                         
                         int travelLocation = jsonElement.getAsJsonObject().get("travellocation").getAsInt();  
-                        gameboard.add(new LadderTile(travelLocation, location, coordinate));
+                        gameboard.add(new LadderTile(travelLocation, location));
                         break;
 
                     case "pauseTile":
 
-                        gameboard.add(new PauseTile(location, coordinate));
+                        gameboard.add(new PauseTile(location));
                         break;
 
                     case "playerSwapTile":
                         
-                        gameboard.add(new PlayerSwapTile(location, coordinate));
+                        gameboard.add(new PlayerSwapTile(location));
 
                         break;
 
 
                     case "finishTile":
-                        gameboard.add(new FinishTile(location, coordinate));
+                        gameboard.add(new FinishTile(location));
                         break;
                         
                     default:
@@ -93,7 +95,7 @@ public class BoardFileReaderGson implements BoardFileReader {
                 }
             }
             
-            return new Board(gameboard, name, description);
+            return new Board(gameboard, name, description, rows, cols);
 
         } catch (IOException e) {
             System.err.println("Error reading JSON-file: " + e.getMessage());

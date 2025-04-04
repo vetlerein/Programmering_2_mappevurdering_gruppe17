@@ -1,6 +1,8 @@
 {
     "name": "laddergame1",
     "description": "Board for laddergame1",
+    "rows": 9,
+    "cols": 10,
     "board": [
       { "location": 1, "tileType": "normal" },
       { "location": 2, "tileType": "pauseTile" },
