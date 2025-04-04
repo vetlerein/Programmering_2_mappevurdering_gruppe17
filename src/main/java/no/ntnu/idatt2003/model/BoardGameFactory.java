@@ -1,7 +1,12 @@
 package no.ntnu.idatt2003.model;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import no.ntnu.idatt2003.model.boardFiles.BoardFileWriterGson;
 import no.ntnu.idatt2003.model.tile.FinishTile;
 import no.ntnu.idatt2003.model.tile.LadderTile;
 import no.ntnu.idatt2003.model.tile.PauseTile;
@@ -21,8 +26,8 @@ public class BoardGameFactory {
         String description = "A small board.";
 
         ArrayList<Tile> gameboard = new ArrayList<>();
-        for (int i = 1; i < rows * cols + 1; i++) {
-            gameboard.add(new Tile(i));
+        for (int i = 0; i < rows * cols; i++) {
+            gameboard.add(new Tile(i+1));
         }
 
         gameboard.set(3, new LadderTile(3,17));
@@ -38,23 +43,24 @@ public class BoardGameFactory {
         gameboard.set(2, new PauseTile(2));
         gameboard.set(48, new PauseTile(48));
 
-        gameboard.set(rows*cols, new FinishTile(rows*cols));
+        gameboard.set(rows*cols-1, new FinishTile(rows*cols));
 
         return new Board(gameboard, name, description, rows, cols);
     }
 
     /**
      * Create a medium board with 10 rows and 10 columns.
-     * @return the full board
+     * @return writes the full board to file
+     * @throws IOException 
      */
-    public static Board createMediumBoard () {
+    public static void createMediumBoard () throws IOException {
         int rows = 10;
         int cols = 10;
         String name = "Medium Board";
         String description = "A medium board";
         ArrayList<Tile> gameboard = new ArrayList<>();
-        for (int i = 1; i < rows * cols + 1; i++) {
-            gameboard.add(new Tile(i));
+        for (int i = 0; i < rows * cols; i++) {
+            gameboard.add(new Tile(i+1));
         }
         gameboard.set(3, new LadderTile(3,17));
         gameboard.set(12, new LadderTile(12, 4));
@@ -77,9 +83,17 @@ public class BoardGameFactory {
         gameboard.set(48, new PauseTile(48));
         gameboard.set(97, new PauseTile(97));
 
-        gameboard.set(rows*cols, new FinishTile(rows*cols));
+        gameboard.set(rows*cols-1, new FinishTile(rows*cols));
 
-        return new Board(gameboard, name, description, rows, cols);
+        try {
+            Board board = new Board(gameboard, name, description, rows, cols);
+            Path path = Paths.get("data/medium_board.json");
+            Files.createDirectories(path.getParent());
+            new BoardFileWriterGson().writeBoardToFile(path, board);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -102,19 +116,19 @@ public class BoardGameFactory {
         }
 
         ArrayList<Tile> gameboard = new ArrayList<>();
-        for (int i = 1; i < rows * cols + 1; i++) {
-            gameboard.add(new Tile(i));
+        for (int i = 0; i < rows * cols; i++) {
+            gameboard.add(new Tile(i+1));
         }
 
-        gameboard.set(rows+cols, new FinishTile(400));
+        gameboard.set(rows*cols-1, new FinishTile(400));
 
         for (int i = 0; i < numberOfPauses; i++) {
             boolean found = false;
             while (!found){
-                int randomIndex = (int)(Math.random() * 399) + 1;
-                if (unusedNumbers[randomIndex-1] != 0) {
+                int randomIndex = (int)(Math.random() * 399);
+                if (unusedNumbers[randomIndex] != 0) {
                     gameboard.set(randomIndex, new PauseTile(randomIndex));
-                    unusedNumbers[randomIndex-1] = 0;
+                    unusedNumbers[randomIndex] = 0;
                     found = true;
                 }
             }
@@ -123,10 +137,10 @@ public class BoardGameFactory {
         for (int i = 0; i < numberOfSwaps; i++) {
             boolean found = false;
             while (!found){
-                int randomIndex = (int)(Math.random() * 399) + 1;
-                if (unusedNumbers[randomIndex-1] != 0) {
+                int randomIndex = (int)(Math.random() * 399);
+                if (unusedNumbers[randomIndex] != 0) {
                     gameboard.set(randomIndex, new PlayerSwapTile(randomIndex));
-                    unusedNumbers[randomIndex-1] = 0;
+                    unusedNumbers[randomIndex] = 0;
                     found = true;
                 }
             }
@@ -135,12 +149,12 @@ public class BoardGameFactory {
         for (int i = 0; i < numberOfLadders; i++) {
             boolean found = false;
             while (!found){
-                int randomIndexStart = (int)(Math.random() * 399) + 1;
-                int randomIndexEnd = (int)(Math.random() * 399) + 1;
-                if ((unusedNumbers[randomIndexStart-1] != 0 && unusedNumbers[randomIndexEnd-1] != 0) && randomIndexStart != randomIndexEnd) {
+                int randomIndexStart = (int)(Math.random() * 399);
+                int randomIndexEnd = (int)(Math.random() * 399);
+                if ((unusedNumbers[randomIndexStart] != 0 && unusedNumbers[randomIndexEnd] != 0) && randomIndexStart != randomIndexEnd) {
                     gameboard.set(randomIndexStart, new LadderTile(randomIndexStart, randomIndexEnd));
-                    unusedNumbers[randomIndexStart-1] = 0;
-                    unusedNumbers[randomIndexEnd-1] = 0;
+                    unusedNumbers[randomIndexStart] = 0;
+                    unusedNumbers[randomIndexEnd] = 0;
                     found = true;
                 }
             }
