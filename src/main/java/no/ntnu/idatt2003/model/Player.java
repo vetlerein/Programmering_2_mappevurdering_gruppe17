@@ -12,6 +12,7 @@ public class Player {
     public boolean playerActive;
     public boolean playerPause = false;
     public Game game;
+    private String picture = null;
 
     /**
      * Constructs a player with a start position, name, number and birthdate.
@@ -103,6 +104,22 @@ public class Player {
      */
     public int getPlayerNumber() {
         return this.playerNumber;
+    }
+
+    /**
+     * Returns the picture of the player.
+     * @return player picture
+     */
+    public String getPicture() {
+        return picture;
+    }
+
+    /**
+     * Sets the picture of the player.
+     * @param picture the picture of the player
+     */
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     /**

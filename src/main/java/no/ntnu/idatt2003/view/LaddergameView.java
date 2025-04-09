@@ -57,10 +57,9 @@ public class LaddergameView {
     /**
      * Shows the physical board
      * @param game the active game
-     * @param mainLayout the current mainLayout border pane
      * @return borderpane with the board
      */
-    public BorderPane setGameBoard(Game game, BorderPane mainLayout) {
+    public BorderPane setGameBoard(Game game) {
         GridPane gameBoard = new GridPane();
         Pane lines = new Pane();
         gameBoard.setId("gameBoard");
@@ -133,6 +132,7 @@ public class LaddergameView {
             }
         }
 
+        BorderPane mainLayout = mainLayout();
         gameBoard.setGridLinesVisible(true);
         StackPane gameBoardWithLadder = new StackPane(gameBoard, lines);
         mainLayout.setCenter(gameBoardWithLadder);
