@@ -22,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import no.ntnu.idatt2003.model.Player;
+import no.ntnu.idatt2003.model.fileManagement.boardFiles.BoardFileReaderGson;
 import no.ntnu.idatt2003.model.fileManagement.playerFileManagement.PlayerFileReader;
 
 /**
@@ -93,6 +94,10 @@ public class GameController {
             
             //TODO Implement the logic to get the board sizes from the file and add them to the ComboBox 
             
+            boardSize.getItems().addAll("Small", "Medium", "Chaos");
+            BoardFileReaderGson boardFileReader = new BoardFileReaderGson();
+            boardFileReader.readBoardFiles();
+
             chooseBoard.getChildren().addAll(label, boardSize);
             centerChooseBoard.getChildren().add(chooseBoard);
 
