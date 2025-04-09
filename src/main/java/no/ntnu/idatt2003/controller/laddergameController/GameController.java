@@ -7,8 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -50,6 +48,7 @@ public class GameController {
                 StackPane pictureContainer = new StackPane(imageView);
 
                 //TODO add players
+                //TODO make it so the player disappears from other lists when chosen
                 ComboBox<String> playerList = new ComboBox<>();
                 playerList.getItems().addAll("Player 1", "Player 2", "Player 3", "Player 4", "Player 5");
                 playerList.setPromptText("Choose player");

@@ -3,6 +3,7 @@ package no.ntnu.idatt2003.controller.laddergameController;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javafx.geometry.Insets;
@@ -14,6 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import no.ntnu.idatt2003.model.Player;
+import no.ntnu.idatt2003.model.fileManagement.playerFileManagement.PlayerFileReader;
+import no.ntnu.idatt2003.model.fileManagement.playerFileManagement.PlayerFileWriter;
 
 /**
  * The controller class handling player actions.
@@ -47,11 +51,26 @@ public class PlayerController {
             String name = nameField.getText().trim();
             if (!name.isEmpty()&&birthDatePicker != null) {
                 
+                int playernumber;
+
+                PlayerFileWriter playerFileWriter = new PlayerFileWriter();
+                PlayerFileReader playerFileReader = new PlayerFileReader();
+                
                 LocalDate birthDate = birthDatePicker.getValue();
                 Date date = convertToDate(birthDate);
-                  
-                //TODO Legg til spiller i spillet
+                
+                ArrayList<Player> players = playerFileReader.readPlayers();
+                
+                if (players.isEmpty()) {
+                    playernumber = 1;
+                } else {
+                    playernumber = players.size() + 1;
+                    System.out.println(players.size());
+                }
 
+                Player newPlayer = new Player(name, playernumber, date);
+                  
+                playerFileWriter.writeToFile(newPlayer);
                 popupStage.close();
             }
         });
