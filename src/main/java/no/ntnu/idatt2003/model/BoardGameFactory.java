@@ -1,12 +1,8 @@
 package no.ntnu.idatt2003.model;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import no.ntnu.idatt2003.model.boardFiles.BoardFileWriterGson;
 import no.ntnu.idatt2003.model.tile.FinishTile;
 import no.ntnu.idatt2003.model.tile.LadderTile;
 import no.ntnu.idatt2003.model.tile.PauseTile;
@@ -19,41 +15,42 @@ public class BoardGameFactory {
      * Create a small board with 7 rows and 7 columns.
      * @return the full board
      */
-    public static Board createSmallBoard () {
+    public static Board createSmallBoard() {
         int rows = 7;
         int cols = 7;
         String name = "Small Board";
         String description = "A small board.";
-
+    
         ArrayList<Tile> gameboard = new ArrayList<>();
         for (int i = 0; i < rows * cols; i++) {
-            gameboard.add(new Tile(i+1));
+            gameboard.add(new Tile(i + 1));
         }
-
-        gameboard.set(3, new LadderTile(3,17));
-        gameboard.set(12, new LadderTile(12, 4));
-        gameboard.set(20, new LadderTile(20, 42));
-        gameboard.set(30, new LadderTile(30, 10));
-        gameboard.set(35, new LadderTile(32, 40));
-        gameboard.set(40, new LadderTile(43, 1));
-
-        gameboard.set(18, new PlayerSwapTile(18));
-
-        gameboard.set(15, new PauseTile(15));
-        gameboard.set(2, new PauseTile(2));
-        gameboard.set(48, new PauseTile(48));
-
-        gameboard.set(rows*cols-1, new FinishTile(rows*cols));
-
+    
+        gameboard.set(3, new LadderTile(4, 17));
+        gameboard.set(12, new LadderTile(13, 4));
+        gameboard.set(20, new LadderTile(21, 42));
+        gameboard.set(30, new LadderTile(31, 10));
+        gameboard.set(35, new LadderTile(36, 40));
+        gameboard.set(40, new LadderTile(41, 1));
+    
+        gameboard.set(18, new PlayerSwapTile(19));
+    
+        gameboard.set(15, new PauseTile(16));
+        gameboard.set(2, new PauseTile(3));
+        gameboard.set(39, new PauseTile(40));
+    
+        gameboard.set(48, new FinishTile(49));
+    
         return new Board(gameboard, name, description, rows, cols);
     }
+    
 
     /**
      * Create a medium board with 10 rows and 10 columns.
      * @return writes the full board to file
      * @throws IOException 
      */
-    public static void createMediumBoard () throws IOException {
+    public static Board createMediumBoard () throws IOException {
         int rows = 10;
         int cols = 10;
         String name = "Medium Board";
@@ -83,16 +80,18 @@ public class BoardGameFactory {
         gameboard.set(48, new PauseTile(48));
         gameboard.set(97, new PauseTile(97));
 
-        gameboard.set(rows*cols-1, new FinishTile(rows*cols));
+        gameboard.set(rows*cols-1, new FinishTile(100));
 
-        try {
-            Board board = new Board(gameboard, name, description, rows, cols);
-            Path path = Paths.get("data/medium_board.json");
-            Files.createDirectories(path.getParent());
-            new BoardFileWriterGson().writeBoardToFile(path, board);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        return new Board(gameboard, name, description, rows, cols);
+        //Write board to file
+        // try {
+        //     Board board = new Board(gameboard, name, description, rows, cols);
+        //     Path path = Paths.get("data/medium_board.json");
+        //     Files.createDirectories(path.getParent());
+        //     new BoardFileWriterGson().writeBoardToFile(path, board);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
 
     }
 
@@ -103,9 +102,9 @@ public class BoardGameFactory {
     public static Board createChaosBoard () {
         int rows = 20;
         int cols = 20;
-        int numberOfLadders = 70;
+        int numberOfLadders = 80;
         int numberOfSwaps = 20;
-        int numberOfPauses = 40;
+        int numberOfPauses = 20;
         String name = "Chaos Board";
         String description = "A large board with randomized tiles.";
 
@@ -120,14 +119,15 @@ public class BoardGameFactory {
             gameboard.add(new Tile(i+1));
         }
 
-        gameboard.set(rows*cols-1, new FinishTile(400));
+        gameboard.set(rows*cols-1, new FinishTile(rows*cols));
 
         for (int i = 0; i < numberOfPauses; i++) {
             boolean found = false;
             while (!found){
                 int randomIndex = (int)(Math.random() * 399);
                 if (unusedNumbers[randomIndex] != 0) {
-                    gameboard.set(randomIndex, new PauseTile(randomIndex));
+                    int location = randomIndex + 1;
+                    gameboard.set(location - 1, new PauseTile(location));
                     unusedNumbers[randomIndex] = 0;
                     found = true;
                 }
@@ -139,7 +139,8 @@ public class BoardGameFactory {
             while (!found){
                 int randomIndex = (int)(Math.random() * 399);
                 if (unusedNumbers[randomIndex] != 0) {
-                    gameboard.set(randomIndex, new PlayerSwapTile(randomIndex));
+                    int location = randomIndex + 1;
+                    gameboard.set(location - 1, new PlayerSwapTile(location));
                     unusedNumbers[randomIndex] = 0;
                     found = true;
                 }
@@ -152,7 +153,10 @@ public class BoardGameFactory {
                 int randomIndexStart = (int)(Math.random() * 399);
                 int randomIndexEnd = (int)(Math.random() * 399);
                 if ((unusedNumbers[randomIndexStart] != 0 && unusedNumbers[randomIndexEnd] != 0) && randomIndexStart != randomIndexEnd) {
-                    gameboard.set(randomIndexStart, new LadderTile(randomIndexStart, randomIndexEnd));
+                    int fromLocation = randomIndexStart + 1;
+                    int toLocation = randomIndexEnd + 1;
+                    gameboard.set(fromLocation - 1, new LadderTile(fromLocation, toLocation));
+
                     unusedNumbers[randomIndexStart] = 0;
                     unusedNumbers[randomIndexEnd] = 0;
                     found = true;

@@ -89,4 +89,26 @@ public class Board {
         return coordinates;
     }
 
+    /**
+     * Calculates the coordinates based on the position and a given number of rows and columns.
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @return the location based on inputed coordinates.
+     */
+    public int getLocation (int x, int y) {
+        int location = 0;
+        int bottomRow = rows - 1 - y;
+
+        //Checks if the next row is going right to left or left to right
+        if (bottomRow % 2 == 0) {
+            //If the row is even, the coordinates are calculated from right to left
+            location = (bottomRow * cols) + x + 1;
+        } else {
+            //if the row is odd, the coordinates are calculated from left to right
+            location = (bottomRow * cols) + (cols - 1 - x) + 1;
+        }
+
+        return location;
+    }
+
 }
