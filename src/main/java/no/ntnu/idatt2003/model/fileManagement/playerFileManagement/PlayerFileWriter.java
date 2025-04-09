@@ -19,7 +19,7 @@ public class PlayerFileWriter {
      */
     public void writeToFile(Player player){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try (CSVWriter writer = new CSVWriter(new FileWriter(new File("data/players.csv")))) { 
+        try (CSVWriter writer = new CSVWriter(new FileWriter(new File("data/players.csv"),true))) { 
             String birthDate = dateFormat.format(player.getBirthDate());
 
             String playerNumber = Integer.toString(player.getPlayerNumber());
