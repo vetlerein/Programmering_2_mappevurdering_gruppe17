@@ -28,7 +28,7 @@ public class PlayerFileReader {
         ArrayList<Player> players = new ArrayList<Player>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        try (CSVReader csvReader = new CSVReader(new FileReader("Laddergame/data/players.csv"))) {
+        try (CSVReader csvReader = new CSVReader(new FileReader("data/players.csv"))) {
             //https://www.geeksforgeeks.org/reading-csv-file-java-using-opencsv/
             String[] nextRecord;
 

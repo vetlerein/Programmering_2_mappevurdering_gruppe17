@@ -13,8 +13,7 @@ public class DiceTest {
     */
     @Test
     public void throwDiceZeroTimes() {
-        Dice dice = new Dice();
-        assertThrows(IllegalArgumentException.class, () -> dice.rollDice(0));
+        assertThrows(IllegalArgumentException.class, () -> Dice.rollDice(0));
     }
 
     /**
@@ -22,9 +21,8 @@ public class DiceTest {
     */
     @Test
     public void diceReturnsValidNumber () {
-        Dice dice = new Dice();
         for (int i = 0; i < 100; i++){
-            int diceRoll = dice.rollDice(1);
+            int diceRoll = Dice.rollDice(1);
             assertTrue(diceRoll<=6 && diceRoll>=1);
         }
     }
@@ -34,10 +32,9 @@ public class DiceTest {
     */
     @Test
     public void diceIncludesAllNumbers () {
-        Dice dice = new Dice();
         ArrayList<Integer> diceRolls = new ArrayList<>();
         for (int i = 0; i<200; i++){
-            diceRolls.add(dice.rollDice(1));
+            diceRolls.add(Dice.rollDice(1));
         }
         assertTrue(diceRolls.contains(1));
         assertTrue(diceRolls.contains(2));

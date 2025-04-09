@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>no.ntnu.idatt2003</groupId>
-    <artifactId>Laddergame</artifactId>
+    <artifactId>Programmering_2_mappevurdering_gruppe17</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -82,7 +82,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>no.ntnu.idatt2003.view.View</mainClass>
+                    <mainClass>no.ntnu.idatt2003.view.ViewMain</mainClass>
                 </configuration>
             </plugin>
 

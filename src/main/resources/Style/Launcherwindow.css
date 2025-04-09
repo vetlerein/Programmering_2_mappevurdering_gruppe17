@@ -1,0 +1,20 @@
+#rightMenu{
+    -fx-background-color: rgb(202, 191, 191);
+    -fx-text-fill: black;
+    -fx-min-width: 100px;
+}
+#bottomBox{
+    -fx-background-color: rgb(105, 91, 91);
+    -fx-text-fill: black;
+    -fx-min-height: 50px ;
+    -fx-padding: 20px;
+    -fx-spacing: 20px;
+}
+.button{
+    -fx-background-color: rgb(202, 191, 191);
+    -fx-text-fill: black;
+    -fx-min-width: 100px;
+    -fx-min-height: 50px;
+    -fx-padding: 10px;
+    -fx-spacing: 20px;
+}

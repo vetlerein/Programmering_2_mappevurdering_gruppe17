@@ -9,7 +9,6 @@ public class Player {
     public String playerName;
     public int playerNumber;
     private final Date birthDate;
-    private final Dice playerDice = new Dice();
     public boolean playerActive;
     public boolean playerPause = false;
     public Game game;
@@ -111,7 +110,7 @@ public class Player {
      */
     public void move(){
         if(playerPause == false) {
-            int diceRoll = playerDice.rollDice(2);
+            int diceRoll = Dice.rollDice(2);
             int finalTile = game.getBoard().getGameboard().size();
             if (this.position + diceRoll <= finalTile) {
                 this.position += diceRoll;

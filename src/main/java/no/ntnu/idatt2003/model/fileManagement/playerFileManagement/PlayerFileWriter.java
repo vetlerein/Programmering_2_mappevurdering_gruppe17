@@ -19,13 +19,12 @@ public class PlayerFileWriter {
      */
     public void writeToFile(Player player){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try (CSVWriter writer = new CSVWriter(new FileWriter(new File("Laddergame/data/players.csv")))) { 
+        try (CSVWriter writer = new CSVWriter(new FileWriter(new File("data/players.csv")))) { 
             String birthDate = dateFormat.format(player.getBirthDate());
 
             String playerNumber = Integer.toString(player.getPlayerNumber());
             String[] playerData = { player.getPlayerName(), playerNumber, birthDate}; 
             writer.writeNext(playerData); 
-            writer.close(); 
         } 
         catch (IOException e) { 
             e.printStackTrace(); 
