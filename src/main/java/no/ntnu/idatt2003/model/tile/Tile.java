@@ -5,19 +5,17 @@ import no.ntnu.idatt2003.model.Player;
 /**
  * Represents a tile in the game.
  */
-public class Tile implements TileAction{
+public class Tile implements TileAction {
     
     public int location;   
-    public int[] coordinate = new int[2];
     
     /**
      * Constructs a Tile with a location and color.
      *
      * @param location the location of the tile 
      */
-    public Tile(int location, int[] coordinate) {
+    public Tile(int location) {
         this.location = location;
-        this.coordinate = coordinate;
     }
 
     /**
@@ -27,16 +25,6 @@ public class Tile implements TileAction{
      */
     public int getLocation() {
         return location;
-    }
-
-
-    /**
-     * Gets the coordinate of the tile.
-     *
-     * @return the coordinate of the tile
-     */
-    public int[] getCoordinate() {
-        return coordinate;
     }
 
     /**
@@ -49,6 +37,7 @@ public class Tile implements TileAction{
     }
 
     @Override
-    public void action(Player player) {
+    public void action (Player player){
+        // No action needed 
     }
 }
