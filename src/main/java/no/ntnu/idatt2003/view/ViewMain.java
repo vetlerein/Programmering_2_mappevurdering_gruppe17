@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 /**
  * This is the launch method for the program and the main GUI class.
@@ -26,5 +26,7 @@ public class ViewMain extends Application{
         window.setTitle("Laddergame");
         
         window.show();
+
+        
     }
 }
