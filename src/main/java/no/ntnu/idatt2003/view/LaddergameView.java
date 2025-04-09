@@ -38,6 +38,7 @@ public class LaddergameView {
         //Right box
         VBox rightMenu = new VBox();
         rightMenu.setId("rightMenu");
+        
 
         //Bottom box
         StackPane bottomBox = new StackPane();

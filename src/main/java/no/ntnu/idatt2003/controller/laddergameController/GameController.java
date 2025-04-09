@@ -60,8 +60,8 @@ public class GameController {
                 HBox pictureMenuSplitter = new HBox(10);
                 Image picture = new Image(getClass().getResourceAsStream("/playerPieces/" + pictureName.get(i)));
                 ImageView imageView = new ImageView(picture);
-                imageView.setFitWidth(60); // Juster etter behov
-                imageView.setPreserveRatio(true); // Behold proporsjonene
+                imageView.setFitWidth(60); 
+                imageView.setPreserveRatio(true); 
                 StackPane pictureContainer = new StackPane(imageView);
 
                 ComboBox<String> playerList = new ComboBox<>(FXCollections.observableArrayList(availableNames));
@@ -69,7 +69,6 @@ public class GameController {
                 playerList.setOnAction(e -> {      
                     String selected = playerList.getValue();
 
-                    // Fjern valget fra alle andre ComboBox-er
                     for (ComboBox<String> player : playerLists) {
                         if (player != playerList) {
                             player.getItems().remove(selected);
@@ -131,5 +130,16 @@ public class GameController {
         alert.setWidth(300);
         alert.setHeight(200);
         alert.showAndWait();
+    }
+
+    public void playerList(){
+
+        VBox playerListBox = new VBox();
+        List<Player> players = playerFileReader.readPlayers();
+
+        for (Player player : players) {
+            Label playerLabel = new Label(player.getPlayerName() + " - " + player.getPlayerNumber() + " - " + player.getBirthDate());
+            playerListBox.getChildren().add(playerLabel);
+        }
     }
 }
