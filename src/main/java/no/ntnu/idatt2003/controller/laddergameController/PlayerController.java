@@ -43,11 +43,10 @@ public class PlayerController {
         LocalDate defaultDate = LocalDate.of(2000, 1, 1);
         birthDatePicker.setValue(defaultDate);
         birthDatePicker.setPromptText("Select birth date");
-        //TODO Tanker om hva som skjer om to har samme bursdag.
         
         Button addButton = new Button("Add ✅");
     
-         addButton.setOnAction(e -> {
+        addButton.setOnAction(e -> {
             String name = nameField.getText().trim();
             if (!name.isEmpty()&&birthDatePicker != null) {
                 
@@ -93,9 +92,7 @@ public class PlayerController {
      * @return The converted Date object.
      */
     private Date convertToDate(LocalDate localDate) {
-        // Konverter LocalDate til LocalDateTime
         LocalDateTime localDateTime = localDate.atStartOfDay();
-        // Konverter LocalDateTime til java.util.Date
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 }
