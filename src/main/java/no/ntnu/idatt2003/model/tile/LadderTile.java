@@ -1,5 +1,6 @@
 package no.ntnu.idatt2003.model.tile;
 
+import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 
 /**
@@ -41,7 +42,7 @@ public class LadderTile extends Tile implements TileAction{
      * @param player the player to move
      */
    @Override
-    public void action(Player player) {
+    public void action(Player player, Game game) {
         player.setPosition(this.travelLocation);
     }
 }

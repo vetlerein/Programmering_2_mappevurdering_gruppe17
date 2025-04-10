@@ -1,5 +1,6 @@
 package no.ntnu.idatt2003.model.tile;
 
+import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 
 /**
@@ -17,7 +18,7 @@ public class PauseTile extends Tile implements TileAction{
      * @param player the player to pause
      */
     @Override
-    public void action(Player player) {
+    public void action(Player player, Game game) {
         player.setPlayerPause();
     }
 

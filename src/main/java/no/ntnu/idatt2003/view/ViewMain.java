@@ -26,7 +26,5 @@ public class ViewMain extends Application{
         window.setTitle("Laddergame");
         
         window.show();
-
-        
     }
 }

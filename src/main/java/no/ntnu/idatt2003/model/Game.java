@@ -42,11 +42,7 @@ public class Game {
      */
     public void start(){
         players.sort((a, b) -> a.getBirthDate().compareTo(b.getBirthDate()));
-        while(gameActiveStatus){
-            for (Player player : players){
-                player.move();
-            }
-        }
+        activePlayer = players.get(0).getPlayerNumber();
     }
 
     /**
@@ -57,6 +53,29 @@ public class Game {
         return board;
     }
 
+    /**
+     * Returns the active player
+     * @return the index of the active player
+     */
+    public int getActivePlayer(){
+        return activePlayer;
+    }
+
+    /**
+     * Changes whose turn it is
+     */
+    public void nextPlayer() {
+        if (activePlayer == playerAmount - 1) {
+            activePlayer = 0;
+        } else {
+            activePlayer++;
+        }
+    }
+
+    /**
+     * Returns a list of the players in the game
+     * @return the players in the game
+     */
     public ArrayList<Player> getPlayers(){
         return this.players;
     }

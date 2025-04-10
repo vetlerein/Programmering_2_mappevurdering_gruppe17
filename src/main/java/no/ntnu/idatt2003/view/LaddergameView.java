@@ -1,6 +1,10 @@
 package no.ntnu.idatt2003.view;
 
+import java.net.URL;
+import java.util.Random;
+
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -12,6 +16,7 @@ import no.ntnu.idatt2003.controller.laddergameController.GameController;
 import no.ntnu.idatt2003.controller.laddergameController.PlayerController;
 import no.ntnu.idatt2003.model.Board;
 import no.ntnu.idatt2003.model.Game;
+import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.tile.LadderTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
@@ -37,30 +42,57 @@ public class LaddergameView {
 
         //Right box
         VBox rightMenu = new VBox();
+        // Group pizzaGroup = new Group();
+        // int slices = 6;
+        // double centerX = 250;
+        // double centerY = 250;
+        // double sliceWidth = 100;
+
+        // Image[] sliceImages = {
+        //     new Image(getClass().getResource("/playerPieces/cheese.png").toExternalForm()),
+        //     new Image(getClass().getResource("/playerPieces/mushroom.png").toExternalForm()),
+        //     new Image(getClass().getResource("/playerPieces/olives.png").toExternalForm()),
+        //     new Image(getClass().getResource("/playerPieces/pepperoni.png").toExternalForm()),
+        //     new Image(getClass().getResource("/playerPieces/pepperoni.png").toExternalForm()),
+        //     new Image(getClass().getResource("/playerPieces/pineapple.png").toExternalForm())
+        // };
+        // double radius = 35.0;
+                
+        // for (int i = 0; i < slices; i++) {
+        //     ImageView slice = new ImageView(sliceImages[i]);
+        //     slice.setFitWidth(sliceWidth);
+        //     slice.setPreserveRatio(true);
+
+        //     // Hver bit skal stå på sin plass langs sirkelen
+        //     double angleDeg = (360.0 / slices) * i;
+        //     double angleRad = Math.toRadians(angleDeg);
+
+        //     // Regn ut posisjon langs sirkelen
+        //     double x = centerX + radius * Math.cos(angleRad) - sliceWidth / 2.0;
+        //     double y = centerY + radius * Math.sin(angleRad) - sliceWidth / 2.0;
+
+        //     // Posisjoner og roter
+        //     slice.setLayoutX(x);
+        //     slice.setLayoutY(y);
+        //     slice.setRotate(angleDeg + 90); // slik at toppen peker ut, spiss inn
+
+        //     pizzaGroup.getChildren().add(slice);
+        // }
+        //rightMenu.getChildren().add(pizzaGroup);
         rightMenu.setId("rightMenu");
-        
-
-        //Bottom box
-        StackPane bottomBox = new StackPane();
-        bottomBox.setId("bottomBox");
-        Button throwDice = new Button("Throw dice");
-        bottomBox.getChildren().add(throwDice);
-
+                
         //Adding everything to the final window
         mainLayout.setTop(topMenu);
         mainLayout.setRight(rightMenu);
-        mainLayout.setBottom(bottomBox);
-        
         return mainLayout;
     }
 
     /**
      * Shows the physical board
      * @param game the active game
-     * @param mainLayout the current mainLayout border pane
      * @return borderpane with the board
      */
-    public BorderPane setGameBoard(Game game, BorderPane mainLayout) {
+    public BorderPane setGameBoard(Game game) {
         GridPane gameBoard = new GridPane();
         Pane lines = new Pane();
         gameBoard.setId("gameBoard");
@@ -133,10 +165,58 @@ public class LaddergameView {
             }
         }
 
+        //Bottom box
+        StackPane bottomBox = new StackPane();
+        bottomBox.setId("bottomBox");
+        Button throwDice = new Button("Throw dice");
+        throwDice.setOnAction(e -> {
+            Player player = game.getPlayers().get(game.getActivePlayer());
+            player.move(game);
+            showDice(player.getDicePaths());
+        });
+
+        bottomBox.getChildren().add(throwDice);
+
         gameBoard.setGridLinesVisible(true);
+
+        BorderPane mainLayout = mainLayout();
         StackPane gameBoardWithLadder = new StackPane(gameBoard, lines);
+        gameBoardWithLadder.setId("gameBoardWithLadder");
         mainLayout.setCenter(gameBoardWithLadder);
-        
+        mainLayout.setBottom(bottomBox);
+        return mainLayout;
+    }
+
+    public BorderPane showDice(URL[] dicePaths) {
+        StackPane centerStackPane = new StackPane();
+        Pane dicePane = new Pane();
+        dicePane.setId("dicePane");
+        int size = 50;        
+        for (URL dicePath : dicePaths) {
+            ImageView diceImageView = new ImageView(dicePath.toExternalForm());
+            diceImageView.setFitWidth(size);
+            diceImageView.setFitHeight(size);
+
+            Random random = new Random();
+
+            double maxX = 400 - size;
+            double maxY = 400 - size;
+
+            double x = random.nextDouble() * maxX;
+            double y = random.nextDouble() * maxY;
+
+            diceImageView.setLayoutX(x);
+            diceImageView.setLayoutY(y);
+
+            diceImageView.setRotate(random.nextInt(0, 360));
+            dicePane.getChildren().add(diceImageView);
+        }
+
+        BorderPane mainLayout = mainLayout();
+        centerStackPane.getChildren().clear();
+        centerStackPane.getChildren().add(mainLayout.lookup("#gameBoardWithLadder"));
+        centerStackPane.getChildren().add(dicePane);
+        mainLayout.setCenter(centerStackPane);
         return mainLayout;
     }
 }
