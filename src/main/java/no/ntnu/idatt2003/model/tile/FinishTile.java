@@ -1,5 +1,6 @@
 package no.ntnu.idatt2003.model.tile;
 
+import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 
 /**
@@ -14,9 +15,10 @@ public class FinishTile extends Tile implements TileAction{
     /**
      * Decides who won the game
      * @param player the player who won
+     * @param game the game that is finished
      */
    @Override
-    public void action(Player player) {
-        player.getGame().finish(player);
+    public void action(Player player, Game game) {
+        game.finish(player);
     }
 }

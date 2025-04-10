@@ -149,10 +149,9 @@ public class LaddergameView {
         gameBoardWithLadder.setId("gameBoardWithLadder");
         mainLayout.setCenter(gameBoardWithLadder);
         mainLayout.setBottom(bottomBox);
-        return mainLayout;
     }
 
-    public BorderPane showDice(URL[] dicePaths) {
+    public void showDice(URL[] dicePaths) {
         StackPane centerStackPane = new StackPane();
         Pane dicePane = new Pane();
         dicePane.setId("dicePane");
