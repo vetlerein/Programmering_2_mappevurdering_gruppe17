@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import no.ntnu.idatt2003.controller.laddergameController.GameController;
 
 /**
  * This is the launch method for the program and the main GUI class.
@@ -17,7 +18,7 @@ public class ViewMain extends Application{
 
     @Override
     public void start(Stage window) throws Exception {
-        
+    
         LaddergameView laddergameView = new LaddergameView();
         BorderPane laddergame = laddergameView.mainLayout();
         Scene laddergameScene = new Scene(laddergame, 800, 600);
@@ -27,6 +28,6 @@ public class ViewMain extends Application{
         
         window.show();
 
-        
+        GameController.setLadderGame(laddergameView);
     }
 }

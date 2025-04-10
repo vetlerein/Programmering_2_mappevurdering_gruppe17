@@ -1,6 +1,6 @@
 {
-    "name": "laddergame1",
-    "description": "Board for laddergame1",
+    "name": "Jsonboard 1",
+    "description": "Board for Jsonboard 1",
     "rows": 9,
     "cols": 10,
     "board": [

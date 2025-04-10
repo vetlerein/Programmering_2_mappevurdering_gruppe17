@@ -1,9 +1,8 @@
 package no.ntnu.idatt2003.controller.laddergameController;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -21,27 +20,36 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import no.ntnu.idatt2003.model.Board;
+import no.ntnu.idatt2003.model.BoardGameFactory;
+import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
+import no.ntnu.idatt2003.model.fileManagement.boardFiles.BoardFileReaderGson;
 import no.ntnu.idatt2003.model.fileManagement.playerFileManagement.PlayerFileReader;
+import no.ntnu.idatt2003.view.LaddergameView;
 
 /**
  * The controller class handling game actions.
  */
 public class GameController {
     
+    BorderPane laddergamePane = new BorderPane();
     PlayerFileReader playerFileReader = new PlayerFileReader();
+    Board board = null;
+
+    public static LaddergameView laddergameView;
+    public static void setLadderGame(LaddergameView view){
+        laddergameView = view;
+    }
 
     /**
      * This method creats a new game.
      */
     public void newGame(){
         if (playerFileReader.readPlayers().isEmpty()) {
-            showInfoPopup();
+            showInfoPopup("To create a new game, you need to add players first.");
         }else{
             
-            List<Player> tempPlayers = playerFileReader.readPlayers();
-            List<String> availableNames = new ArrayList<>(tempPlayers.stream().map(Player::getPlayerName).toList());
-
             Stage popupStage = new Stage();
             popupStage.initModality(Modality.APPLICATION_MODAL);
             popupStage.setTitle("New Game");
@@ -50,12 +58,12 @@ public class GameController {
             popupStage.setResizable(false);
 
             VBox chooseIcons = new VBox(10);
+
+            List<ComboBox<Player>> playerComboBoxes = new ArrayList<>();
+            List<Player> players = playerFileReader.readPlayers();
             List<String> pictureName = List.of("cheese.png", "mushroom.png", "olives.png", "pepperoni.png", "pineapple.png");
-            Map<String, String> playerToPicture = new HashMap<>();
-            List<ComboBox<String>> playerLists = new ArrayList<>();
 
             for (int i = 0; i < 5; i++) {
-                final int index = i;
 
                 HBox pictureMenuSplitter = new HBox(10);
                 Image picture = new Image(getClass().getResourceAsStream("/playerPieces/" + pictureName.get(i)));
@@ -63,21 +71,23 @@ public class GameController {
                 imageView.setFitWidth(60); 
                 imageView.setPreserveRatio(true); 
                 StackPane pictureContainer = new StackPane(imageView);
-
-                ComboBox<String> playerList = new ComboBox<>(FXCollections.observableArrayList(availableNames));
-                playerList.setPromptText("Choose player");
-                playerList.setOnAction(e -> {      
-                    String selected = playerList.getValue();
-
-                    for (ComboBox<String> player : playerLists) {
-                        if (player != playerList) {
-                            player.getItems().remove(selected);
+                ComboBox<Player> choosePlayer = new ComboBox<>(FXCollections.observableArrayList(players));
+               
+                choosePlayer.setPromptText("Choose player");
+                choosePlayer.setOnAction(e -> {
+                    Player selected = choosePlayer.getValue();
+                    if (selected != null) {
+                        for (ComboBox<Player> comboBox : playerComboBoxes) {
+                            if (comboBox != choosePlayer) {
+                                comboBox.getItems().remove(selected);
+                            }
                         }
                     }
-                    playerToPicture.put(selected, pictureName.get(index));
-                });     
-                playerLists.add(playerList);
-                pictureMenuSplitter.getChildren().addAll(pictureContainer, playerList);
+                });
+
+                playerComboBoxes.add(choosePlayer);
+
+                pictureMenuSplitter.getChildren().addAll(pictureContainer, choosePlayer);
                 chooseIcons.getChildren().add(pictureMenuSplitter);
             }
 
@@ -89,22 +99,77 @@ public class GameController {
             chooseBoard.setPadding(new Insets(20));
             Label label = new Label("Choose board size:");
             ComboBox<String> boardSize = new ComboBox<>(FXCollections.observableArrayList());
-            boardSize.setPromptText("Choose board size");
+            boardSize.setPromptText("Choose board size");        
+            boardSize.getItems().addAll("Small", "Medium", "Chaos");
             
-            //TODO Implement the logic to get the board sizes from the file and add them to the ComboBox 
+            BoardFileReaderGson boardFileReader = new BoardFileReaderGson();
             
+            List<String> jsonBoardNames = List.of("laddergame1");
+            for (String jsonBoardName : jsonBoardNames) {
+                boardSize.getItems().add(jsonBoardName);
+            }
+
             chooseBoard.getChildren().addAll(label, boardSize);
             centerChooseBoard.getChildren().add(chooseBoard);
-
 
             StackPane centerStartButton = new StackPane();
             centerStartButton.setPadding(new Insets(20));
             Button startButton = new Button("Start Game");
+            
+            ArrayList<Player> selectedPlayers = new ArrayList<>();
+            
             startButton.setOnAction(e ->{
+                for (ComboBox<Player> comboBox : playerComboBoxes) {
+                    Player selectedPlayer = comboBox.getValue();
+                    if (selectedPlayer != null) {
+                        selectedPlayers.add(selectedPlayer);
+                    }
+                }
 
-            //TODO Implement the logic to start the game with the selected players and board size
+                String selectedBoard = boardSize.getValue();
+                if(selectedBoard.equals("Small")|| selectedBoard.equals("Medium") || selectedBoard.equals("Chaos")){
+                    switch (selectedBoard) {
+                        case "Small":
+                            board = BoardGameFactory.createSmallBoard();
+                            System.out.println("Selected board: " + selectedBoard);
+                            break;
+                
+                        case "Medium":
+                            board = BoardGameFactory.createMediumBoard();
+                            System.out.println("Selected board: " + selectedBoard);
+                            break;
 
+                        case "Chaos":
+                            board = BoardGameFactory.createChaosBoard();
+                            System.out.println("Selected board: " + selectedBoard);
+                            break;
+                        }
+                } else if (selectedBoard != null) {
+                    try {
+                        board = boardFileReader.readBoardFromFile("src/main/resources/boards/"+selectedBoard+".json");
+                    } catch (IOException ex) {
+                        //TODO Add a logger to the project and log the error
+                        ex.printStackTrace();
+                    }
+                    System.out.println("Selected board: " + selectedBoard);
+                }
+            
+                if(board.equals(null)){
+                    showInfoPopup("Please select a board first.");
+                }else if(selectedPlayers.isEmpty()){
+                    showInfoPopup("Please select players first.");
+                }else{
+                    Game game = new Game(selectedPlayers, board);
+                    //game.start(); 
+                    System.out.println("Game started with players: " + selectedPlayers);
+                    System.out.println("Selected board: " + selectedBoard);
+                    System.out.println("Game: " + game.getPlayers().toString());
+
+                    laddergameView.setGameBoard(game);
+                    popupStage.close();
+                }
             });
+
             centerStartButton.getChildren().add(startButton);
 
             BorderPane mainLayout = new BorderPane();
@@ -121,11 +186,11 @@ public class GameController {
      /**
      * This method shows an information popup when the user tries to create a new game without players.
      */
-    private void showInfoPopup() {
+    private void showInfoPopup(String message) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information");
         alert.setHeaderText("Can't create new game!");
-        alert.setContentText("To create a new game, you need to add players first.");
+        alert.setContentText(message);
         alert.setResizable(false);
         alert.setWidth(300);
         alert.setHeight(200);

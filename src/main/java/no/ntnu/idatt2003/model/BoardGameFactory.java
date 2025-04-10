@@ -48,9 +48,9 @@ public class BoardGameFactory {
     /**
      * Create a medium board with 10 rows and 10 columns.
      * @return writes the full board to file
-     * @throws IOException 
+     * @throws IOException put in when writing to file
      */
-    public static Board createMediumBoard () throws IOException {
+    public static Board createMediumBoard (){
         int rows = 10;
         int cols = 10;
         String name = "Medium Board";
