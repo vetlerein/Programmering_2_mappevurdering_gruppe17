@@ -15,14 +15,12 @@ public class Game {
     /**
      * Constructs a game with a given amount of players, board width, board height and players.
      *
-     * @param playerAmount the amount of players in the game
      * @param board the active gameboard
      * @param players the active players in the game
      */
-
-    public Game(int playerAmount, ArrayList<Player> players, Board gameboard){
+    public Game(ArrayList<Player> players, Board gameboard){
         gameActiveStatus = true;
-        this.playerAmount = playerAmount;
+        this.playerAmount = players.size();
         this.players = players;
         board = gameboard;
     }

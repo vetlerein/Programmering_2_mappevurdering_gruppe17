@@ -13,6 +13,7 @@ public class Player {
     public boolean playerActive;
     public boolean playerPause = false;
     public URL[] dicePaths;
+    private String picture = null;
 
     /**
      * Constructs a player with a start position, name, number and birthdate.
@@ -106,6 +107,22 @@ public class Player {
     }
 
     /**
+     * Returns the picture of the player.
+     * @return player picture
+     */
+    public String getPicture() {
+        return picture;
+    }
+
+    /**
+     * Sets the picture of the player.
+     * @param picture the picture of the player
+     */
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    /**
      * Throws the dice and moves the player on the board, and does actions according on where it lands
      */
     public void move(Game game) {
@@ -123,5 +140,10 @@ public class Player {
             playerPause = false;
         }
         game.nextPlayer();
+    }
+
+    @Override
+    public String toString() {
+        return playerName;
     }
 }

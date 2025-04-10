@@ -1,4 +1,4 @@
-package no.ntnu.idatt2003.model.boardFiles;
+package no.ntnu.idatt2003.model.fileManagement.boardFiles;
 
 import java.io.IOException;
 import java.nio.file.Path;
