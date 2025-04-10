@@ -1,6 +1,10 @@
 package no.ntnu.idatt2003.view;
 
+import java.net.URL;
+import java.util.Random;
+
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -12,13 +16,13 @@ import no.ntnu.idatt2003.controller.laddergameController.GameController;
 import no.ntnu.idatt2003.controller.laddergameController.PlayerController;
 import no.ntnu.idatt2003.model.Board;
 import no.ntnu.idatt2003.model.Game;
+import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.tile.LadderTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
 public class LaddergameView {
-
     public BorderPane mainLayout = new BorderPane();
-
+  
     //Main layout
     public BorderPane mainLayout(){
 
@@ -26,7 +30,6 @@ public class LaddergameView {
         GameController gameController = new GameController();
 
         this.mainLayout.setId("mainLayout");
-
 
         //Top box
         HBox topMenu = new HBox();
@@ -40,19 +43,10 @@ public class LaddergameView {
         //Right box
         VBox rightMenu = new VBox();
         rightMenu.setId("rightMenu");
-        
-
-        //Bottom box
-        StackPane bottomBox = new StackPane();
-        bottomBox.setId("bottomBox");
-        Button throwDice = new Button("Throw dice");
-        bottomBox.getChildren().add(throwDice);
-
+                
         //Adding everything to the final window
         mainLayout.setTop(topMenu);
         mainLayout.setRight(rightMenu);
-        mainLayout.setBottom(bottomBox);
-        
         return mainLayout;
     }
 
@@ -134,10 +128,60 @@ public class LaddergameView {
             }
         }
 
+        //Bottom box
+        StackPane bottomBox = new StackPane();
+        bottomBox.setId("bottomBox");
+        Button throwDice = new Button("Throw dice");
+        throwDice.setOnAction(e -> {
+            Player player = game.getPlayers().get(game.getActivePlayer());
+            player.move(game);
+            showDice(player.getDicePaths());
+        });
+
+        bottomBox.getChildren().add(throwDice);
+
         BorderPane mainLayout = getMainLayout();
+
         gameBoard.setGridLinesVisible(true);
+
+        mainLayout = mainLayout();
         StackPane gameBoardWithLadder = new StackPane(gameBoard, lines);
+        gameBoardWithLadder.setId("gameBoardWithLadder");
         mainLayout.setCenter(gameBoardWithLadder);
+        mainLayout.setBottom(bottomBox);
+        return mainLayout;
+    }
+
+    public BorderPane showDice(URL[] dicePaths) {
+        StackPane centerStackPane = new StackPane();
+        Pane dicePane = new Pane();
+        dicePane.setId("dicePane");
+        int size = 50;        
+        for (URL dicePath : dicePaths) {
+            ImageView diceImageView = new ImageView(dicePath.toExternalForm());
+            diceImageView.setFitWidth(size);
+            diceImageView.setFitHeight(size);
+
+            Random random = new Random();
+
+            double maxX = 400 - size;
+            double maxY = 400 - size;
+
+            double x = random.nextDouble() * maxX;
+            double y = random.nextDouble() * maxY;
+
+            diceImageView.setLayoutX(x);
+            diceImageView.setLayoutY(y);
+
+            diceImageView.setRotate(random.nextInt(0, 360));
+            dicePane.getChildren().add(diceImageView);
+        }
+
+        mainLayout = mainLayout();
+        centerStackPane.getChildren().clear();
+        centerStackPane.getChildren().add(mainLayout.lookup("#gameBoardWithLadder"));
+        centerStackPane.getChildren().add(dicePane);
+        mainLayout.setCenter(centerStackPane);
     }
 
     public BorderPane getMainLayout() {

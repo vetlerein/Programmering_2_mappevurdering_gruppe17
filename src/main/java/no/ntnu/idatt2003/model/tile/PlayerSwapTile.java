@@ -2,6 +2,7 @@ package no.ntnu.idatt2003.model.tile;
 
 import java.util.Comparator;
 
+import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 
 /**
@@ -20,8 +21,8 @@ public class PlayerSwapTile extends Tile implements TileAction{
      * @param player the player to be moved
      */
     @Override
-    public void action(Player player) {
-        Player playerToSwap = player.getGame().getPlayers().stream()
+    public void action(Player player, Game game) {
+        Player playerToSwap = game.getPlayers().stream()
             .max(Comparator.comparingInt(Player::getPosition))
             .orElse(null);
     

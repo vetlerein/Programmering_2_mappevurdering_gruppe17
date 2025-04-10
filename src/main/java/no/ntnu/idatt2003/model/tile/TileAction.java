@@ -1,5 +1,6 @@
 package no.ntnu.idatt2003.model.tile;
 
+import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 
 /**
@@ -13,5 +14,5 @@ public interface TileAction {
      *
      * @param player the player who perfoms the action
      */
-    void action(Player player);
+    void action(Player player, Game game);
 }

@@ -1,4 +1,5 @@
 package no.ntnu.idatt2003.model;
+import java.net.URL;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ public class Player {
     private final Date birthDate;
     public boolean playerActive;
     public boolean playerPause = false;
-    public Game game;
+    public URL[] dicePaths;
     private String picture = null;
 
     /**
@@ -36,14 +37,6 @@ public class Player {
     }
 
     /**
-     * sets the active game
-     * @param game
-     */
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
-    /**
      * sets the position of the player
      * @param position
      */
@@ -56,6 +49,21 @@ public class Player {
      */
     public void setPlayerPause() {
         this.playerPause = true;
+    }
+
+    /**
+     * Sets the dice paths for the player.
+     */
+    public void setDicePaths(URL[] dicePaths) {
+        this.dicePaths = dicePaths;
+    }
+
+    /**
+     * Returns the dice paths for the player.
+     * @return dice paths
+     */
+    public URL[] getDicePaths() {
+        return this.dicePaths;
     }
 
     /**
@@ -72,14 +80,6 @@ public class Player {
      */
     public int getPosition() {
         return this.position;
-    }
-
-    /**
-     * Returns the current position of the player on the board.
-     * @return the active game
-     */
-    public Game getGame() {
-        return this.game;
     }
 
     /**
@@ -125,9 +125,9 @@ public class Player {
     /**
      * Throws the dice and moves the player on the board, and does actions according on where it lands
      */
-    public void move(){
+    public void move(Game game) {
         if(playerPause == false) {
-            int diceRoll = Dice.rollDice(2);
+            int diceRoll = Dice.rollDice(2, this);
             int finalTile = game.getBoard().getGameboard().size();
             if (this.position + diceRoll <= finalTile) {
                 this.position += diceRoll;
@@ -135,11 +135,11 @@ public class Player {
                 this.position = finalTile - (diceRoll-(finalTile-this.position));
             }
 
-            this.game.getBoard().getGameboard().get(this.position).action(this);
-
+            game.getBoard().getGameboard().get(this.position).action(this, game);   
         } else if (playerPause == true) {
             playerPause = false;
         }
+        game.nextPlayer();
     }
 
     @Override

@@ -21,13 +21,13 @@ public class ViewMain extends Application{
     
         LaddergameView laddergameView = new LaddergameView();
         BorderPane laddergame = laddergameView.mainLayout();
+        
         Scene laddergameScene = new Scene(laddergame, 800, 600);
         laddergameScene.getStylesheets().add(getClass().getResource("/Style/Laddergame.css").toExternalForm());         
         window.setScene(laddergameScene);
         window.setTitle("Laddergame");
         
         window.show();
-
         GameController.setLadderGame(laddergameView);
     }
 }

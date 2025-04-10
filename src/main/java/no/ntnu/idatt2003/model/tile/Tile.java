@@ -1,5 +1,6 @@
 package no.ntnu.idatt2003.model.tile;
 
+import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 
 /**
@@ -37,7 +38,7 @@ public class Tile implements TileAction {
     }
 
     @Override
-    public void action (Player player){
+    public void action (Player player, Game game){
         // No action needed 
     }
 }
