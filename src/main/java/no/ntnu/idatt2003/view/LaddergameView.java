@@ -21,13 +21,14 @@ import no.ntnu.idatt2003.model.tile.LadderTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
 public class LaddergameView {
+    private BorderPane mainLayout;
     //Main layout
     public BorderPane mainLayout(){
 
         PlayerController playerController = new PlayerController();
         GameController gameController = new GameController();
 
-        BorderPane mainLayout = new BorderPane();
+        mainLayout = new BorderPane();
         mainLayout.setId("mainLayout");
 
 
@@ -42,43 +43,6 @@ public class LaddergameView {
 
         //Right box
         VBox rightMenu = new VBox();
-        // Group pizzaGroup = new Group();
-        // int slices = 6;
-        // double centerX = 250;
-        // double centerY = 250;
-        // double sliceWidth = 100;
-
-        // Image[] sliceImages = {
-        //     new Image(getClass().getResource("/playerPieces/cheese.png").toExternalForm()),
-        //     new Image(getClass().getResource("/playerPieces/mushroom.png").toExternalForm()),
-        //     new Image(getClass().getResource("/playerPieces/olives.png").toExternalForm()),
-        //     new Image(getClass().getResource("/playerPieces/pepperoni.png").toExternalForm()),
-        //     new Image(getClass().getResource("/playerPieces/pepperoni.png").toExternalForm()),
-        //     new Image(getClass().getResource("/playerPieces/pineapple.png").toExternalForm())
-        // };
-        // double radius = 35.0;
-                
-        // for (int i = 0; i < slices; i++) {
-        //     ImageView slice = new ImageView(sliceImages[i]);
-        //     slice.setFitWidth(sliceWidth);
-        //     slice.setPreserveRatio(true);
-
-        //     // Hver bit skal stå på sin plass langs sirkelen
-        //     double angleDeg = (360.0 / slices) * i;
-        //     double angleRad = Math.toRadians(angleDeg);
-
-        //     // Regn ut posisjon langs sirkelen
-        //     double x = centerX + radius * Math.cos(angleRad) - sliceWidth / 2.0;
-        //     double y = centerY + radius * Math.sin(angleRad) - sliceWidth / 2.0;
-
-        //     // Posisjoner og roter
-        //     slice.setLayoutX(x);
-        //     slice.setLayoutY(y);
-        //     slice.setRotate(angleDeg + 90); // slik at toppen peker ut, spiss inn
-
-        //     pizzaGroup.getChildren().add(slice);
-        // }
-        //rightMenu.getChildren().add(pizzaGroup);
         rightMenu.setId("rightMenu");
                 
         //Adding everything to the final window
@@ -179,7 +143,7 @@ public class LaddergameView {
 
         gameBoard.setGridLinesVisible(true);
 
-        BorderPane mainLayout = mainLayout();
+        mainLayout = mainLayout();
         StackPane gameBoardWithLadder = new StackPane(gameBoard, lines);
         gameBoardWithLadder.setId("gameBoardWithLadder");
         mainLayout.setCenter(gameBoardWithLadder);
@@ -212,7 +176,7 @@ public class LaddergameView {
             dicePane.getChildren().add(diceImageView);
         }
 
-        BorderPane mainLayout = mainLayout();
+        mainLayout = mainLayout();
         centerStackPane.getChildren().clear();
         centerStackPane.getChildren().add(mainLayout.lookup("#gameBoardWithLadder"));
         centerStackPane.getChildren().add(dicePane);
