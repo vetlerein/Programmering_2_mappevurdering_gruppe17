@@ -141,4 +141,9 @@ public class Player {
             playerPause = false;
         }
     }
+
+    @Override
+    public String toString() {
+        return playerName;
+    }
 }

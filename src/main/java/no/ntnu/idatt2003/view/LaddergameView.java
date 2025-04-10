@@ -16,14 +16,16 @@ import no.ntnu.idatt2003.model.tile.LadderTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
 public class LaddergameView {
+
+    public BorderPane mainLayout = new BorderPane();
+
     //Main layout
     public BorderPane mainLayout(){
 
         PlayerController playerController = new PlayerController();
         GameController gameController = new GameController();
 
-        BorderPane mainLayout = new BorderPane();
-        mainLayout.setId("mainLayout");
+        this.mainLayout.setId("mainLayout");
 
 
         //Top box
@@ -59,7 +61,7 @@ public class LaddergameView {
      * @param game the active game
      * @return borderpane with the board
      */
-    public BorderPane setGameBoard(Game game) {
+    public void setGameBoard(Game game) {
         GridPane gameBoard = new GridPane();
         Pane lines = new Pane();
         gameBoard.setId("gameBoard");
@@ -132,11 +134,14 @@ public class LaddergameView {
             }
         }
 
-        BorderPane mainLayout = mainLayout();
+        BorderPane mainLayout = getMainLayout();
         gameBoard.setGridLinesVisible(true);
         StackPane gameBoardWithLadder = new StackPane(gameBoard, lines);
         mainLayout.setCenter(gameBoardWithLadder);
-        
+    }
+
+    public BorderPane getMainLayout() {
         return mainLayout;
     }
+
 }

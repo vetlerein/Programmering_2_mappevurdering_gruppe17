@@ -2,9 +2,7 @@ package no.ntnu.idatt2003.controller.laddergameController;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -35,7 +33,14 @@ import no.ntnu.idatt2003.view.LaddergameView;
  */
 public class GameController {
     
+    BorderPane laddergamePane = new BorderPane();
     PlayerFileReader playerFileReader = new PlayerFileReader();
+    Board board = null;
+
+    public static LaddergameView laddergameView;
+    public static void setLadderGame(LaddergameView view){
+        laddergameView = view;
+    }
 
     /**
      * This method creats a new game.
@@ -45,9 +50,6 @@ public class GameController {
             showInfoPopup("To create a new game, you need to add players first.");
         }else{
             
-            List<Player> players = playerFileReader.readPlayers();
-            List<String> availableNames = new ArrayList<>(players.stream().map(Player::getPlayerName).toList());
-
             Stage popupStage = new Stage();
             popupStage.initModality(Modality.APPLICATION_MODAL);
             popupStage.setTitle("New Game");
@@ -56,9 +58,10 @@ public class GameController {
             popupStage.setResizable(false);
 
             VBox chooseIcons = new VBox(10);
+
+            List<ComboBox<Player>> playerComboBoxes = new ArrayList<>();
+            List<Player> players = playerFileReader.readPlayers();
             List<String> pictureName = List.of("cheese.png", "mushroom.png", "olives.png", "pepperoni.png", "pineapple.png");
-            ArrayList<Player> playerAndPicture = new ArrayList<>();
-            List<ComboBox<String>> playerLists = new ArrayList<>();
 
             for (int i = 0; i < 5; i++) {
 
@@ -68,21 +71,22 @@ public class GameController {
                 imageView.setFitWidth(60); 
                 imageView.setPreserveRatio(true); 
                 StackPane pictureContainer = new StackPane(imageView);
-
-                ComboBox<String> choosePlayer = new ComboBox<>(FXCollections.observableArrayList(availableNames));
+                ComboBox<Player> choosePlayer = new ComboBox<>(FXCollections.observableArrayList(players));
+               
                 choosePlayer.setPromptText("Choose player");
-                choosePlayer.setOnAction(e -> {      
-                    String selected = choosePlayer.getValue();
-
-                    for (ComboBox<String> player : playerLists) {
-                        if (player != choosePlayer){
-                            player.getItems().remove(selected);
+                choosePlayer.setOnAction(e -> {
+                    Player selected = choosePlayer.getValue();
+                    if (selected != null) {
+                        for (ComboBox<Player> comboBox : playerComboBoxes) {
+                            if (comboBox != choosePlayer) {
+                                comboBox.getItems().remove(selected);
+                            }
                         }
                     }
-                    playerAndPicture.add(null)
+                });
 
-                });     
-                playerLists.add(choosePlayer);
+                playerComboBoxes.add(choosePlayer);
+
                 pictureMenuSplitter.getChildren().addAll(pictureContainer, choosePlayer);
                 chooseIcons.getChildren().add(pictureMenuSplitter);
             }
@@ -111,21 +115,33 @@ public class GameController {
             StackPane centerStartButton = new StackPane();
             centerStartButton.setPadding(new Insets(20));
             Button startButton = new Button("Start Game");
-            Board board = null;
+            
+            ArrayList<Player> selectedPlayers = new ArrayList<>();
+            
             startButton.setOnAction(e ->{
+                for (ComboBox<Player> comboBox : playerComboBoxes) {
+                    Player selectedPlayer = comboBox.getValue();
+                    if (selectedPlayer != null) {
+                        selectedPlayers.add(selectedPlayer);
+                    }
+                }
+
                 String selectedBoard = boardSize.getValue();
                 if(selectedBoard.equals("Small")|| selectedBoard.equals("Medium") || selectedBoard.equals("Chaos")){
                     switch (selectedBoard) {
                         case "Small":
                             board = BoardGameFactory.createSmallBoard();
+                            System.out.println("Selected board: " + selectedBoard);
                             break;
                 
                         case "Medium":
                             board = BoardGameFactory.createMediumBoard();
+                            System.out.println("Selected board: " + selectedBoard);
                             break;
 
                         case "Chaos":
                             board = BoardGameFactory.createChaosBoard();
+                            System.out.println("Selected board: " + selectedBoard);
                             break;
                         }
                 } else if (selectedBoard != null) {
@@ -137,15 +153,22 @@ public class GameController {
                     }
                     System.out.println("Selected board: " + selectedBoard);
                 }
-            });
+            
+                if(board.equals(null)){
+                    showInfoPopup("Please select a board first.");
+                }else if(selectedPlayers.isEmpty()){
+                    showInfoPopup("Please select players first.");
+                }else{
+                    Game game = new Game(selectedPlayers, board);
+                    //game.start(); 
+                    System.out.println("Game started with players: " + selectedPlayers);
+                    System.out.println("Selected board: " + selectedBoard);
+                    System.out.println("Game: " + game.getPlayers().toString());
 
-            if(board==null){
-                showInfoPopup("Please select a board first.");
-            }else{
-                Game game = new Game(arraylistPlayers, board);
-                LaddergameView laddergameView = new LaddergameView();
-                laddergameView.setGameBoard(game);
-            }
+                    laddergameView.setGameBoard(game);
+                    popupStage.close();
+                }
+            });
 
             centerStartButton.getChildren().add(startButton);
 
