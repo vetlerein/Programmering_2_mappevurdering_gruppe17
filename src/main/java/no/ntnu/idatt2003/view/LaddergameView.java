@@ -22,7 +22,7 @@ import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.tile.LadderTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
-public class LaddergameView {
+public class LaddergameView implements PositionChangeObserver{
     public BorderPane mainLayout = new BorderPane();
   
     //Main layout
@@ -138,6 +138,14 @@ public class LaddergameView {
             }
         }
 
+        //Adds the players pieces to the board
+        for (Player player : game.getPlayers()){
+            StackPane tilePane = getTileAt(gameBoard, 0, game.getBoard().getRows()-1);
+            ImageView playerImage = new ImageView(player.getPicture().toExternalForm());
+            playerImage.setFitWidth(tileSize * 0.5);
+            playerImage.setFitHeight(tileSize * 0.5);
+            tilePane.getChildren().add(playerImage);
+        }
         //Bottom box
         StackPane bottomBox = new StackPane();
         bottomBox.setId("bottomBox");
@@ -207,4 +215,13 @@ public class LaddergameView {
         return mainLayout;
     }
 
+    /**
+     * Updates the position of the player on the board
+     * @param player the player to update
+     * @param newPosition the new position of the player
+     */
+    @Override
+    public void positionChanged(int newPosition, Player player) {
+
+    }
 }

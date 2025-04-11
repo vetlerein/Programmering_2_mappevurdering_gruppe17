@@ -8,10 +8,10 @@ import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -122,6 +122,7 @@ public class GameController {
                 for (ComboBox<Player> comboBox : playerComboBoxes) {
                     Player selectedPlayer = comboBox.getValue();
                     if (selectedPlayer != null) {
+                        selectedPlayer.setPicture(getClass().getResource("/playerPieces/" + pictureName.get(playerComboBoxes.indexOf(comboBox))));
                         selectedPlayers.add(selectedPlayer);
                     }
                 }
@@ -160,7 +161,7 @@ public class GameController {
                     showInfoPopup("Please select players first.");
                 }else{
                     Game game = new Game(selectedPlayers, board);
-                    //game.start(); 
+                    game.start(); 
                     System.out.println("Game started with players: " + selectedPlayers);
                     System.out.println("Selected board: " + selectedBoard);
                     System.out.println("Game: " + game.getPlayers().toString());

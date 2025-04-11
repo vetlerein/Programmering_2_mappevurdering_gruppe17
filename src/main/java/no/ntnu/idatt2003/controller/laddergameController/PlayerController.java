@@ -48,7 +48,7 @@ public class PlayerController {
     
         addButton.setOnAction(e -> {
             String name = nameField.getText().trim();
-            if (!name.isEmpty()&&birthDatePicker != null) {
+            if (!name.isEmpty()) {
                 
                 int playernumber;
 

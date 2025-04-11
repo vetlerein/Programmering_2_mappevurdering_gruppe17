@@ -13,7 +13,7 @@ public class Player {
     public boolean playerActive;
     public boolean playerPause = false;
     public URL[] dicePaths;
-    private String picture = null;
+    private URL picture;
 
     /**
      * Constructs a player with a start position, name, number and birthdate.
@@ -110,7 +110,7 @@ public class Player {
      * Returns the picture of the player.
      * @return player picture
      */
-    public String getPicture() {
+    public URL getPicture() {
         return picture;
     }
 
@@ -118,7 +118,7 @@ public class Player {
      * Sets the picture of the player.
      * @param picture the picture of the player
      */
-    public void setPicture(String picture) {
+    public void setPicture(URL picture) {
         this.picture = picture;
     }
 
