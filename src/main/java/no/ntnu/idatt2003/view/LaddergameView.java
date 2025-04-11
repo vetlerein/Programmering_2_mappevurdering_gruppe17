@@ -24,6 +24,8 @@ import no.ntnu.idatt2003.model.tile.Tile;
 
 public class LaddergameView implements PositionChangeObserver{
     public BorderPane mainLayout = new BorderPane();
+    private Game game;
+    public int playerSize = 30;
   
     //Main layout
     public BorderPane mainLayout(){
@@ -58,6 +60,7 @@ public class LaddergameView implements PositionChangeObserver{
      * @return borderpane with the board
      */
     public void setGameBoard(Game game) {
+        this.game = game;
         GridPane gameBoard = new GridPane();
         Pane lines = new Pane();
         gameBoard.setId("gameBoard");
@@ -142,9 +145,11 @@ public class LaddergameView implements PositionChangeObserver{
         for (Player player : game.getPlayers()){
             StackPane tilePane = getTileAt(gameBoard, 0, game.getBoard().getRows()-1);
             ImageView playerImage = new ImageView(player.getPicture().toExternalForm());
-            playerImage.setFitWidth(tileSize * 0.5);
-            playerImage.setFitHeight(tileSize * 0.5);
+            playerImage.setFitWidth(playerSize);
+            playerImage.setFitHeight(playerSize);
+            playerImage.setId("player" + player.getPlayerNumber());
             tilePane.getChildren().add(playerImage);
+            player.setObserver(this);
         }
         //Bottom box
         StackPane bottomBox = new StackPane();
@@ -221,7 +226,19 @@ public class LaddergameView implements PositionChangeObserver{
      * @param newPosition the new position of the player
      */
     @Override
-    public void positionChanged(int newPosition, Player player) {
+    public void positionChanged(Player player) {
+        int[] coordiantes = this.game.getBoard().getCoordinates(player.getPosition());
+        StackPane tilePane = getTileAt((GridPane) mainLayout.lookup("#gameBoard"), coordiantes[0], coordiantes[1]);
+        String id = "player" + player.getPlayerNumber();
+        Node node = mainLayout.lookup("#"+id);
 
+        if (node != null) {
+            ((Pane) node.getParent()).getChildren().remove(node);
+        }
+        ImageView playerImage = new ImageView(player.getPicture().toExternalForm());
+        playerImage.setId(id);
+        playerImage.setFitWidth(playerSize);
+        playerImage.setFitHeight(playerSize);
+        tilePane.getChildren().add(playerImage);
     }
 }

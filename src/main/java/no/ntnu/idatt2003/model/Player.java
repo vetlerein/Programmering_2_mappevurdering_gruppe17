@@ -2,6 +2,8 @@ package no.ntnu.idatt2003.model;
 import java.net.URL;
 import java.util.Date;
 
+import no.ntnu.idatt2003.view.PositionChangeObserver;
+
 /**
  * Represents a player in the game.
  */
@@ -12,6 +14,8 @@ public class Player {
     private final Date birthDate;
     public boolean playerActive;
     public boolean playerPause = false;
+
+    private PositionChangeObserver observer;
     public URL[] dicePaths;
     private URL picture;
 
@@ -34,6 +38,14 @@ public class Player {
      */
     public void setPlayerActive() {
         this.playerActive = true;
+    }
+
+    /**
+     * Sets the observer for the player.
+     * @param observer the observer for the player
+     */
+    public void setObserver(PositionChangeObserver observer) {
+        this.observer = observer;
     }
 
     /**
@@ -140,6 +152,9 @@ public class Player {
             playerPause = false;
         }
         System.out.println("Player " + this.playerName + " and moved to tile " + this.position);
+        if (observer != null) {
+            observer.positionChanged(this);
+        }
         game.nextPlayer();
     }
 
