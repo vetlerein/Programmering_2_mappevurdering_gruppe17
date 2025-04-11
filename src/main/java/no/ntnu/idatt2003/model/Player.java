@@ -2,6 +2,8 @@ package no.ntnu.idatt2003.model;
 import java.net.URL;
 import java.util.Date;
 
+import no.ntnu.idatt2003.view.PositionChangeObserver;
+
 /**
  * Represents a player in the game.
  */
@@ -12,8 +14,10 @@ public class Player {
     private final Date birthDate;
     public boolean playerActive;
     public boolean playerPause = false;
+
+    private PositionChangeObserver observer;
     public URL[] dicePaths;
-    private String picture = null;
+    private URL picture;
 
     /**
      * Constructs a player with a start position, name, number and birthdate.
@@ -23,7 +27,7 @@ public class Player {
      * @param birthDate the birthdate of the player
      */
     public Player(String playerName, int playerNumber, Date birthDate) {
-        this.position = 0;
+        this.position = 1;
         this.playerName = playerName;
         this.playerNumber = playerNumber;
         this.birthDate = birthDate;
@@ -37,11 +41,19 @@ public class Player {
     }
 
     /**
+     * Sets the observer for the player.
+     * @param observer the observer for the player
+     */
+    public void setObserver(PositionChangeObserver observer) {
+        this.observer = observer;
+    }
+
+    /**
      * sets the position of the player
      * @param position
      */
-    public void setPosition(int Position) {
-        this.position = position;
+    public void setPosition(int positionIn) {
+        this.position = positionIn;
     }
 
     /**
@@ -110,7 +122,7 @@ public class Player {
      * Returns the picture of the player.
      * @return player picture
      */
-    public String getPicture() {
+    public URL getPicture() {
         return picture;
     }
 
@@ -118,7 +130,7 @@ public class Player {
      * Sets the picture of the player.
      * @param picture the picture of the player
      */
-    public void setPicture(String picture) {
+    public void setPicture(URL picture) {
         this.picture = picture;
     }
 
@@ -135,9 +147,13 @@ public class Player {
                 this.position = finalTile - (diceRoll-(finalTile-this.position));
             }
 
-            game.getBoard().getGameboard().get(this.position).action(this, game);   
+            game.getBoard().getGameboard().get(this.position-1).action(this, game);   
         } else if (playerPause == true) {
             playerPause = false;
+        }
+        System.out.println("Player " + this.playerName + " and moved to tile " + this.position);
+        if (observer != null) {
+            observer.positionChanged(this);
         }
         game.nextPlayer();
     }

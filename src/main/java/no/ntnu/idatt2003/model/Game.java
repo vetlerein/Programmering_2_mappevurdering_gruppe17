@@ -32,6 +32,7 @@ public class Game {
      */
     public void finish(Player player){
         gameActiveStatus = false;
+        System.out.println(player.playerName + " has won the game!");
         //Masse fest og moro på skjermen
     }
 

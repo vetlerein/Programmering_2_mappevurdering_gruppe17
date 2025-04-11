@@ -3,7 +3,9 @@ package no.ntnu.idatt2003.view;
 import java.net.URL;
 import java.util.Random;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -20,8 +22,10 @@ import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.tile.LadderTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
-public class LaddergameView {
+public class LaddergameView implements PositionChangeObserver{
     public BorderPane mainLayout = new BorderPane();
+    private Game game;
+    public int playerSize = 30;
   
     //Main layout
     public BorderPane mainLayout(){
@@ -56,6 +60,7 @@ public class LaddergameView {
      * @return borderpane with the board
      */
     public void setGameBoard(Game game) {
+        this.game = game;
         GridPane gameBoard = new GridPane();
         Pane lines = new Pane();
         gameBoard.setId("gameBoard");
@@ -106,6 +111,7 @@ public class LaddergameView {
                         tilePane.setStyle("-fx-background-color:rgb(0, 251, 255)");
                         break;
                 }
+                tilePane.getChildren().add(new Label(String.valueOf(game.getBoard().getLocation(j, i))));
                 gameBoard.add(tilePane, j, i); 
             }
         }
@@ -115,8 +121,15 @@ public class LaddergameView {
                 Tile tile = game.getBoard().getGameboard().get(game.getBoard().getLocation(j, i)-1);
                 if (tile instanceof LadderTile ladderTile) {
                     int[] coordinatesEnd = game.getBoard().getCoordinates(ladderTile.getTravelLocation());
-                    Line ladderLine = new Line(j * tileSize + tileSize / 2.0, i * tileSize + tileSize / 2.0,
-                        coordinatesEnd[0] * tileSize + tileSize / 2.0, coordinatesEnd[1] * tileSize + tileSize / 2.0);
+                    StackPane startTile = getTileAt(gameBoard, j, i);
+                    StackPane endTile = getTileAt(gameBoard, coordinatesEnd[0], coordinatesEnd[1]);
+
+                    Line ladderLine = new Line();
+                    ladderLine.startXProperty().bind(startTile.layoutXProperty().add(startTile.widthProperty().divide(2)));
+                    ladderLine.startYProperty().bind(startTile.layoutYProperty().add(startTile.heightProperty().divide(2)));
+                    ladderLine.endXProperty().bind(endTile.layoutXProperty().add(endTile.widthProperty().divide(2)));
+                    ladderLine.endYProperty().bind(endTile.layoutYProperty().add(endTile.heightProperty().divide(2)));
+
                     if (tile.getLocation() > ladderTile.getTravelLocation()) {
                         ladderLine.setStyle("-fx-stroke: rgb(255, 0, 0); -fx-stroke-width: 2;");
                     } else {
@@ -128,6 +141,16 @@ public class LaddergameView {
             }
         }
 
+        //Adds the players pieces to the board
+        for (Player player : game.getPlayers()){
+            StackPane tilePane = getTileAt(gameBoard, 0, game.getBoard().getRows()-1);
+            ImageView playerImage = new ImageView(player.getPicture().toExternalForm());
+            playerImage.setFitWidth(playerSize);
+            playerImage.setFitHeight(playerSize);
+            playerImage.setId("player" + player.getPlayerNumber());
+            tilePane.getChildren().add(playerImage);
+            player.setObserver(this);
+        }
         //Bottom box
         StackPane bottomBox = new StackPane();
         bottomBox.setId("bottomBox");
@@ -150,6 +173,16 @@ public class LaddergameView {
         mainLayout.setCenter(gameBoardWithLadder);
         mainLayout.setBottom(bottomBox);
     }
+
+    private StackPane getTileAt(GridPane grid, int col, int row) {
+        for (Node node : grid.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                return (StackPane) node;
+            }
+        }
+        return null;
+    }
+    
 
     public void showDice(URL[] dicePaths) {
         StackPane centerStackPane = new StackPane();
@@ -187,4 +220,25 @@ public class LaddergameView {
         return mainLayout;
     }
 
+    /**
+     * Updates the position of the player on the board
+     * @param player the player to update
+     * @param newPosition the new position of the player
+     */
+    @Override
+    public void positionChanged(Player player) {
+        int[] coordiantes = this.game.getBoard().getCoordinates(player.getPosition());
+        StackPane tilePane = getTileAt((GridPane) mainLayout.lookup("#gameBoard"), coordiantes[0], coordiantes[1]);
+        String id = "player" + player.getPlayerNumber();
+        Node node = mainLayout.lookup("#"+id);
+
+        if (node != null) {
+            ((Pane) node.getParent()).getChildren().remove(node);
+        }
+        ImageView playerImage = new ImageView(player.getPicture().toExternalForm());
+        playerImage.setId(id);
+        playerImage.setFitWidth(playerSize);
+        playerImage.setFitHeight(playerSize);
+        tilePane.getChildren().add(playerImage);
+    }
 }
