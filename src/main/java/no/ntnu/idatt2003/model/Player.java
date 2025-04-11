@@ -27,7 +27,7 @@ public class Player {
      * @param birthDate the birthdate of the player
      */
     public Player(String playerName, int playerNumber, Date birthDate) {
-        this.position = 0;
+        this.position = 1;
         this.playerName = playerName;
         this.playerNumber = playerNumber;
         this.birthDate = birthDate;
@@ -147,7 +147,7 @@ public class Player {
                 this.position = finalTile - (diceRoll-(finalTile-this.position));
             }
 
-            game.getBoard().getGameboard().get(this.position).action(this, game);   
+            game.getBoard().getGameboard().get(this.position-1).action(this, game);   
         } else if (playerPause == true) {
             playerPause = false;
         }
