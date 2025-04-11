@@ -40,8 +40,8 @@ public class Player {
      * sets the position of the player
      * @param position
      */
-    public void setPosition(int Position) {
-        this.position = position;
+    public void setPosition(int positionIn) {
+        this.position = positionIn;
     }
 
     /**
@@ -139,6 +139,7 @@ public class Player {
         } else if (playerPause == true) {
             playerPause = false;
         }
+        System.out.println("Player " + this.playerName + " and moved to tile " + this.position);
         game.nextPlayer();
     }
 

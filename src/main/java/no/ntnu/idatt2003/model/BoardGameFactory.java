@@ -56,8 +56,8 @@ public class BoardGameFactory {
         String name = "Medium Board";
         String description = "A medium board";
         ArrayList<Tile> gameboard = new ArrayList<>();
-        for (int i = 0; i < rows * cols; i++) {
-            gameboard.add(new Tile(i+1));
+        for (int i = 1; i < rows * cols+1; i++) {
+            gameboard.add(new Tile(i));
         }
         gameboard.set(3, new LadderTile(3,17));
         gameboard.set(12, new LadderTile(12, 4));
