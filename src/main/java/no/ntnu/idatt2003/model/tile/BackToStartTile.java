@@ -6,7 +6,7 @@ import no.ntnu.idatt2003.model.Player;
 /**
  * The tile class that returns a player back to the first tile.
  */
-public class BackToStartTile extends Tile implements TileAction{
+public class BackToStartTile extends Tile{
 
     /**
      * @param location

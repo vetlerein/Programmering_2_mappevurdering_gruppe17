@@ -1,17 +1,33 @@
 #mainLayout{
-    -fx-background-color: rgb(231, 92, 92);
+    -fx-background-color: rgb(255, 255, 255);
     -fx-text-fill: black;
-    -fx-padding: 5px;
 }
 #topMenu{
-    -fx-background-color: rgb(160, 152, 152);
+    -fx-background-color: rgb(184, 176, 176);
     -fx-text-fill: black;
     -fx-min-height: 40px;
-    -fx-padding: 20px;
+    -fx-padding: 30px;
     -fx-spacing: 20px;
 }
 
-
+.button{
+    -fx-background-color: rgb(147, 147, 147);
+    -fx-text-fill: black;
+    -fx-min-width: 100px;
+    -fx-min-height: 30px;
+    -fx-padding: 10px;
+    -fx-spacing: 20px;
+    -fx-radius: 40px;
+}
+.button:hover{
+    -fx-background-color: rgb(123, 123, 123);
+    -fx-text-fill: black;
+    -fx-min-width: 100px;
+    -fx-min-height: 30px;
+    -fx-padding: 10px;
+    -fx-spacing: 20px;
+    -fx-radius: 40px;
+}
 
 #gameBoard{
     -fx-background-color: white;

@@ -6,7 +6,7 @@ import no.ntnu.idatt2003.model.Player;
 /**
  *  The tile class that makes the finish tile.
  */
-public class FinishTile extends Tile implements TileAction{
+public class FinishTile extends Tile {
     
     public FinishTile(int location) {
         super(location);
