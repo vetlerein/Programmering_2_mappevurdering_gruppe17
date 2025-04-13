@@ -30,7 +30,7 @@ public class PlayerController {
     public void addPlayerWindow() {
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
-        popupStage.setTitle("Legg til spiller");
+        popupStage.setTitle("Add a player");
         popupStage.setMinWidth(300);
         popupStage.setMinHeight(200);
         popupStage.setResizable(false);
