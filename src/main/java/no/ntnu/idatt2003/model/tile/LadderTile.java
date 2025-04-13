@@ -6,7 +6,7 @@ import no.ntnu.idatt2003.model.Player;
 /**
  * LadderTile class that extends superclass Tile.
  */
-public class LadderTile extends Tile implements TileAction{
+public class LadderTile extends Tile {
     private int travelLocation;
 
     /**

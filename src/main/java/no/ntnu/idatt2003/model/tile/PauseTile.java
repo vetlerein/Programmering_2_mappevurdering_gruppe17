@@ -6,7 +6,7 @@ import no.ntnu.idatt2003.model.Player;
 /**
  * This class creates a tile that pauses players
  */
-public class PauseTile extends Tile implements TileAction{
+public class PauseTile extends Tile {
     
     public PauseTile(int location) {
         super(location);
