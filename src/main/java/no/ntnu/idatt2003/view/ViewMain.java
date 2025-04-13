@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -76,6 +77,7 @@ public class ViewMain extends Application{
         startScene.getStylesheets().add(getClass().getResource("/Style/Launcherwindow.css").toExternalForm());
         window.setScene(startScene);
         window.setTitle("Main menu");
+        window.getIcons().add(new Image(getClass().getResourceAsStream("/playerPieces/pepperoni.png")));
         window.show();
     }
 }

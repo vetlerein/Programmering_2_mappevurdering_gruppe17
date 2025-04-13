@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -81,7 +82,8 @@ public class PlayerController {
         addButton.requestFocus();
 
         popupStage.setScene(new Scene(layout));
-        popupStage.showAndWait(); // Venter til popupen lukkes
+        popupStage.getIcons().add(new Image(getClass().getResourceAsStream("/playerPieces/mushroom.png")));
+        popupStage.showAndWait(); 
     }
 
 

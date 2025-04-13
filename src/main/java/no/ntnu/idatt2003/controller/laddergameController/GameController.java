@@ -182,6 +182,7 @@ public class GameController {
             mainLayout.getStylesheets().add(getClass().getResource("/Style/NewGame.css").toExternalForm());         
 
             popupStage.setScene(new Scene(mainLayout));
+            popupStage.getIcons().add(new Image(getClass().getResourceAsStream("/playerPieces/pineapple.png")));
             popupStage.showAndWait(); 
         }
     }
