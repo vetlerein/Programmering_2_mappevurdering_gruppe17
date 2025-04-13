@@ -72,6 +72,7 @@ public class GameController {
                 imageView.setPreserveRatio(true); 
                 StackPane pictureContainer = new StackPane(imageView);
                 ComboBox<Player> choosePlayer = new ComboBox<>(FXCollections.observableArrayList(players));
+                choosePlayer.getStyleClass().add("custom-combo");;
                
                 choosePlayer.setPromptText("Choose player");
                 choosePlayer.setOnAction(e -> {
@@ -97,8 +98,8 @@ public class GameController {
             StackPane centerChooseBoard = new StackPane();
             VBox chooseBoard = new VBox();
             chooseBoard.setPadding(new Insets(20));
-            Label label = new Label("Choose board size:");
             ComboBox<String> boardSize = new ComboBox<>(FXCollections.observableArrayList());
+            boardSize.getStyleClass().add("custom-combo");;
             boardSize.setPromptText("Choose board size");        
             boardSize.getItems().addAll("Small", "Medium", "Chaos");
             
@@ -109,7 +110,7 @@ public class GameController {
                 boardSize.getItems().add(jsonBoardName);
             }
 
-            chooseBoard.getChildren().addAll(label, boardSize);
+            chooseBoard.getChildren().add(boardSize);
             centerChooseBoard.getChildren().add(chooseBoard);
 
             StackPane centerStartButton = new StackPane();
@@ -178,6 +179,7 @@ public class GameController {
             mainLayout.setLeft(chooseIconsLayout);
             mainLayout.setRight(centerChooseBoard);
             mainLayout.setBottom(centerStartButton); 
+            mainLayout.getStylesheets().add(getClass().getResource("/Style/NewGame.css").toExternalForm());         
 
             popupStage.setScene(new Scene(mainLayout));
             popupStage.showAndWait(); 
