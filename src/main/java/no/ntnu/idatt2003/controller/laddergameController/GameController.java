@@ -160,6 +160,8 @@ public class GameController {
                     showInfoPopup("Please select a board first.");
                 }else if(selectedPlayers.isEmpty()){
                     showInfoPopup("Please select players first.");
+                }else if (selectedPlayers.size() == 1) {
+                    showInfoPopup("You need more than 1 player to start the game.");
                 }else{
                     Game game = new Game(selectedPlayers, board);
                     game.start(); 

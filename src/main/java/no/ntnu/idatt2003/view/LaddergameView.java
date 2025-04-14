@@ -152,16 +152,28 @@ public class LaddergameView implements PositionChangeObserver{
             player.setObserver(this);
         }
         //Bottom box
-        StackPane bottomBox = new StackPane();
+        HBox bottomBox = new HBox();
         bottomBox.setId("bottomBox");
         Button throwDice = new Button("Throw dice");
         throwDice.setOnAction(e -> {
-            Player player = game.getPlayers().get(game.getActivePlayer());
-            player.move(game);
-            showDice(player.getDicePaths());
+            if(game.getGameStatus() == true){
+                Player player = game.getPlayers().get(game.getActivePlayer());
+                player.move(game);
+                showDice(player.getDicePaths());
+            }       
+        });
+
+        Button simulateDice = new Button("Simulate game");
+        simulateDice.setOnAction(e -> {
+            while(game.getGameStatus() == true){
+                Player player = game.getPlayers().get(game.getActivePlayer());
+                player.move(game);
+                showDice(player.getDicePaths());
+            }       
         });
 
         bottomBox.getChildren().add(throwDice);
+        bottomBox.getChildren().add(simulateDice);
 
         BorderPane mainLayout = getMainLayout();
 
@@ -182,8 +194,11 @@ public class LaddergameView implements PositionChangeObserver{
         }
         return null;
     }
-    
 
+    /**
+     * Shows the physical dice on the board
+     * @param dicePaths the paths to the dice images
+     */
     public void showDice(URL[] dicePaths) {
         StackPane centerStackPane = new StackPane();
         Pane dicePane = new Pane();
@@ -216,6 +231,10 @@ public class LaddergameView implements PositionChangeObserver{
         mainLayout.setCenter(centerStackPane);
     }
 
+    /**
+     * Returns the main layout of the game
+     * @return the main layout of the game
+     */
     public BorderPane getMainLayout() {
         return mainLayout;
     }
@@ -240,5 +259,15 @@ public class LaddergameView implements PositionChangeObserver{
         playerImage.setFitWidth(playerSize);
         playerImage.setFitHeight(playerSize);
         tilePane.getChildren().add(playerImage);
+    }
+
+    public void playerWon(Player player) {
+        Pane winnerPane = new Pane();
+        StackPane stackPane = (StackPane) mainLayout.lookup("#gameBoardWithLadder");
+
+        winnerPane.getChildren().add(new Label(player.getPlayerName() + " has won the game!"));
+
+        stackPane.getChildren().add(winnerPane);
+        mainLayout.setCenter(stackPane);
     }
 }

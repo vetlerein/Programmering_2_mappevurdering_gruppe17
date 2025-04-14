@@ -2,6 +2,8 @@ package no.ntnu.idatt2003.model;
 
 import java.util.ArrayList;
 
+import no.ntnu.idatt2003.view.LaddergameView;
+
 /**
  * Controls the game.
  */
@@ -25,6 +27,11 @@ public class Game {
         board = gameboard;
     }
 
+    public static LaddergameView laddergameView;
+    public static void setLadderGame(LaddergameView view){
+        laddergameView = view;
+    }
+
     /**
      * The game is finished.
      *
@@ -32,8 +39,7 @@ public class Game {
      */
     public void finish(Player player){
         gameActiveStatus = false;
-        System.out.println(player.playerName + " has won the game!");
-        //Masse fest og moro på skjermen
+        laddergameView.playerWon(player);
     }
 
     /**
@@ -50,6 +56,14 @@ public class Game {
      */
     public Board getBoard() {
         return board;
+    }
+
+    /**
+     * Returns game status
+     * @return game status
+     */
+    public boolean getGameStatus() {
+        return gameActiveStatus;
     }
 
     /**

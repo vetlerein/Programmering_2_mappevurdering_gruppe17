@@ -13,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import no.ntnu.idatt2003.controller.laddergameController.GameController;
+import no.ntnu.idatt2003.model.Game;
 
 /**
  * This is the launch method for the program and the main GUI class.
@@ -46,6 +47,7 @@ public class ViewMain extends Application{
             window.setTitle("Laddergame");
     
             GameController.setLadderGame(laddergameView);
+            Game.setLadderGame(laddergameView);
 
         });
         Button othergameButton = new Button("Other game");
