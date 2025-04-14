@@ -55,11 +55,7 @@ public class BoardFileReaderGson implements BoardFileReader {
             for (JsonElement jsonElement : board) {
                 String tileType = jsonElement.getAsJsonObject().get("tileType").getAsString();
                 int location = jsonElement.getAsJsonObject().get("location").getAsInt();
-                JsonArray coordinateArray = jsonElement.getAsJsonObject().getAsJsonArray("coordinate");
-                int[] coordinate = new int[2];
-                for (int i = 0; i < 2; i++) {
-                    coordinate[i] = coordinateArray.get(i).getAsInt();
-                }
+
                 switch (tileType) {
                     case "normal":
 
@@ -69,7 +65,7 @@ public class BoardFileReaderGson implements BoardFileReader {
                     case "ladderTile":
                         
                         int travelLocation = jsonElement.getAsJsonObject().get("travellocation").getAsInt();  
-                        gameboard.add(new LadderTile(travelLocation, location));
+                        gameboard.add(new LadderTile(location, travelLocation));
                         break;
 
                     case "pauseTile":
