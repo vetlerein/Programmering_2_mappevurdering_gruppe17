@@ -2,6 +2,7 @@ package no.ntnu.idatt2003.model;
 
 import java.util.ArrayList;
 
+import no.ntnu.idatt2003.view.GenericGameView;
 import no.ntnu.idatt2003.view.LaddergameView;
 
 /**
@@ -27,8 +28,13 @@ public class Game {
         board = gameboard;
     }
 
+    public static GenericGameView genericGameView;
+    public static void setView(GenericGameView view){
+        genericGameView = view;
+    }
+
     public static LaddergameView laddergameView;
-    public static void setLadderGame(LaddergameView view){
+    public static void setLadderView(LaddergameView view){
         laddergameView = view;
     }
 
@@ -39,7 +45,7 @@ public class Game {
      */
     public void finish(Player player){
         gameActiveStatus = false;
-        laddergameView.playerWon(player);
+        genericGameView.playerWon(player, laddergameView.getMainLayout());
     }
 
     /**

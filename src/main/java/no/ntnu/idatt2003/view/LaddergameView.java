@@ -1,8 +1,5 @@
 package no.ntnu.idatt2003.view;
 
-import java.net.URL;
-import java.util.Random;
-
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,6 +21,7 @@ import no.ntnu.idatt2003.model.tile.Tile;
 
 public class LaddergameView implements PositionChangeObserver{
     public BorderPane mainLayout = new BorderPane();
+    public GenericGameView genericGameView = new GenericGameView();
     private Game game;
     public int playerSize = 30;
   
@@ -159,23 +157,23 @@ public class LaddergameView implements PositionChangeObserver{
             if(game.getGameStatus() == true){
                 Player player = game.getPlayers().get(game.getActivePlayer());
                 player.move(game);
-                showDice(player.getDicePaths());
+                genericGameView.showDice(player.getDicePaths(), mainLayout);
             }       
         });
 
         Button simulateDice = new Button("Simulate game");
         simulateDice.setOnAction(e -> {
-            while(game.getGameStatus() == true){
+            int turns = 0;
+            while(game.getGameStatus() == true && turns < 500) {
                 Player player = game.getPlayers().get(game.getActivePlayer());
                 player.move(game);
-                showDice(player.getDicePaths());
-            }       
+                turns++;
+            }
+            System.out.println("Game finished in " + turns/game.getPlayers().size() + " turns.");       
         });
 
         bottomBox.getChildren().add(throwDice);
         bottomBox.getChildren().add(simulateDice);
-
-        BorderPane mainLayout = getMainLayout();
 
         gameBoard.setGridLinesVisible(true);
 
@@ -193,42 +191,6 @@ public class LaddergameView implements PositionChangeObserver{
             }
         }
         return null;
-    }
-
-    /**
-     * Shows the physical dice on the board
-     * @param dicePaths the paths to the dice images
-     */
-    public void showDice(URL[] dicePaths) {
-        StackPane centerStackPane = new StackPane();
-        Pane dicePane = new Pane();
-        dicePane.setId("dicePane");
-        int size = 50;        
-        for (URL dicePath : dicePaths) {
-            ImageView diceImageView = new ImageView(dicePath.toExternalForm());
-            diceImageView.setFitWidth(size);
-            diceImageView.setFitHeight(size);
-
-            Random random = new Random();
-
-            double maxX = 400 - size;
-            double maxY = 400 - size;
-
-            double x = random.nextDouble() * maxX;
-            double y = random.nextDouble() * maxY;
-
-            diceImageView.setLayoutX(x);
-            diceImageView.setLayoutY(y);
-
-            diceImageView.setRotate(random.nextInt(0, 360));
-            dicePane.getChildren().add(diceImageView);
-        }
-
-        mainLayout = mainLayout();
-        centerStackPane.getChildren().clear();
-        centerStackPane.getChildren().add(mainLayout.lookup("#gameBoardWithLadder"));
-        centerStackPane.getChildren().add(dicePane);
-        mainLayout.setCenter(centerStackPane);
     }
 
     /**
@@ -261,13 +223,4 @@ public class LaddergameView implements PositionChangeObserver{
         tilePane.getChildren().add(playerImage);
     }
 
-    public void playerWon(Player player) {
-        Pane winnerPane = new Pane();
-        StackPane stackPane = (StackPane) mainLayout.lookup("#gameBoardWithLadder");
-
-        winnerPane.getChildren().add(new Label(player.getPlayerName() + " has won the game!"));
-
-        stackPane.getChildren().add(winnerPane);
-        mainLayout.setCenter(stackPane);
-    }
 }
