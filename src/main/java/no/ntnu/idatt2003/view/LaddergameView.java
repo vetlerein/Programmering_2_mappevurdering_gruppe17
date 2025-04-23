@@ -163,9 +163,10 @@ public class LaddergameView implements PositionChangeObserver{
             tilePane.getChildren().add(playerImage);
             player.setObserver(this);
         }
-        //Bottom box
-        HBox bottomBox = new HBox();
-        bottomBox.setId("bottomBox");
+
+        //Right box
+        VBox rightMenu = new VBox();
+        rightMenu.setId("rightMenu");
         Button throwDice = new Button("Throw dice");
         throwDice.setOnAction(e -> {
             if(game.getGameStatus() == true){
@@ -181,8 +182,25 @@ public class LaddergameView implements PositionChangeObserver{
             simulateGame(0, 2000);     
         });
 
-        bottomBox.getChildren().add(throwDice);
-        bottomBox.getChildren().add(simulateDice);
+        Label whosTurn = new Label(game.getPlayers().get(game.activePlayer) + "'s turn");
+        whosTurn.setId("whosTurn");
+        Label players = new Label("Players: ");
+
+        VBox playersBox = new VBox();
+        playersBox.setId("playersBox");
+        for (Player player : game.getPlayers()){
+            HBox pictureNameSplitter = new HBox(10);
+            ImageView playerImage = new ImageView(player.getPicture().toExternalForm());
+            playerImage.setFitWidth(40); 
+            playerImage.setPreserveRatio(true); 
+            Label playerLabel = new Label(player.getPlayerName()+": ");
+            Label position = new Label(player.getPosition() + "");
+            position.setId("position" + player.getPlayerNumber());
+            pictureNameSplitter.getChildren().addAll(playerImage, playerLabel, position);
+            playersBox.getChildren().add(pictureNameSplitter);
+        }
+
+        rightMenu.getChildren().addAll(throwDice, simulateDice, whosTurn, players, playersBox);
 
         gameBoard.setGridLinesVisible(true);
 
@@ -190,7 +208,7 @@ public class LaddergameView implements PositionChangeObserver{
         StackPane gameBoardWithLadder = new StackPane(gameBoard, lines);
         gameBoardWithLadder.setId("gameBoardWithLadder");
         mainLayout.setCenter(gameBoardWithLadder);
-        mainLayout.setBottom(bottomBox);
+        mainLayout.setRight(rightMenu);
     }
 
     public void simulateGame(int currentTurn, int maxTurns) {
@@ -247,6 +265,20 @@ public class LaddergameView implements PositionChangeObserver{
         playerImage.setFitWidth(playerSize);
         playerImage.setFitHeight(playerSize);
         tilePane.getChildren().add(playerImage);
-    }
+    
+        Label turnLabel = (Label) mainLayout.lookup("#whosTurn");
+        if (game.getActivePlayer()+1 >= game.getPlayers().size()) {
+            turnLabel.setText(game.getPlayers().get(0) + "'s turn");
+        } else {
+            turnLabel.setText(game.getPlayers().get(game.getActivePlayer()+1) + "'s turn");
+        }
 
+        Label positionLabel = (Label) mainLayout.lookup("#position" + player.getPlayerNumber());
+        if (positionLabel != null) {
+            positionLabel.setText(player.getPosition() + "");
+        } else {
+            System.out.println("Position label not found for player " + player.getPlayerNumber());
+        }
+
+    }
 }
