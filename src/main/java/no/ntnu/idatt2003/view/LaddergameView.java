@@ -149,9 +149,10 @@ public class LaddergameView implements PositionChangeObserver{
             tilePane.getChildren().add(playerImage);
             player.setObserver(this);
         }
-        //Bottom box
-        HBox bottomBox = new HBox();
-        bottomBox.setId("bottomBox");
+
+        //Right box
+        VBox rightMenu = new VBox();
+        rightMenu.setId("rightMenu");
         Button throwDice = new Button("Throw dice");
         throwDice.setOnAction(e -> {
             if(game.getGameStatus() == true){
@@ -161,6 +162,11 @@ public class LaddergameView implements PositionChangeObserver{
             }       
         });
 
+        Label whosTurn = new Label(game.getPlayers().get(game.activePlayer) + "'s turn");
+        whosTurn.setId("whosTurn");
+        Label players = new Label("Players: ");
+
+        
         Button simulateDice = new Button("Simulate game");
         simulateDice.setOnAction(e -> {
             int turns = 0;
@@ -172,8 +178,7 @@ public class LaddergameView implements PositionChangeObserver{
             System.out.println("Game finished in " + turns/game.getPlayers().size() + " turns.");       
         });
 
-        bottomBox.getChildren().add(throwDice);
-        bottomBox.getChildren().add(simulateDice);
+        rightMenu.getChildren().addAll(throwDice, simulateDice, whosTurn, players);
 
         gameBoard.setGridLinesVisible(true);
 
@@ -181,7 +186,7 @@ public class LaddergameView implements PositionChangeObserver{
         StackPane gameBoardWithLadder = new StackPane(gameBoard, lines);
         gameBoardWithLadder.setId("gameBoardWithLadder");
         mainLayout.setCenter(gameBoardWithLadder);
-        mainLayout.setBottom(bottomBox);
+        mainLayout.setRight(rightMenu);
     }
 
     private StackPane getTileAt(GridPane grid, int col, int row) {
@@ -221,6 +226,12 @@ public class LaddergameView implements PositionChangeObserver{
         playerImage.setFitWidth(playerSize);
         playerImage.setFitHeight(playerSize);
         tilePane.getChildren().add(playerImage);
+    
+        Label turnLabel = (Label) mainLayout.lookup("#whosTurn");
+        if (game.getActivePlayer()+1 >= game.getPlayers().size()) {
+            turnLabel.setText(game.getPlayers().get(0) + "'s turn");
+        } else {
+            turnLabel.setText(game.getPlayers().get(game.getActivePlayer()+1) + "'s turn");
+        }
     }
-
 }

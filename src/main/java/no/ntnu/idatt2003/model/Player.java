@@ -14,7 +14,7 @@ public class Player {
     private final Date birthDate;
     public boolean playerActive;
     public boolean playerPause = false;
-
+    
     private PositionChangeObserver observer;
     public URL[] dicePaths;
     private URL picture;

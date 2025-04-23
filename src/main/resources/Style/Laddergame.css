@@ -38,7 +38,10 @@
 #rightMenu{
     -fx-background-color: rgb(202, 191, 191);
     -fx-text-fill: black;
-    -fx-min-width: 100px;
+    -fx-min-width: 160px;
+    -fx-max-width: 200px;
+    -fx-padding: 40px;
+    -fx-spacing: 20px;
 }
 #bottomBox{
     -fx-background-color: rgb(105, 91, 91);
