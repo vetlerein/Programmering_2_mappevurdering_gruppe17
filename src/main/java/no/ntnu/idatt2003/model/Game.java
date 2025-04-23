@@ -52,7 +52,7 @@ public class Game {
      * Starts the game.
      */
     public void start(){
-        players.sort((a, b) -> a.getBirthDate().compareTo(b.getBirthDate()));
+        players.sort((a, b) -> b.getBirthDate().compareTo(a.getBirthDate()));
     }
 
     /**
