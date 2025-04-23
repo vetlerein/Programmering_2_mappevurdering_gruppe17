@@ -162,11 +162,6 @@ public class LaddergameView implements PositionChangeObserver{
             }       
         });
 
-        Label whosTurn = new Label(game.getPlayers().get(game.activePlayer) + "'s turn");
-        whosTurn.setId("whosTurn");
-        Label players = new Label("Players: ");
-
-        
         Button simulateDice = new Button("Simulate game");
         simulateDice.setOnAction(e -> {
             int turns = 0;
@@ -178,7 +173,25 @@ public class LaddergameView implements PositionChangeObserver{
             System.out.println("Game finished in " + turns/game.getPlayers().size() + " turns.");       
         });
 
-        rightMenu.getChildren().addAll(throwDice, simulateDice, whosTurn, players);
+        Label whosTurn = new Label(game.getPlayers().get(game.activePlayer) + "'s turn");
+        whosTurn.setId("whosTurn");
+        Label players = new Label("Players: ");
+
+        VBox playersBox = new VBox();
+        playersBox.setId("playersBox");
+        for (Player player : game.getPlayers()){
+            HBox pictureNameSplitter = new HBox(10);
+            ImageView playerImage = new ImageView(player.getPicture().toExternalForm());
+            playerImage.setFitWidth(40); 
+            playerImage.setPreserveRatio(true); 
+            Label playerLabel = new Label(player.getPlayerName()+": ");
+            Label position = new Label(player.getPosition() + "");
+            position.setId("position" + player.getPlayerNumber());
+            pictureNameSplitter.getChildren().addAll(playerImage, playerLabel, position);
+            playersBox.getChildren().add(pictureNameSplitter);
+        }
+
+        rightMenu.getChildren().addAll(throwDice, simulateDice, whosTurn, players, playersBox);
 
         gameBoard.setGridLinesVisible(true);
 
@@ -233,5 +246,13 @@ public class LaddergameView implements PositionChangeObserver{
         } else {
             turnLabel.setText(game.getPlayers().get(game.getActivePlayer()+1) + "'s turn");
         }
+
+        Label positionLabel = (Label) mainLayout.lookup("#position" + player.getPlayerNumber());
+        if (positionLabel != null) {
+            positionLabel.setText(player.getPosition() + "");
+        } else {
+            System.out.println("Position label not found for player " + player.getPlayerNumber());
+        }
+
     }
 }
