@@ -53,7 +53,6 @@ public class Game {
      */
     public void start(){
         players.sort((a, b) -> a.getBirthDate().compareTo(b.getBirthDate()));
-        activePlayer = players.get(0).getPlayerNumber();
     }
 
     /**
