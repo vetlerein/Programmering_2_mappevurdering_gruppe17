@@ -34,7 +34,7 @@ import no.ntnu.idatt2003.view.LaddergameView;
 public class GameController {
     
     BorderPane laddergamePane = new BorderPane();
-    PlayerFileReader playerFileReader = new PlayerFileReader();
+    PlayerFileReader playerFileReader;
     Board board = null;
 
     public static LaddergameView laddergameView;
@@ -46,6 +46,7 @@ public class GameController {
      * This method creats a new game.
      */
     public void newGame(){
+        playerFileReader = new PlayerFileReader();
         if (playerFileReader.readPlayers().isEmpty()) {
             showInfoPopup("To create a new game, you need to add players first.");
         }else{
@@ -58,7 +59,6 @@ public class GameController {
             popupStage.setResizable(false);
 
             VBox chooseIcons = new VBox(10);
-
             List<ComboBox<Player>> playerComboBoxes = new ArrayList<>();
             List<Player> players = playerFileReader.readPlayers();
             List<String> pictureName = List.of("cheese.png", "mushroom.png", "olives.png", "pepperoni.png", "pineapple.png");

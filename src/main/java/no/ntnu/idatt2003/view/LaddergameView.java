@@ -1,5 +1,8 @@
 package no.ntnu.idatt2003.view;
 
+import java.net.URL;
+
+import javafx.animation.PauseTransition;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
+import javafx.util.Duration;
 import no.ntnu.idatt2003.controller.laddergameController.GameController;
 import no.ntnu.idatt2003.controller.laddergameController.PlayerController;
 import no.ntnu.idatt2003.model.Board;
@@ -87,7 +91,7 @@ public class LaddergameView implements PositionChangeObserver{
 
                 Board board = game.getBoard();
                 Tile tile = board.getGameboard().get(board.getLocation(j, i)-1);
-                
+                int iconSize = 40;
                 switch (tile.getClass().getSimpleName()) {
                     case "LadderTile":
                         if (tile.getLocation() < ((LadderTile) tile).getTravelLocation()) {
@@ -98,12 +102,22 @@ public class LaddergameView implements PositionChangeObserver{
                         break;
                     case "PlayerSwapTile":
                         tilePane.setStyle("-fx-background-color:rgb(223, 234, 22);");
+                        URL urlSwap = getClass().getResource("/tiles/arrows.png");
+                        ImageView swapImage = new ImageView(urlSwap.toExternalForm());
+                        swapImage.setFitWidth(iconSize);
+                        swapImage.setFitHeight(iconSize);
+                        tilePane.getChildren().add(swapImage);
                         break;
                     case "BackToStartTile":
                         tilePane.setStyle("-fx-background-color:rgba(255, 81, 0, 0.85);");
                         break;
                     case "PauseTile":
                         tilePane.setStyle("-fx-background-color:rgb(89, 35, 198);");
+                        URL urlWatch = getClass().getResource("/tiles/stopwatch.png");
+                        ImageView pauseImage = new ImageView(urlWatch.toExternalForm());
+                        pauseImage.setFitWidth(iconSize);
+                        pauseImage.setFitHeight(iconSize);
+                        tilePane.getChildren().add(pauseImage);
                         break;
                     case "FinishTile":
                         tilePane.setStyle("-fx-background-color:rgb(0, 251, 255)");
@@ -163,14 +177,9 @@ public class LaddergameView implements PositionChangeObserver{
         });
 
         Button simulateDice = new Button("Simulate game");
+        PauseTransition pause = new PauseTransition(Duration.millis(500));
         simulateDice.setOnAction(e -> {
-            int turns = 0;
-            while(game.getGameStatus() == true && turns < 500) {
-                Player player = game.getPlayers().get(game.getActivePlayer());
-                player.move(game);
-                turns++;
-            }
-            System.out.println("Game finished in " + turns/game.getPlayers().size() + " turns.");       
+            simulateGame(0, 2000);     
         });
 
         Label whosTurn = new Label(game.getPlayers().get(game.activePlayer) + "'s turn");
@@ -201,6 +210,23 @@ public class LaddergameView implements PositionChangeObserver{
         mainLayout.setCenter(gameBoardWithLadder);
         mainLayout.setRight(rightMenu);
     }
+
+    public void simulateGame(int currentTurn, int maxTurns) {
+        if (currentTurn > maxTurns || !game.getGameStatus()) {
+            return;
+        }
+    
+        Player player = game.getPlayers().get(game.getActivePlayer());
+        player.move(game);
+        genericGameView.showDice(player.getDicePaths(), mainLayout);
+
+        PauseTransition pause = new PauseTransition(Duration.millis(100));
+        pause.setOnFinished(e -> {
+            simulateGame(currentTurn + 1, maxTurns); 
+        });
+        pause.play();
+    }
+    
 
     private StackPane getTileAt(GridPane grid, int col, int row) {
         for (Node node : grid.getChildren()) {

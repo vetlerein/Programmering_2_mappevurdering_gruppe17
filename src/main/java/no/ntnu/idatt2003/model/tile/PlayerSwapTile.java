@@ -26,6 +26,7 @@ public class PlayerSwapTile extends Tile {
             .max(Comparator.comparingInt(Player::getPosition))
             .orElse(null);
     
+            //TODO ADD VISUALS FOR THE SWAP
         if (playerToSwap != null) {
             int newPosition = playerToSwap.getPosition();
             playerToSwap.setPosition(player.getPosition());
