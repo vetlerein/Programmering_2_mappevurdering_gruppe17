@@ -151,7 +151,7 @@ public class Player {
         } else if (playerPause == true) {
             playerPause = false;
         }
-        System.out.println("Player " + this.playerName + " and moved to tile " + this.position);
+        
         if (observer != null) {
             observer.positionChanged(this);
         }

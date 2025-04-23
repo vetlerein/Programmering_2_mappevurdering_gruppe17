@@ -28,7 +28,6 @@ public class Dice {
         for(int i = 0; i < diceAmount; i++){ 
             int diceFace = random.nextInt(6) + 1;
             diceValue += diceFace;
-            System.out.println("Dice face: " + diceFace);
             dicePaths[i] = Dice.class.getResource("/dice/" + diceFace + ".png");
         }
         player.setDicePaths(dicePaths);

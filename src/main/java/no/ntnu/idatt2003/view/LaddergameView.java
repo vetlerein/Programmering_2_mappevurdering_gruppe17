@@ -1,8 +1,5 @@
 package no.ntnu.idatt2003.view;
 
-import java.net.URL;
-import java.util.Random;
-
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,6 +21,7 @@ import no.ntnu.idatt2003.model.tile.Tile;
 
 public class LaddergameView implements PositionChangeObserver{
     public BorderPane mainLayout = new BorderPane();
+    public GenericGameView genericGameView = new GenericGameView();
     private Game game;
     public int playerSize = 30;
   
@@ -152,18 +150,30 @@ public class LaddergameView implements PositionChangeObserver{
             player.setObserver(this);
         }
         //Bottom box
-        StackPane bottomBox = new StackPane();
+        HBox bottomBox = new HBox();
         bottomBox.setId("bottomBox");
         Button throwDice = new Button("Throw dice");
         throwDice.setOnAction(e -> {
-            Player player = game.getPlayers().get(game.getActivePlayer());
-            player.move(game);
-            showDice(player.getDicePaths());
+            if(game.getGameStatus() == true){
+                Player player = game.getPlayers().get(game.getActivePlayer());
+                player.move(game);
+                genericGameView.showDice(player.getDicePaths(), mainLayout);
+            }       
+        });
+
+        Button simulateDice = new Button("Simulate game");
+        simulateDice.setOnAction(e -> {
+            int turns = 0;
+            while(game.getGameStatus() == true && turns < 500) {
+                Player player = game.getPlayers().get(game.getActivePlayer());
+                player.move(game);
+                turns++;
+            }
+            System.out.println("Game finished in " + turns/game.getPlayers().size() + " turns.");       
         });
 
         bottomBox.getChildren().add(throwDice);
-
-        BorderPane mainLayout = getMainLayout();
+        bottomBox.getChildren().add(simulateDice);
 
         gameBoard.setGridLinesVisible(true);
 
@@ -182,40 +192,11 @@ public class LaddergameView implements PositionChangeObserver{
         }
         return null;
     }
-    
 
-    public void showDice(URL[] dicePaths) {
-        StackPane centerStackPane = new StackPane();
-        Pane dicePane = new Pane();
-        dicePane.setId("dicePane");
-        int size = 50;        
-        for (URL dicePath : dicePaths) {
-            ImageView diceImageView = new ImageView(dicePath.toExternalForm());
-            diceImageView.setFitWidth(size);
-            diceImageView.setFitHeight(size);
-
-            Random random = new Random();
-
-            double maxX = 400 - size;
-            double maxY = 400 - size;
-
-            double x = random.nextDouble() * maxX;
-            double y = random.nextDouble() * maxY;
-
-            diceImageView.setLayoutX(x);
-            diceImageView.setLayoutY(y);
-
-            diceImageView.setRotate(random.nextInt(0, 360));
-            dicePane.getChildren().add(diceImageView);
-        }
-
-        mainLayout = mainLayout();
-        centerStackPane.getChildren().clear();
-        centerStackPane.getChildren().add(mainLayout.lookup("#gameBoardWithLadder"));
-        centerStackPane.getChildren().add(dicePane);
-        mainLayout.setCenter(centerStackPane);
-    }
-
+    /**
+     * Returns the main layout of the game
+     * @return the main layout of the game
+     */
     public BorderPane getMainLayout() {
         return mainLayout;
     }
@@ -241,4 +222,5 @@ public class LaddergameView implements PositionChangeObserver{
         playerImage.setFitHeight(playerSize);
         tilePane.getChildren().add(playerImage);
     }
+
 }

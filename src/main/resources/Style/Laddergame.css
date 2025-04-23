@@ -47,3 +47,10 @@
     -fx-padding: 20px;
     -fx-spacing: 20px;
 }
+
+#winnerText {
+    -fx-fill: white;
+    -fx-stroke: black;      
+    -fx-stroke-width: 2;     
+    -fx-font-size: 60px;
+}
