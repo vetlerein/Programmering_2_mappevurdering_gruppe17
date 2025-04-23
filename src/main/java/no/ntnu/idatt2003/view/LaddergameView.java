@@ -1,5 +1,7 @@
 package no.ntnu.idatt2003.view;
 
+import java.net.URL;
+
 import javafx.animation.PauseTransition;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -89,7 +91,7 @@ public class LaddergameView implements PositionChangeObserver{
 
                 Board board = game.getBoard();
                 Tile tile = board.getGameboard().get(board.getLocation(j, i)-1);
-                
+                int iconSize = 40;
                 switch (tile.getClass().getSimpleName()) {
                     case "LadderTile":
                         if (tile.getLocation() < ((LadderTile) tile).getTravelLocation()) {
@@ -100,12 +102,22 @@ public class LaddergameView implements PositionChangeObserver{
                         break;
                     case "PlayerSwapTile":
                         tilePane.setStyle("-fx-background-color:rgb(223, 234, 22);");
+                        URL urlSwap = getClass().getResource("/tiles/arrows.png");
+                        ImageView swapImage = new ImageView(urlSwap.toExternalForm());
+                        swapImage.setFitWidth(iconSize);
+                        swapImage.setFitHeight(iconSize);
+                        tilePane.getChildren().add(swapImage);
                         break;
                     case "BackToStartTile":
                         tilePane.setStyle("-fx-background-color:rgba(255, 81, 0, 0.85);");
                         break;
                     case "PauseTile":
                         tilePane.setStyle("-fx-background-color:rgb(89, 35, 198);");
+                        URL urlWatch = getClass().getResource("/tiles/stopwatch.png");
+                        ImageView pauseImage = new ImageView(urlWatch.toExternalForm());
+                        pauseImage.setFitWidth(iconSize);
+                        pauseImage.setFitHeight(iconSize);
+                        tilePane.getChildren().add(pauseImage);
                         break;
                     case "FinishTile":
                         tilePane.setStyle("-fx-background-color:rgb(0, 251, 255)");
@@ -189,7 +201,7 @@ public class LaddergameView implements PositionChangeObserver{
         Player player = game.getPlayers().get(game.getActivePlayer());
         player.move(game);
         genericGameView.showDice(player.getDicePaths(), mainLayout);
-        
+
         PauseTransition pause = new PauseTransition(Duration.millis(100));
         pause.setOnFinished(e -> {
             simulateGame(currentTurn + 1, maxTurns); 
