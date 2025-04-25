@@ -37,12 +37,11 @@ public class ViewMain extends Application{
         Button laddergameButton = new Button("Laddergame");
         laddergameButton.setId("laddergameButton");
         laddergameButton.setOnAction(e -> {
-            
             LaddergameView laddergameView = new LaddergameView();
             GenericGameView genericGameView = new GenericGameView();
             BorderPane laddergame = laddergameView.mainLayout();
             
-            Scene laddergameScene = new Scene(laddergame, 800, 600);
+            Scene laddergameScene = new Scene(laddergame, window.getWidth(), window.getHeight());
             laddergameScene.getStylesheets().add(getClass().getResource("/Style/Laddergame.css").toExternalForm());         
             window.setScene(laddergameScene);
             window.setTitle("Laddergame");
