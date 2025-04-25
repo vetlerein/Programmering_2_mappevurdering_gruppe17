@@ -105,10 +105,10 @@ public class GameController {
             ComboBox<String> boardSizeBox = new ComboBox<>(FXCollections.observableArrayList());
             boardSizeBox.getStyleClass().add("custom-combo");;
             boardSizeBox.setPromptText("Choose board size");        
-            boardSizeBox.getItems().addAll("Small", "Medium", "Chaos");
+            boardSizeBox.getItems().addAll("Small", "Medium", "Chaos", "laddergame1");
             
             
-            File folder = new File("src/main/resources/boards"); 
+            File folder = new File("data/boards"); 
             File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
 
             if (files != null) {
@@ -135,6 +135,7 @@ public class GameController {
                         System.out.println(name);
                         Board boardCopy = boardFileReaderGson.readBoardFromFile(selectedFile.getAbsolutePath());
                         boardFileWriterGson.writeBoardToFile(Paths.get("data/boards/"+name+".json"), boardCopy);
+                        boardSizeBox.getItems().add(name);
                     } catch (IOException e1) {
                         // TODO Add logger ?
                         e1.printStackTrace();
@@ -180,16 +181,25 @@ public class GameController {
                             System.out.println("Selected board: " + selectedBoard);
                             break;
                         }
-                } else if (selectedBoard != null) {
+                } else if (selectedBoard.equals("laddergame1")) {
                     try {
-                        board = boardFileReaderGson.readBoardFromFile("src/main/resources/boards/"+selectedBoard+".json");
+                        board = boardFileReaderGson.readBoardFromFile("src/main/resources/boards/laddergame1.json");
                     } catch (IOException ex) {
                         //TODO Add a logger to the project and log the error
                         ex.printStackTrace();
                     }
                     System.out.println("Selected board: " + selectedBoard);
+                } else if (selectedBoard != null) {
+
+                    try {
+                        board = boardFileReaderGson.readBoardFromFile("data/boards/" + selectedBoard + ".json");
+                    } catch (IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
                 }
             
+
                 if(board.equals(null)){
                     showInfoPopup("Please select a board first.");
                 }else if(selectedPlayers.isEmpty()){
