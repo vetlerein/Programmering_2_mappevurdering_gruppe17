@@ -177,7 +177,6 @@ public class LaddergameView implements PositionChangeObserver{
         });
 
         Button simulateDice = new Button("Simulate game");
-        PauseTransition pause = new PauseTransition(Duration.millis(500));
         simulateDice.setOnAction(e -> {
             simulateGame(0, 2000);     
         });
