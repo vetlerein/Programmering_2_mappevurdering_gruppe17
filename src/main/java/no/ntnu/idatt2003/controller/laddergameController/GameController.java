@@ -1,6 +1,8 @@
 package no.ntnu.idatt2003.controller.laddergameController;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +27,8 @@ import no.ntnu.idatt2003.model.BoardGameFactory;
 import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.fileManagement.boardFiles.BoardFileReaderGson;
+import no.ntnu.idatt2003.model.fileManagement.boardFiles.BoardFileWriterGson;
+import no.ntnu.idatt2003.model.fileManagement.boardFiles.BoardLoader;
 import no.ntnu.idatt2003.model.fileManagement.playerFileManagement.PlayerFileReader;
 import no.ntnu.idatt2003.view.LaddergameView;
 
@@ -98,19 +102,49 @@ public class GameController {
             StackPane centerChooseBoard = new StackPane();
             VBox chooseBoard = new VBox();
             chooseBoard.setPadding(new Insets(20));
-            ComboBox<String> boardSize = new ComboBox<>(FXCollections.observableArrayList());
-            boardSize.getStyleClass().add("custom-combo");;
-            boardSize.setPromptText("Choose board size");        
-            boardSize.getItems().addAll("Small", "Medium", "Chaos");
+            ComboBox<String> boardSizeBox = new ComboBox<>(FXCollections.observableArrayList());
+            boardSizeBox.getStyleClass().add("custom-combo");;
+            boardSizeBox.setPromptText("Choose board size");        
+            boardSizeBox.getItems().addAll("Small", "Medium", "Chaos");
             
-            BoardFileReaderGson boardFileReader = new BoardFileReaderGson();
             
-            List<String> jsonBoardNames = List.of("laddergame1");
-            for (String jsonBoardName : jsonBoardNames) {
-                boardSize.getItems().add(jsonBoardName);
+            File folder = new File("src/main/resources/boards"); 
+            File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
+
+            if (files != null) {
+                for (File file : files) {
+                    String name = file.getName().replaceFirst("[.][^.]+$", ""); 
+                    boardSizeBox.getItems().add(name);
+                }
             }
 
-            chooseBoard.getChildren().add(boardSize);
+            BoardFileReaderGson boardFileReaderGson = new BoardFileReaderGson();
+            BoardFileWriterGson boardFileWriterGson = new BoardFileWriterGson();
+            Button loadBoardButton = new Button("Load JSON board to the list");
+            loadBoardButton.setId("buttons");
+            loadBoardButton.setOnAction(e -> {
+                BoardLoader boardLoader = new BoardLoader();
+                File selectedFile = boardLoader.loadBoard();
+                
+                if (selectedFile != null) {
+                    
+                    String filename = selectedFile.getName().toString(); // f.eks. "mittBrett.json"
+                    String name = filename.replaceFirst("[.][^.]+$", ""); // fjerner .json
+
+                    try {
+                        System.out.println(name);
+                        Board boardCopy = boardFileReaderGson.readBoardFromFile(selectedFile.getAbsolutePath());
+                        boardFileWriterGson.writeBoardToFile(Paths.get("data/boards/"+name+".json"), boardCopy);
+                    } catch (IOException e1) {
+                        // TODO Add logger ?
+                        e1.printStackTrace();
+                    }
+                }
+            });
+
+           
+            chooseBoard.getChildren().addAll(loadBoardButton, boardSizeBox);
+            chooseBoard.setSpacing(10);
             centerChooseBoard.getChildren().add(chooseBoard);
 
             StackPane centerStartButton = new StackPane();
@@ -128,7 +162,7 @@ public class GameController {
                     }
                 }
 
-                String selectedBoard = boardSize.getValue();
+                String selectedBoard = boardSizeBox.getValue();
                 if(selectedBoard.equals("Small")|| selectedBoard.equals("Medium") || selectedBoard.equals("Chaos")){
                     switch (selectedBoard) {
                         case "Small":
@@ -148,7 +182,7 @@ public class GameController {
                         }
                 } else if (selectedBoard != null) {
                     try {
-                        board = boardFileReader.readBoardFromFile("src/main/resources/boards/"+selectedBoard+".json");
+                        board = boardFileReaderGson.readBoardFromFile("src/main/resources/boards/"+selectedBoard+".json");
                     } catch (IOException ex) {
                         //TODO Add a logger to the project and log the error
                         ex.printStackTrace();
