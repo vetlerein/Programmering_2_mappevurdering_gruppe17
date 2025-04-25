@@ -1,11 +1,13 @@
 .button{
-    -fx-background-color: rgb(147, 147, 147);
-    -fx-text-fill: black;
+    -fx-background-color: rgb(147, 147, 147); 
+    -fx-text-fill: black; 
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
     -fx-min-width: 100px;
     -fx-min-height: 30px;
+    -fx-radius: 40px;
     -fx-padding: 10px;
     -fx-spacing: 20px;
-    -fx-radius: 40px;
 }
 .button:hover{
     -fx-background-color: rgb(123, 123, 123);

@@ -57,30 +57,30 @@ public class BoardFileReaderGson implements BoardFileReader {
                 int location = jsonElement.getAsJsonObject().get("location").getAsInt();
 
                 switch (tileType) {
-                    case "normal":
+                    case "Tile":
 
                         gameboard.add(new Tile(location));
                         break;
 
-                    case "ladderTile":
+                    case "LadderTile":
                         
                         int travelLocation = jsonElement.getAsJsonObject().get("travellocation").getAsInt();  
                         gameboard.add(new LadderTile(location, travelLocation));
                         break;
 
-                    case "pauseTile":
+                    case "PauseTile":
 
                         gameboard.add(new PauseTile(location));
                         break;
 
-                    case "playerSwapTile":
+                    case "PlayerSwapTile":
                         
                         gameboard.add(new PlayerSwapTile(location));
 
                         break;
 
 
-                    case "finishTile":
+                    case "FinishTile":
                         gameboard.add(new FinishTile(location));
                         break;
                         
