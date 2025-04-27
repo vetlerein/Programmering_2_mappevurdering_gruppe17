@@ -15,8 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
-import no.ntnu.idatt2003.controller.laddergameController.GameController;
-import no.ntnu.idatt2003.controller.laddergameController.PlayerController;
+import no.ntnu.idatt2003.controller.LaddergameController;
 import no.ntnu.idatt2003.model.Board;
 import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
@@ -32,8 +31,7 @@ public class LaddergameView implements PositionChangeObserver{
     //Main layout
     public BorderPane mainLayout(){
 
-        PlayerController playerController = new PlayerController();
-        GameController gameController = new GameController();
+        LaddergameController gameController = new LaddergameController();
 
         this.mainLayout.setId("mainLayout");
 
@@ -42,9 +40,13 @@ public class LaddergameView implements PositionChangeObserver{
         topMenu.setId("topMenu");
         Button newGameButton = new Button("Start new game");
         newGameButton.setOnAction(e -> gameController.newGame());
-        Button newPlayerButton = new Button("New player");
-        newPlayerButton.setOnAction(e -> playerController.addPlayerWindow());
-        topMenu.getChildren().addAll(newGameButton, newPlayerButton);
+        Button backToMenuButton = new Button("Main menu");
+        backToMenuButton.setOnAction(e -> {
+    
+
+
+        });
+        topMenu.getChildren().addAll(newGameButton, backToMenuButton);
 
         //Right box
         VBox rightMenu = new VBox();
@@ -177,7 +179,6 @@ public class LaddergameView implements PositionChangeObserver{
         });
 
         Button simulateDice = new Button("Simulate game");
-        PauseTransition pause = new PauseTransition(Duration.millis(500));
         simulateDice.setOnAction(e -> {
             simulateGame(0, 2000);     
         });

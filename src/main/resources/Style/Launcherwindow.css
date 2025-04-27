@@ -38,7 +38,7 @@
     -fx-alignment: center;
     -fx-spacing: 20;
     -fx-background-color: rgb(127, 166, 158);
-    -fx-max-height: 200px;
+    -fx-max-height: 300px;
     -fx-max-width: 250px;
     -fx-background-radius: 20px;
 }
