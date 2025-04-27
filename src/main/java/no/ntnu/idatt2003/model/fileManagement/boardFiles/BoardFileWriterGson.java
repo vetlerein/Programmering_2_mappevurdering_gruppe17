@@ -35,7 +35,7 @@ public class  BoardFileWriterGson implements BoardFileWriter {
                 tileJsonObject.addProperty("location", tile.getLocation());
                 if (tile instanceof LadderTile) {
                     LadderTile ladderTile = (LadderTile) tile;
-                    tileJsonObject.addProperty("travelLocation", ladderTile.getTravelLocation());
+                    tileJsonObject.addProperty("travellocation", ladderTile.getTravelLocation());
                 }
                 boardJsonArray.add(tileJsonObject);
             }

@@ -1,11 +1,13 @@
 package no.ntnu.idatt2003.view;
 
+import java.io.IOException;
 import java.net.URL;
 
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -21,9 +23,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 import javafx.util.Duration;
-import no.ntnu.idatt2003.controller.laddergameController.GameController;
-import no.ntnu.idatt2003.controller.laddergameController.PlayerController;
+import no.ntnu.idatt2003.controller.LaddergameController;
 import no.ntnu.idatt2003.model.Board;
 import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
@@ -40,20 +42,26 @@ public class LaddergameView implements PositionChangeObserver{
 
     //Main layout
     public BorderPane mainLayout(){
-
-        PlayerController playerController = new PlayerController();
-        GameController gameController = new GameController();
-
         this.mainLayout.setId("mainLayout");
 
         //Top box
         HBox topMenu = new HBox();
         topMenu.setId("topMenu");
         Button newGameButton = new Button("Start new game");
-        newGameButton.setOnAction(e -> gameController.newGame());
-        Button newPlayerButton = new Button("New player");
-        newPlayerButton.setOnAction(e -> playerController.addPlayerWindow());
-        topMenu.getChildren().addAll(newGameButton, newPlayerButton);
+        newGameButton.setOnAction(e -> new LaddergameController().newGame());
+        Button backToMenuButton = new Button("Main menu");
+        backToMenuButton.setOnAction(e -> {
+            Stage currentStage = (Stage) mainLayout.getScene().getWindow();
+            try {
+                Scene mainMenuScene = new Scene(new MenuView().mainMenu(currentStage), 800, 600);
+                mainMenuScene.getStylesheets().add(getClass().getResource("/Style/Launcherwindow.css").toExternalForm());
+                currentStage.setScene(mainMenuScene);
+                currentStage.setTitle("Main Menu");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        topMenu.getChildren().addAll(newGameButton, backToMenuButton);
 
         //Right box
         VBox rightMenu = new VBox();
@@ -335,6 +343,5 @@ public class LaddergameView implements PositionChangeObserver{
         } else {
             System.out.println("Position label not found for player " + player.getPlayerNumber());
         }
-
     }
 }
