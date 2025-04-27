@@ -189,7 +189,6 @@ public class LaddergameController {
                     }
                 } 
             
-
                 if(selectedBoard==null){
                     PopupView.showInfoPopup("Can't create game","Please select a board first.");
                 }else if(selectedPlayers.isEmpty()){
