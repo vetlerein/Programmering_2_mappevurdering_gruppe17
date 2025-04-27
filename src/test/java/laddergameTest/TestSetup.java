@@ -29,6 +29,7 @@ public class TestSetup {
 
         Board smallboard = BoardGameFactory.createSmallBoard();
         Game game = new Game(players, smallboard);
+        game.setLadderView(new DummyLaddergameView());
 
         setup.put("game", game);
         setup.put("vetle", vetle);
