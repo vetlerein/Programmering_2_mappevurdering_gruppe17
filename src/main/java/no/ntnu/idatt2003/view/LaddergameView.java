@@ -33,16 +33,13 @@ public class LaddergameView implements PositionChangeObserver{
   
     //Main layout
     public BorderPane mainLayout(){
-
-        LaddergameController gameController = new LaddergameController();
-        MenuView menu = new MenuView();
         this.mainLayout.setId("mainLayout");
 
         //Top box
         HBox topMenu = new HBox();
         topMenu.setId("topMenu");
         Button newGameButton = new Button("Start new game");
-        newGameButton.setOnAction(e -> gameController.newGame());
+        newGameButton.setOnAction(e -> new LaddergameController().newGame());
         Button backToMenuButton = new Button("Main menu");
         backToMenuButton.setOnAction(e -> {
             Stage currentStage = (Stage) mainLayout.getScene().getWindow();
