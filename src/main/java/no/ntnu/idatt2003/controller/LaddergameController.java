@@ -9,8 +9,6 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -31,6 +29,7 @@ import no.ntnu.idatt2003.model.fileManagement.boardFiles.BoardFileWriterGson;
 import no.ntnu.idatt2003.model.fileManagement.boardFiles.BoardLoader;
 import no.ntnu.idatt2003.model.fileManagement.playerFileManagement.PlayerFileReader;
 import no.ntnu.idatt2003.view.LaddergameView;
+import no.ntnu.idatt2003.view.PopupView;
 
 /**
  * The controller class handling game actions.
@@ -39,7 +38,7 @@ public class LaddergameController {
     
     BorderPane laddergamePane = new BorderPane();
     PlayerFileReader playerFileReader;
-    Board board = null;
+    Board board = new Board();
 
     public static LaddergameView laddergameView;
     public static void setLadderGame(LaddergameView view){
@@ -52,7 +51,7 @@ public class LaddergameController {
     public void newGame(){
         playerFileReader = new PlayerFileReader();
         if (playerFileReader.readPlayers().isEmpty()) {
-            showInfoPopup("To create a new game, you need to add players first.");
+            PopupView.showInfoPopup("Can't create game","To create a new game, you need to add players first.");
         }else{
             
             Stage popupStage = new Stage();
@@ -137,12 +136,11 @@ public class LaddergameController {
                         boardFileWriterGson.writeBoardToFile(Paths.get("data/boards/"+name+".json"), boardCopy);
                         boardSizeBox.getItems().add(name);
                     } catch (IOException e1) {
-                        // TODO Add logger ?
+                        PopupView.showInfoPopup("Can't create game","Error loading board: " + e1.getMessage());
                         e1.printStackTrace();
                     }
                 }
             });
-
            
             chooseBoard.getChildren().addAll(loadBoardButton, boardSizeBox);
             chooseBoard.setSpacing(10);
@@ -164,28 +162,20 @@ public class LaddergameController {
                 }
 
                 String selectedBoard = boardSizeBox.getValue();
-                if(selectedBoard.equals("Small")|| selectedBoard.equals("Medium") || selectedBoard.equals("Chaos")){
+                System.out.println("Selected board: " + selectedBoard);
+                if (selectedBoard == null) {
+                    board = null;
+                } else if(selectedBoard.equals("Small")|| selectedBoard.equals("Medium") || selectedBoard.equals("Chaos")){
                     switch (selectedBoard) {
-                        case "Small":
-                            board = BoardGameFactory.createSmallBoard();
-                            System.out.println("Selected board: " + selectedBoard);
-                            break;
-                
-                        case "Medium":
-                            board = BoardGameFactory.createMediumBoard();
-                            System.out.println("Selected board: " + selectedBoard);
-                            break;
-
-                        case "Chaos":
-                            board = BoardGameFactory.createChaosBoard();
-                            System.out.println("Selected board: " + selectedBoard);
-                            break;
-                        }
+                        case "Small" -> board = BoardGameFactory.createSmallBoard();
+                        case "Medium" -> board = BoardGameFactory.createMediumBoard();
+                        case "Chaos" -> board = BoardGameFactory.createChaosBoard();
+                    }
                 } else if (selectedBoard.equals("laddergame1")) {
                     try {
                         board = boardFileReaderGson.readBoardFromFile("src/main/resources/boards/laddergame1.json");
                     } catch (IOException ex) {
-                        //TODO Add a logger to the project and log the error
+                        PopupView.showInfoPopup("Can't create game","Error loading board: " + ex.getMessage());
                         ex.printStackTrace();
                     }
                     System.out.println("Selected board: " + selectedBoard);
@@ -194,18 +184,18 @@ public class LaddergameController {
                     try {
                         board = boardFileReaderGson.readBoardFromFile("data/boards/" + selectedBoard + ".json");
                     } catch (IOException e1) {
-                        // TODO Auto-generated catch block
+                        PopupView.showInfoPopup("Can't create game","Error loading board: " + e1.getMessage());
                         e1.printStackTrace();
                     }
-                }
+                } 
             
 
-                if(board.equals(null)){
-                    showInfoPopup("Please select a board first.");
+                if(selectedBoard==null){
+                    PopupView.showInfoPopup("Can't create game","Please select a board first.");
                 }else if(selectedPlayers.isEmpty()){
-                    showInfoPopup("Please select players first.");
+                    PopupView.showInfoPopup("Can't create game","Please select players first.");
                 }else if (selectedPlayers.size() == 1) {
-                    showInfoPopup("You need more than 1 player to start the game.");
+                    PopupView.showInfoPopup("Can't create game","You need more than 1 player to start the game.");
                 }else{
                     Game game = new Game(selectedPlayers, board);
                     game.start(); 
@@ -231,20 +221,6 @@ public class LaddergameController {
             popupStage.getIcons().add(new Image(getClass().getResourceAsStream("/playerPieces/pineapple.png")));
             popupStage.showAndWait(); 
         }
-    }
-
-     /**
-     * This method shows an information popup when the user tries to create a new game without players.
-     */
-    private void showInfoPopup(String message) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Information");
-        alert.setHeaderText("Can't create new game!");
-        alert.setContentText(message);
-        alert.setResizable(false);
-        alert.setWidth(300);
-        alert.setHeight(200);
-        alert.showAndWait();
     }
 
     public void playerList(){
