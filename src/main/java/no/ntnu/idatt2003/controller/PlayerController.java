@@ -1,4 +1,4 @@
-package no.ntnu.idatt2003.controller.laddergameController;
+package no.ntnu.idatt2003.controller;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package no.ntnu.idatt2003.controller.laddergameController;
+package no.ntnu.idatt2003.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +35,7 @@ import no.ntnu.idatt2003.view.LaddergameView;
 /**
  * The controller class handling game actions.
  */
-public class GameController {
+public class LaddergameController {
     
     BorderPane laddergamePane = new BorderPane();
     PlayerFileReader playerFileReader;
