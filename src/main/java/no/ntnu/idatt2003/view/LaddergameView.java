@@ -4,18 +4,25 @@ import java.io.IOException;
 import java.net.URL;
 
 import javafx.animation.PauseTransition;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import no.ntnu.idatt2003.controller.LaddergameController;
@@ -29,8 +36,10 @@ public class LaddergameView implements PositionChangeObserver{
     public BorderPane mainLayout = new BorderPane();
     public GenericGameView genericGameView = new GenericGameView();
     private Game game;
-    public int playerSize = 30;
-  
+    private final int playerSize = 25;
+    private final int pivotX = playerSize/2;
+    private final int pivotY = playerSize;
+
     //Main layout
     public BorderPane mainLayout(){
         this.mainLayout.setId("mainLayout");
@@ -78,61 +87,99 @@ public class LaddergameView implements PositionChangeObserver{
         int rows = game.getBoard().getRows();
         int cols = game.getBoard().getCols();
 
+         for (int i = 0; i < cols; i++) {
+            ColumnConstraints columnConstraints = new ColumnConstraints();
+            columnConstraints.setPercentWidth(100.0 / cols);
+            columnConstraints.setHgrow(Priority.ALWAYS);
+            gameBoard.getColumnConstraints().add(columnConstraints);
+        }
+        for (int i = 0; i < rows; i++) {
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setPercentHeight(100.0 / rows);
+            rowConstraints.setVgrow(Priority.ALWAYS);
+            gameBoard.getRowConstraints().add(rowConstraints);
+        }
+
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++){
-                StackPane  tilePane = new StackPane();
-                tilePane.setPrefSize(tileSize, tileSize);
+                StackPane stackPane = new StackPane();
+                stackPane.setPrefSize(tileSize, tileSize);
+                stackPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+                GridPane.setHgrow(stackPane, Priority.ALWAYS);
+                GridPane.setVgrow(stackPane, Priority.ALWAYS);
+
 
                 if(i%2 == 0) {
                     if(j%2 == 0) {
-                        tilePane.setStyle("-fx-background-color:rgb(190, 192, 203);");
+                        stackPane.setStyle("-fx-background-color:rgb(190, 192, 203);");
                     } else {
-                        tilePane.setStyle("-fx-background-color:rgb(255, 255, 255);");
+                        stackPane.setStyle("-fx-background-color:rgb(255, 255, 255);");
                     }
                 } else {
                     if(j%2 == 0) {
-                        tilePane.setStyle("-fx-background-color:rgb(255, 255, 255);");
+                        stackPane.setStyle("-fx-background-color:rgb(255, 255, 255);");
                     } else {
-                        tilePane.setStyle("-fx-background-color:rgb(190, 192, 203);");
+                        stackPane.setStyle("-fx-background-color:rgb(190, 192, 203);");
                     }
                 }
 
                 Board board = game.getBoard();
                 Tile tile = board.getGameboard().get(board.getLocation(j, i)-1);
-                int iconSize = 40;
+                int iconSize = 30;
                 switch (tile.getClass().getSimpleName()) {
                     case "LadderTile":
                         if (tile.getLocation() < ((LadderTile) tile).getTravelLocation()) {
-                            tilePane.setStyle("-fx-background-color:rgb(20, 161, 20);");
+                            stackPane.setStyle("-fx-background-color:rgb(20, 161, 20);");
                         } else {
-                            tilePane.setStyle("-fx-background-color:rgb(255, 0, 0);");
+                            stackPane.setStyle("-fx-background-color:rgb(255, 0, 0);");
                         }
                         break;
                     case "PlayerSwapTile":
-                        tilePane.setStyle("-fx-background-color:rgb(223, 234, 22);");
+                        stackPane.setStyle("-fx-background-color:rgb(230, 237, 41);");
                         URL urlSwap = getClass().getResource("/tiles/arrows.png");
                         ImageView swapImage = new ImageView(urlSwap.toExternalForm());
                         swapImage.setFitWidth(iconSize);
                         swapImage.setFitHeight(iconSize);
-                        tilePane.getChildren().add(swapImage);
+                        stackPane.getChildren().add(swapImage);
                         break;
                     case "BackToStartTile":
-                        tilePane.setStyle("-fx-background-color:rgba(255, 81, 0, 0.85);");
+                        stackPane.setStyle("-fx-background-color:rgba(255, 81, 0, 0.85);");
                         break;
                     case "PauseTile":
-                        tilePane.setStyle("-fx-background-color:rgb(89, 35, 198);");
+                        stackPane.setStyle("-fx-background-color:rgb(146, 108, 222);");
                         URL urlWatch = getClass().getResource("/tiles/stopwatch.png");
                         ImageView pauseImage = new ImageView(urlWatch.toExternalForm());
                         pauseImage.setFitWidth(iconSize);
                         pauseImage.setFitHeight(iconSize);
-                        tilePane.getChildren().add(pauseImage);
+                        stackPane.getChildren().add(pauseImage);
                         break;
                     case "FinishTile":
-                        tilePane.setStyle("-fx-background-color:rgb(0, 251, 255)");
+                        GridPane finishGrid = new GridPane();
+                        for (int h = 0; h < 10; h++) {
+                            for (int g = 0; g < 10; g++) {
+                                StackPane cell = new StackPane();
+                                cell.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+                                GridPane.setHgrow(cell, Priority.ALWAYS);
+                                GridPane.setVgrow(cell, Priority.ALWAYS);
+    
+                                if ((h + g) % 2 == 0) {
+                                    cell.setStyle("-fx-background-color: black;");
+                                } else {
+                                    cell.setStyle("-fx-background-color: white;");
+                                }
+                        
+                                finishGrid.add(cell, h, g);
+                            }
+                        }
+                        stackPane.getChildren().add(finishGrid);
                         break;
                 }
-                tilePane.getChildren().add(new Label(String.valueOf(game.getBoard().getLocation(j, i))));
-                gameBoard.add(tilePane, j, i); 
+                Text indexLabel = new Text(String.valueOf(tile.getLocation()));
+                indexLabel.setId("indexLabel");
+                StackPane.setAlignment(indexLabel, Pos.TOP_LEFT);
+                StackPane.setMargin(indexLabel, new Insets(3, 0, 0, 5));
+                stackPane.getChildren().add(indexLabel);
+                gameBoard.add(stackPane, j, i); 
             }
         }
         //TODO Add properties/observers for moving lines
@@ -162,13 +209,20 @@ public class LaddergameView implements PositionChangeObserver{
         }
 
         //Adds the players pieces to the board
+        int index = 0;
         for (Player player : game.getPlayers()){
-            StackPane tilePane = getTileAt(gameBoard, 0, game.getBoard().getRows()-1);
+            StackPane stackPane = getTileAt(gameBoard, 0, game.getBoard().getRows()-1);
             ImageView playerImage = new ImageView(player.getPicture().toExternalForm());
             playerImage.setFitWidth(playerSize);
             playerImage.setFitHeight(playerSize);
+            //rotate by the bottom middle of the image
+            Rotate rotate = new Rotate(72*index, pivotX, pivotY);
+            playerImage.getTransforms().add(rotate);
+            playerImage.setTranslateY(-10);
+            index++;
+
             playerImage.setId("player" + player.getPlayerNumber());
-            tilePane.getChildren().add(playerImage);
+            stackPane.getChildren().add(playerImage);
             player.setObserver(this);
         }
 
@@ -260,18 +314,21 @@ public class LaddergameView implements PositionChangeObserver{
     @Override
     public void positionChanged(Player player) {
         int[] coordiantes = this.game.getBoard().getCoordinates(player.getPosition());
-        StackPane tilePane = getTileAt((GridPane) mainLayout.lookup("#gameBoard"), coordiantes[0], coordiantes[1]);
+        StackPane stackPane = getTileAt((GridPane) mainLayout.lookup("#gameBoard"), coordiantes[0], coordiantes[1]);
         String id = "player" + player.getPlayerNumber();
         Node node = mainLayout.lookup("#"+id);
-
+        Rotate rotate = null;
         if (node != null) {
+            rotate = (Rotate) node.getTransforms().get(0);
             ((Pane) node.getParent()).getChildren().remove(node);
         }
         ImageView playerImage = new ImageView(player.getPicture().toExternalForm());
         playerImage.setId(id);
         playerImage.setFitWidth(playerSize);
         playerImage.setFitHeight(playerSize);
-        tilePane.getChildren().add(playerImage);
+        playerImage.setTranslateY(-10);
+        playerImage.getTransforms().add(rotate);
+        stackPane.getChildren().add(playerImage);
     
         Label turnLabel = (Label) mainLayout.lookup("#whosTurn");
         if (game.getActivePlayer()+1 >= game.getPlayers().size()) {

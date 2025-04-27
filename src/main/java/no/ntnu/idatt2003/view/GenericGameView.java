@@ -96,7 +96,7 @@ public class GenericGameView {
     
                     double newY = view.getLayoutY() + fallSpeed;
                     if (newY > layoutHeight) {
-                        newY = -size;
+                        newY = -size+50;
                         view.setLayoutX(random.nextDouble() * layoutWidth);
                         view.setRotate(random.nextDouble() * 360);
                     }

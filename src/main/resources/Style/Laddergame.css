@@ -34,7 +34,9 @@
     -fx-text-fill: black;
     -fx-min-height: 300px;
     -fx-min-width: 300px;
+
 }
+
 #rightMenu{
     -fx-background-color: rgb(202, 191, 191);
     -fx-text-fill: black;
@@ -56,4 +58,9 @@
     -fx-stroke: black;      
     -fx-stroke-width: 2;     
     -fx-font-size: 60px;
+}
+
+#indexLabel{
+    -fx-text-fill: black;  
+    -fx-font-size: 11.2px;
 }
