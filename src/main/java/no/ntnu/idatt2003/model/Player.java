@@ -64,6 +64,13 @@ public class Player {
     }
 
     /**
+     * returns the players pause status
+     */
+    public boolean getPlayerPause() {
+        return this.playerPause;
+    }
+
+    /**
      * Sets the dice paths for the player.
      */
     public void setDicePaths(URL[] dicePaths) {

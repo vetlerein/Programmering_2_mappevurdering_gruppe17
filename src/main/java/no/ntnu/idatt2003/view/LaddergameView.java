@@ -182,7 +182,6 @@ public class LaddergameView implements PositionChangeObserver{
                 gameBoard.add(stackPane, j, i); 
             }
         }
-        //TODO Add properties/observers for moving lines
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j <cols; j++) {
                 Tile tile = game.getBoard().getGameboard().get(game.getBoard().getLocation(j, i)-1);
@@ -231,11 +230,17 @@ public class LaddergameView implements PositionChangeObserver{
         rightMenu.setId("rightMenu");
         Button throwDice = new Button("Throw dice");
         throwDice.setOnAction(e -> {
-            if(game.getGameStatus() == true){
+            if(game.getGameStatus() == true) {
                 Player player = game.getPlayers().get(game.getActivePlayer());
                 player.move(game);
                 genericGameView.showDice(player.getDicePaths(), mainLayout);
-            }       
+                if(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == true){
+                    while(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == true) {
+                        game.getPlayers().get(game.getActivePlayer()).move(game);
+                        game.nextPlayer();
+                    }
+                }
+            }
         });
 
         Button simulateDice = new Button("Simulate game");
@@ -252,12 +257,15 @@ public class LaddergameView implements PositionChangeObserver{
         for (Player player : game.getPlayers()){
             HBox pictureNameSplitter = new HBox(10);
             ImageView playerImage = new ImageView(player.getPicture().toExternalForm());
+            ImageView pauseImage = new ImageView();
+            pauseImage.setId("image"+player.getPlayerNumber());
             playerImage.setFitWidth(40); 
             playerImage.setPreserveRatio(true); 
             Label playerLabel = new Label(player.getPlayerName()+": ");
             Label position = new Label(player.getPosition() + "");
             position.setId("position" + player.getPlayerNumber());
             pictureNameSplitter.getChildren().addAll(playerImage, playerLabel, position);
+            pictureNameSplitter.setId("playerBox" + player.getPlayerNumber());
             playersBox.getChildren().add(pictureNameSplitter);
         }
 
@@ -277,9 +285,17 @@ public class LaddergameView implements PositionChangeObserver{
             return;
         }
     
-        Player player = game.getPlayers().get(game.getActivePlayer());
-        player.move(game);
-        genericGameView.showDice(player.getDicePaths(), mainLayout);
+        if(game.getGameStatus() == true) {
+            Player player = game.getPlayers().get(game.getActivePlayer());
+            player.move(game);
+            genericGameView.showDice(player.getDicePaths(), mainLayout);
+            if(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == false){
+                while(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == true) {
+                    game.getPlayers().get(game.getActivePlayer()).move(game);
+                    game.nextPlayer();
+                }
+            }
+        }
 
         PauseTransition pause = new PauseTransition(Duration.millis(100));
         pause.setOnFinished(e -> {
@@ -288,7 +304,6 @@ public class LaddergameView implements PositionChangeObserver{
         pause.play();
     }
     
-
     private StackPane getTileAt(GridPane grid, int col, int row) {
         for (Node node : grid.getChildren()) {
             if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
@@ -343,5 +358,44 @@ public class LaddergameView implements PositionChangeObserver{
         } else {
             System.out.println("Position label not found for player " + player.getPlayerNumber());
         }
+
+        playerPaused(player);
+    }
+
+    public void playerSwitch (Player playerToSwitch, Player playerToBeSwitched) {
+
+    }
+
+    public void playerPaused (Player player) {
+        HBox pictureNameSplitter = (HBox) mainLayout.lookup("#playerBox" + player.getPlayerNumber());
+        if(player.getPlayerPause() == false) {
+            ImageView pauseImage = (ImageView) pictureNameSplitter.lookup("#pause"+player.getPlayerNumber());
+            pictureNameSplitter.getChildren().remove(pauseImage);
+        } else {
+            int cols = game.getBoard().getCols();
+            int rows = game.getBoard().getRows();
+            URL urlWatch = getClass().getResource("/tiles/stopwatch.png");
+            ImageView pauseImage = new ImageView(urlWatch.toExternalForm());
+            pauseImage.setId("pause"+player.getPlayerNumber());
+            pauseImage.setFitWidth(20);
+            pauseImage.setFitHeight(20);
+            pictureNameSplitter.getChildren().add(0,pauseImage);   
+
+            ImageView bigPauseImage = new ImageView(urlWatch.toExternalForm());
+            bigPauseImage.setFitWidth(500);
+            bigPauseImage.setFitHeight(500);
+            Text pauseText = new Text(player.getPlayerName() + " has been paused!");
+            pauseText.setStyle("-fx-font-size: 60px; -fx-text-fill: white; -fx-text-stroke: black; -fx-stroke-width: 3px;");
+            VBox pauseBox = new VBox(20, bigPauseImage, pauseText);
+            StackPane stackPane = new StackPane();
+            stackPane.getChildren().add(pauseBox);
+            GridPane gridPane = (GridPane) mainLayout.lookup("#gameBoard");
+            gridPane.add(stackPane, 0, 0, cols, rows);
+            PauseTransition pause = new PauseTransition(Duration.millis(3000));
+            pause.setOnFinished(e -> {
+                gridPane.getChildren().remove(stackPane);
+            });
+            pause.play();
+        }	
     }
 }
