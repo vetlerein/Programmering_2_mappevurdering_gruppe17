@@ -7,6 +7,7 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import laddergameTest.dummyClasses.TestSetup;
 import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 
@@ -22,9 +23,12 @@ public class FinishTileTest {
         nils = (Player) setup.get("nils");
     }
 
+    /**
+     * Checks that the gamestatus is set to false when a player reaches the finish tile.
+     */
     @Test
     void testIfFinishes(){
         game.finish(nils);
-        assertFalse(game.getGameStatus());
+        assertFalse(game.getGameStatus(), "Game should be finished after player reaches the finish tile.");
     }
 }

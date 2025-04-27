@@ -14,7 +14,7 @@ public class Player {
     private final Date birthDate;
     public boolean playerActive;
     public boolean playerPause = false;
-    
+
     private PositionChangeObserver observer;
     public URL[] dicePaths;
     private URL picture;
@@ -61,6 +61,14 @@ public class Player {
      */
     public void setPlayerPause() {
         this.playerPause = true;
+    }
+
+    /**
+     * Checks if the player is paused
+     * @return true if the player is paused, false otherwise
+     */
+    public boolean isPlayerPause() {
+        return playerPause;
     }
 
     /**

@@ -1,4 +1,4 @@
-package laddergameTest;
+package laddergameTest.dummyClasses;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +12,11 @@ import no.ntnu.idatt2003.model.Player;
 
 public class TestSetup {
 
+    /**
+     * Creates a setup for the ladder game with three players and a small board.
+     * 
+     * @return A map containing the game and players.
+     */
     public static Map<String, Object> createLaddergameSetUp() {
         Map<String, Object> setup = new HashMap<>();
 
@@ -30,6 +35,8 @@ public class TestSetup {
         Board smallboard = BoardGameFactory.createSmallBoard();
         Game game = new Game(players, smallboard);
         game.setLadderView(new DummyLaddergameView());
+        DummyGenericGameView dummyView = new DummyGenericGameView();
+        Game.setView(dummyView);
 
         setup.put("game", game);
         setup.put("vetle", vetle);
