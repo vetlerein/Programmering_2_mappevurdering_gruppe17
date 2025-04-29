@@ -39,6 +39,7 @@ public class LaddergameView implements PositionChangeObserver{
     private final int playerSize = 25;
     private final int pivotX = playerSize/2;
     private final int pivotY = playerSize;
+    private boolean animationActive = false;
 
     //Main layout
     public BorderPane mainLayout(){
@@ -230,7 +231,7 @@ public class LaddergameView implements PositionChangeObserver{
         rightMenu.setId("rightMenu");
         Button throwDice = new Button("Throw dice");
         throwDice.setOnAction(e -> {
-            if(game.getGameStatus() == true) {
+            if(game.getGameStatus() == true && animationActive == false) {
                 Player player = game.getPlayers().get(game.getActivePlayer());
                 player.move(game);
                 genericGameView.showDice(player.getDicePaths(), mainLayout);
@@ -284,8 +285,10 @@ public class LaddergameView implements PositionChangeObserver{
         if (currentTurn > maxTurns || !game.getGameStatus()) {
             return;
         }
-    
-        if(game.getGameStatus() == true) {
+
+        PauseTransition pause = new PauseTransition(Duration.millis(100));
+
+        if(game.getGameStatus() == true && animationActive == false) {
             Player player = game.getPlayers().get(game.getActivePlayer());
             player.move(game);
             genericGameView.showDice(player.getDicePaths(), mainLayout);
@@ -295,9 +298,12 @@ public class LaddergameView implements PositionChangeObserver{
                     game.nextPlayer();
                 }
             }
+
+        } else {
+            pause = new PauseTransition(Duration.millis(2000));
         }
 
-        PauseTransition pause = new PauseTransition(Duration.millis(100));
+        
         pause.setOnFinished(e -> {
             simulateGame(currentTurn + 1, maxTurns); 
         });
@@ -363,7 +369,11 @@ public class LaddergameView implements PositionChangeObserver{
     }
 
     public void playerSwitch (Player playerToSwitch, Player playerToBeSwitched) {
-
+        URL swapUrl = getClass().getResource("/tiles/arrows.png");
+        String playerSwitchText = playerToSwitch.getPlayerName() + " and " + playerToBeSwitched.getPlayerName() + " have switched places!";
+        positionChanged(playerToSwitch);
+        positionChanged(playerToBeSwitched);
+        showImageAndText(swapUrl, playerSwitchText);
     }
 
     public void playerPaused (Player player) {
@@ -372,8 +382,7 @@ public class LaddergameView implements PositionChangeObserver{
             ImageView pauseImage = (ImageView) pictureNameSplitter.lookup("#pause"+player.getPlayerNumber());
             pictureNameSplitter.getChildren().remove(pauseImage);
         } else {
-            int cols = game.getBoard().getCols();
-            int rows = game.getBoard().getRows();
+            //Adds small stopwatch icon to the player box
             URL urlWatch = getClass().getResource("/tiles/stopwatch.png");
             ImageView pauseImage = new ImageView(urlWatch.toExternalForm());
             pauseImage.setId("pause"+player.getPlayerNumber());
@@ -381,21 +390,36 @@ public class LaddergameView implements PositionChangeObserver{
             pauseImage.setFitHeight(20);
             pictureNameSplitter.getChildren().add(0,pauseImage);   
 
+            //Adds visual for pause on the whole board
             ImageView bigPauseImage = new ImageView(urlWatch.toExternalForm());
-            bigPauseImage.setFitWidth(500);
-            bigPauseImage.setFitHeight(500);
-            Text pauseText = new Text(player.getPlayerName() + " has been paused!");
-            pauseText.setStyle("-fx-font-size: 60px; -fx-text-fill: white; -fx-text-stroke: black; -fx-stroke-width: 3px;");
-            VBox pauseBox = new VBox(20, bigPauseImage, pauseText);
-            StackPane stackPane = new StackPane();
-            stackPane.getChildren().add(pauseBox);
-            GridPane gridPane = (GridPane) mainLayout.lookup("#gameBoard");
-            gridPane.add(stackPane, 0, 0, cols, rows);
-            PauseTransition pause = new PauseTransition(Duration.millis(3000));
-            pause.setOnFinished(e -> {
-                gridPane.getChildren().remove(stackPane);
-            });
-            pause.play();
+            String pauseText = player.getPlayerName() + " has been paused!";
+            showImageAndText(urlWatch, pauseText);
         }	
+    }
+
+    public void showImageAndText(URL imageUrl, String text) {
+        int cols = game.getBoard().getCols();
+        int rows = game.getBoard().getRows();
+        ImageView imageView = new ImageView(imageUrl.toExternalForm());
+        imageView.setFitWidth(500);
+        imageView.setFitHeight(500);
+        Text textNode = new Text(text);
+        textNode.setStyle("-fx-font-size: 60px; -fx-text-fill: white; -fx-text-stroke: black; -fx-stroke-width: 3px;");
+        VBox showBox = new VBox(20, imageView, textNode);
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().add(showBox);
+
+        GridPane gridPane = (GridPane) mainLayout.lookup("#gameBoard");
+        gridPane.add(stackPane, 0, 0, cols, rows);
+        showBox.toFront();
+
+        //removes the pause image after 2 seconds
+        PauseTransition pause = new PauseTransition(Duration.millis(2000));
+        animationActive = true;
+        pause.setOnFinished(e -> {
+            gridPane.getChildren().remove(stackPane);
+            animationActive = false;
+        });
+        pause.play();
     }
 }

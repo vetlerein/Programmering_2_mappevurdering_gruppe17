@@ -39,6 +39,13 @@ public class Game {
     }
 
     /**
+     * Returns the laddergameview.
+     */
+    public LaddergameView getLaddergameView(){
+        return laddergameView;
+    }
+
+    /**
      * The game is finished.
      *
      * @param player the winner of the game

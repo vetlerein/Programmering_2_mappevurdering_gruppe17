@@ -38,7 +38,7 @@ public class MenuView {
             GenericGameView genericGameView = new GenericGameView();
             BorderPane laddergame = laddergameView.mainLayout();
             
-            Scene laddergameScene = new Scene(laddergame, 800, 600);
+            Scene laddergameScene = new Scene(laddergame, stage.getWidth(), stage.getHeight());
             laddergameScene.getStylesheets().add(getClass().getResource("/Style/Laddergame.css").toExternalForm());         
             stage.setScene(laddergameScene);
             stage.setTitle("Laddergame");
