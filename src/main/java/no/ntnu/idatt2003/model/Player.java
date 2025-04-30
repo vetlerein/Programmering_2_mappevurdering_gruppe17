@@ -1,5 +1,6 @@
 package no.ntnu.idatt2003.model;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 
 import no.ntnu.idatt2003.view.PositionChangeObserver;
@@ -14,6 +15,8 @@ public class Player {
     private final Date birthDate;
     public boolean playerActive;
     public boolean playerPause = false;
+    private int balance;
+    private ArrayList<Property> properties = new ArrayList<Property>();
     
     private PositionChangeObserver observer;
     public URL[] dicePaths;
@@ -61,6 +64,50 @@ public class Player {
      */
     public void setPlayerPause() {
         this.playerPause = true;
+    }
+
+    /**
+     * sets the balance of the player
+     * @param balance the new balance of the player
+     */
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    /**
+     * adds the inputed property to the players property list
+     * @param property the property to add to the players property list
+     */
+    public void addProperty(Property property) {
+        this.properties.add(property);
+        property.setOwner(this);
+    }
+
+    /**
+     * removes the inputed property from the players property list
+     * @param property the property to remove from the players property list
+     */
+    public void removeProperty(Property property) {
+        if (property.getOwner() == this) {
+            this.properties.remove(property);
+            property.setOwner(null);
+        }
+    }
+
+    /**
+     * adds the the amount to the players balance
+     * @param amount the amount of money to add to the players balance
+     */
+    public void addPlayerBalance(int amount) {
+        this.balance += amount;
+    }
+
+    /**
+     * returns the balance of the player
+     * @return balance of the player
+     */
+    public int getBalance() {
+        return this.balance;
     }
 
     /**
