@@ -12,7 +12,7 @@ import no.ntnu.idatt2003.model.tile.LadderTile;
 
 public class LadderTileTest {
 
-    private Player nils;
+    private Player player;
     private Game game;
 
     /**
@@ -21,7 +21,7 @@ public class LadderTileTest {
     @BeforeEach
     void setUp() {
         game = (Game) TestSetup.createLaddergameSetUp().get("game");
-        nils = (Player) TestSetup.createLaddergameSetUp().get("nils");
+        player = (Player) TestSetup.createLaddergameSetUp().get("player1");
     }
 
     /**
@@ -31,9 +31,9 @@ public class LadderTileTest {
     void testLadderTile() {
 
         LadderTile ladderTile = new LadderTile(2, 5);
-        nils.setPosition(2);
-        ladderTile.action(nils, game);
+        player.setPosition(2);
+        ladderTile.action(player, game);
 
-        assertEquals(5, nils.getPosition(), "Player should have moved to the travel location of the ladder tile.");
+        assertEquals(5, player.getPosition(), "Player should have moved to the travel location of the ladder tile.");
     }
 }

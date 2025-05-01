@@ -20,17 +20,17 @@ public class TestSetup {
     public static Map<String, Object> createLaddergameSetUp() {
         Map<String, Object> setup = new HashMap<>();
 
-        Player vetle = new Player("Vetle", 1, new Date());
-        vetle.setPosition(1);
-        Player petter = new Player("Petter", 2, new Date());
-        petter.setPosition(2);
-        Player nils = new Player("Nils", 3, new Date());
-        nils.setPosition(5);
+        Player player1 = new Player("player1", 1, new Date());
+        player1.setPosition(1);
+        Player player2 = new Player("player2", 2, new Date());
+        player2.setPosition(2);
+        Player player3 = new Player("player3", 3, new Date());
+        player3.setPosition(5);
 
         ArrayList<Player> players = new ArrayList<>();
-        players.add(vetle);
-        players.add(petter);
-        players.add(nils);
+        players.add(player1);
+        players.add(player2);
+        players.add(player3);
 
         Board smallboard = BoardGameFactory.createSmallBoard();
         Game game = new Game(players, smallboard);
@@ -39,9 +39,9 @@ public class TestSetup {
         Game.setView(dummyView);
 
         setup.put("game", game);
-        setup.put("vetle", vetle);
-        setup.put("petter", petter);
-        setup.put("nils", nils);
+        setup.put("player1", player1);
+        setup.put("player2", player2);
+        setup.put("player3", player3);
 
         return setup;
     }

@@ -13,12 +13,12 @@ import no.ntnu.idatt2003.model.Player;
 
 public class DiceTest {
 
-    private Player petter;
+    private Player player;
 
     @BeforeEach
     void setUp() {
         Map<String, Object> setup = TestSetup.createLaddergameSetUp();
-        petter = (Player) setup.get("petter");
+        player = (Player) setup.get("player1");
     }
     
     /**
@@ -26,7 +26,7 @@ public class DiceTest {
     */
     @Test
     public void throwDiceZeroTimes() {
-        assertThrows(IllegalArgumentException.class, () -> Dice.rollDice(0, petter));
+        assertThrows(IllegalArgumentException.class, () -> Dice.rollDice(0, player));
     }
 
     /**
@@ -35,7 +35,7 @@ public class DiceTest {
     @Test
     public void diceReturnsValidNumber () {
         for (int i = 0; i < 100; i++){
-            int diceRoll = Dice.rollDice(1, petter);
+            int diceRoll = Dice.rollDice(1, player);
             assertTrue(diceRoll<=6 && diceRoll>=1);
         }
     }
@@ -47,7 +47,7 @@ public class DiceTest {
     public void diceIncludesAllNumbers () {
         ArrayList<Integer> diceRolls = new ArrayList<>();
         for (int i = 0; i<200; i++){
-            diceRolls.add(Dice.rollDice(1, petter));
+            diceRolls.add(Dice.rollDice(1, player));
         }
         assertTrue(diceRolls.contains(1));
         assertTrue(diceRolls.contains(2));

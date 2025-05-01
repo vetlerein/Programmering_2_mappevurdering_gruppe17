@@ -13,7 +13,7 @@ import no.ntnu.idatt2003.model.tile.BackToStartTile;
 public class BackToStartTest {
     
     private Game game;
-    private Player nils;
+    private Player player;
 
     /**
      * Sets up the test environment by creating a game and a player.
@@ -21,7 +21,7 @@ public class BackToStartTest {
     @BeforeEach
     void setUp() {    
         game = (Game) TestSetup.createLaddergameSetUp().get("game");
-        nils = (Player) TestSetup.createLaddergameSetUp().get("nils");
+        player = (Player) TestSetup.createLaddergameSetUp().get("player1");
     }
 
     /**
@@ -30,8 +30,8 @@ public class BackToStartTest {
     @Test
     void testBackToStart() {
         BackToStartTile backToStartTile = new BackToStartTile(5);
-        nils.setPosition(5); 
-        backToStartTile.action(nils, game);
-        assertEquals(0, nils.getPosition(), "Player should be moved back to start position (0).");
+        player.setPosition(5); 
+        backToStartTile.action(player, game);
+        assertEquals(0, player.getPosition(), "Player should be moved back to start position (0).");
     }        
 }

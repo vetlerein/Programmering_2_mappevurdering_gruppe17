@@ -14,13 +14,13 @@ import no.ntnu.idatt2003.model.Player;
 
 public class PauseTileTest {
 
-    private Player nils;
+    private Player player;
     private Game game;
 
     @BeforeEach
     void setUp() {
         Map<String, Object> setup = TestSetup.createLaddergameSetUp();
-        nils = (Player) setup.get("nils");
+        player = (Player) setup.get("player1");
         game = (Game) setup.get("game");
     }
 
@@ -29,8 +29,8 @@ public class PauseTileTest {
      */
     @Test
     void testPlayerStaysOnSame(){
-        nils.setPlayerPause();
-        assertFalse(nils.getPlayerActive(), "Player should be paused after landing on a PauseTile.");
+        player.setPlayerPause();
+        assertFalse(player.getPlayerActive(), "Player should be paused after landing on a PauseTile.");
     }
 
     /**
@@ -38,9 +38,9 @@ public class PauseTileTest {
      */
     @Test
     void testPlayerContinuesAfterOneRound(){
-        nils.setPlayerPause();
-        assertTrue(nils.isPlayerPause(), "Player should be paused after landing on a PauseTile.");
-        nils.move(game);
-        assertFalse(nils.getPlayerActive(), "Player should be active after one round of pause.");
+        player.setPlayerPause();
+        assertTrue(player.getPlayerPause(), "Player should be paused after landing on a PauseTile.");
+        player.move(game);
+        assertFalse(player.getPlayerActive(), "Player should be active after one round of pause.");
     }
 }
