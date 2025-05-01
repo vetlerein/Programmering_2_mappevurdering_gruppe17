@@ -15,11 +15,12 @@ public class Player {
     private final Date birthDate;
     public boolean playerActive;
     public boolean playerPause = false;
+  
     private int balance;
     private ArrayList<Property> properties = new ArrayList<Property>();
     private int jailStatus = 0;
     private boolean getOutOfJailCard = false;
-    
+
     private PositionChangeObserver observer;
     public URL[] dicePaths;
     private URL picture;
@@ -151,6 +152,7 @@ public class Player {
 
     /**
      * returns the players pause status
+     * @returns the players pause status
      */
     public boolean getPlayerPause() {
         return this.playerPause;

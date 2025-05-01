@@ -16,9 +16,11 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import no.ntnu.idatt2003.gameExceptions.invalidBirthdayException;
 import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.fileManagement.playerFileManagement.PlayerFileReader;
 import no.ntnu.idatt2003.model.fileManagement.playerFileManagement.PlayerFileWriter;
+import no.ntnu.idatt2003.view.PopupView;
 
 /**
  * The controller class handling player actions.
@@ -45,33 +47,40 @@ public class PlayerController {
         birthDatePicker.setValue(defaultDate);
         birthDatePicker.setPromptText("Select birth date");
         
-        Button addButton = new Button("Add ✅");
+        Button addButton = new Button("Add player");
     
         addButton.setOnAction(e -> {
             String name = nameField.getText().trim();
             if (!name.isEmpty()) {
-                
-                int playernumber;
+                try{
+                    int playernumber;
 
-                PlayerFileWriter playerFileWriter = new PlayerFileWriter();
-                PlayerFileReader playerFileReader = new PlayerFileReader();
-                
-                LocalDate birthDate = birthDatePicker.getValue();
-                Date date = convertToDate(birthDate);
-                
-                ArrayList<Player> players = playerFileReader.readPlayers();
-                
-                if (players.isEmpty()) {
-                    playernumber = 1;
-                } else {
-                    playernumber = players.size() + 1;
-                    System.out.println(players.size());
+                    PlayerFileWriter playerFileWriter = new PlayerFileWriter();
+                    PlayerFileReader playerFileReader = new PlayerFileReader();
+                    
+                    LocalDate birthDate = birthDatePicker.getValue();
+                    Date date = convertToDate(birthDate);  
+                    if (birthDate.getYear() < 1900) {
+                        throw new invalidBirthdayException("I doubt you were born before 1900.");
+                    }
+
+                    ArrayList<Player> players = playerFileReader.readPlayers();
+                    if (players.isEmpty()) {
+                        playernumber = 1;
+                    } else {
+                        playernumber = players.size() + 1;
+                    }
+                    
+                    Player newPlayer = new Player(name, playernumber, date);
+                    
+                    playerFileWriter.writeToFile(newPlayer);
+                    popupStage.close();
                 }
-
-                Player newPlayer = new Player(name, playernumber, date);
-                  
-                playerFileWriter.writeToFile(newPlayer);
-                popupStage.close();
+                catch (invalidBirthdayException ex) {
+                    PopupView.showInfoPopup("Invalid birth date", ex.getMessage());
+                }
+            } else {
+                PopupView.showInfoPopup("Invalid name", "Please enter a valid name.");
             }
         });
 
