@@ -50,7 +50,7 @@ public class MonopolyView {
 
         return mainLayout;
     }
-    
+
     public void setGameBoard(Game game){
 
     }

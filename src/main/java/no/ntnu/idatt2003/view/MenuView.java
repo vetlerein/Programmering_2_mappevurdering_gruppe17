@@ -39,7 +39,7 @@ public class MenuView {
             BorderPane laddergame = laddergameView.mainLayout();
             
             Scene laddergameScene = new Scene(laddergame, stage.getWidth(), stage.getHeight());
-            laddergameScene.getStylesheets().add(getClass().getResource("/Style/Game.css").toExternalForm());         
+            laddergameScene.getStylesheets().add(getClass().getResource("/Style/Laddergame.css").toExternalForm());         
             stage.setScene(laddergameScene);
             stage.setTitle("Laddergame");
     
@@ -48,7 +48,7 @@ public class MenuView {
             Game.setLadderView(laddergameView);
         });
 
-        
+
         Button monopolyButton = new Button("Monopoly");
         monopolyButton.setOnAction(e -> {
             
@@ -57,7 +57,7 @@ public class MenuView {
             BorderPane monopoly = monopolyView.mainLayout();
 
             Scene monopolyScene = new Scene(monopoly, stage.getWidth(), stage.getHeight());
-            monopolyScene.getStylesheets().add(getClass().getResource("/Style/Game.css").toExternalForm());         
+            monopolyScene.getStylesheets().add(getClass().getResource("/Style/Monopoly.css").toExternalForm());         
             stage.setScene(monopolyScene);
             stage.setTitle("Monopoly");
 
