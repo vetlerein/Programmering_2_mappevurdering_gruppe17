@@ -26,4 +26,11 @@ public class PropertyTile extends Tile{
     public void action(Player player, Game game) {
         //TODO add popup to buy property
     }
+
+    /**
+     * @return the property associated with the tile
+     */
+    public Property getProperty() {
+        return property;
+    }
 }

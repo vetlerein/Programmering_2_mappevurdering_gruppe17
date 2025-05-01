@@ -207,7 +207,7 @@ public class BoardGameFactory {
         properties[17] = new Property("Hamar", 30,6, 3000, 300);
 
         //fourth side
-        properties[18] = new Property("Fauske", 32,7, 3700, 350);
+        properties[18] = new Property("Arendal", 32,7, 3700, 350);
         properties[19] = new Property("Horten", 33,7, 3700, 350);
         properties[20] = new Property("Sandefjord", 35,7, 4500, 450);
 
@@ -245,5 +245,6 @@ public class BoardGameFactory {
         gameboard.set(38, new ChanceCardTile(39));
 
         return new Board(gameboard, "Monopoly", "A monopoly board", length, length);
+
     }
 }

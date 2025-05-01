@@ -14,9 +14,9 @@ public class ChanceCardMoney implements ChanceCard {
     @Override
     public String toString() {
         if(amount > 0){
-            return description + ", recive " + amount;
+            return description + ", you recive " + amount;
         } else {
-            return description + ", you have to pay " + amount;
+            return description + ", you pay " + amount*-1;
         }        
     }
 

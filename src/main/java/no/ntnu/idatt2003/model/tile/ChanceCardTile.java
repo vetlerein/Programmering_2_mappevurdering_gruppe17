@@ -30,6 +30,7 @@ public class ChanceCardTile extends Tile{
         //TODO add popup to draw chance card
         Random random = new Random();
         int randomIndex = random.nextInt(chanceCards.size());
+        String cardDescription = chanceCards.get(randomIndex).toString();
         chanceCards.get(randomIndex).effect(player);
     }
 }

@@ -95,7 +95,7 @@ public class Board {
      * @return the location based on inputed coordinates.
      */
     public int getLocation (int x, int y) {
-        int location;
+        int location = 0;
         int bottomRow = rows - 1 - y;
 
         //Checks if the next row is going right to left or left to right
