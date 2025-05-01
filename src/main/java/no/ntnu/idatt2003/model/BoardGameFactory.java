@@ -3,10 +3,14 @@ package no.ntnu.idatt2003.model;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import no.ntnu.idatt2003.model.tile.ChanceCardTile;
 import no.ntnu.idatt2003.model.tile.FinishTile;
+import no.ntnu.idatt2003.model.tile.GoToJailTile;
+import no.ntnu.idatt2003.model.tile.JailTile;
 import no.ntnu.idatt2003.model.tile.LadderTile;
 import no.ntnu.idatt2003.model.tile.PauseTile;
 import no.ntnu.idatt2003.model.tile.PlayerSwapTile;
+import no.ntnu.idatt2003.model.tile.PropertyTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
 public class BoardGameFactory {
@@ -165,5 +169,81 @@ public class BoardGameFactory {
         }
 
         return new Board(gameboard, name, description, rows, cols);
+    }
+
+    public static Board createMonopolyBoard() {
+        int length = 11;
+        int numberOfTiles = (length-2)*4 + 4; //40
+        ArrayList<Tile> gameboard = new ArrayList<>();
+
+        //24 properties
+        Property[] properties = new Property[24];
+
+        //First side
+        properties[0] = new Property("Drammen", 2,1, 800, 50);
+        properties[1] = new Property("Trondheim", 3,1, 800, 50);
+        properties[2] = new Property("Oslo", 5,1, 1000, 75);
+
+        properties[3] = new Property("Stavanger", 7,2, 1200, 100);
+        properties[4] = new Property("Bergen", 8,2, 1200, 100);
+        properties[5] = new Property("Ålesund", 10,2, 1400, 125);
+
+        //second side
+        properties[6] = new Property("Bodø", 12,3, 1600, 150);
+        properties[7] = new Property("Tromsø", 13,3, 1600, 150);
+        properties[8] = new Property("Lofoten", 15,3, 1800, 175);
+
+        properties[9] = new Property("Narvik", 17,4, 1800, 175);
+        properties[10] = new Property("Haugesund", 18,4, 1800, 175);
+        properties[11] = new Property("Kristiansund", 20,4, 2000, 200);
+
+        //third side
+        properties[12] = new Property("Lillestrøm", 22,5, 2400, 225);
+        properties[13] = new Property("Fredrikstad", 23,5, 2400, 225);
+        properties[14] = new Property("Sarpsborg", 25,5, 2600, 250);
+
+        properties[15] = new Property("Kautokeino", 27,6, 2600, 250);
+        properties[16] = new Property("Røros", 28,6, 2800, 275);
+        properties[17] = new Property("Hamar", 30,6, 3000, 300);
+
+        //fourth side
+        properties[18] = new Property("Fauske", 32,7, 3700, 350);
+        properties[19] = new Property("Horten", 33,7, 3700, 350);
+        properties[20] = new Property("Sandefjord", 35,7, 4500, 450);
+
+        properties[21] = new Property("Surnadal", 37, 8, 6000, 600);
+        properties[22] = new Property("Kristiansand", 38, 8, 8000, 850);
+        properties[23] = new Property("Molde", 40, 8, 8000, 850);
+
+        for (int i = 1; i < numberOfTiles + 1; i++) {
+            gameboard.add(new Tile(i));
+        }
+
+        for (Property property : properties) {
+            gameboard.set(property.getLocation() - 1, new PropertyTile(property.getLocation(), property));
+        }
+
+        //Add the rest of the tiles
+        gameboard.set(0, new FinishTile(1));
+        gameboard.set(3, new ChanceCardTile(4));
+        gameboard.set(5, new ChanceCardTile(6));
+        gameboard.set(8, new ChanceCardTile(9));
+        gameboard.set(10, new JailTile(11));
+
+        gameboard.set(13, new ChanceCardTile(14));
+        gameboard.set(15, new ChanceCardTile(16));
+        gameboard.set(18, new ChanceCardTile(19));
+        gameboard.set(20, new ChanceCardTile(21));
+
+        gameboard.set(23, new ChanceCardTile(24));
+        gameboard.set(25, new ChanceCardTile(26));
+        gameboard.set(28, new ChanceCardTile(29));
+        gameboard.set(30, new GoToJailTile(31));
+        
+        gameboard.set(33, new ChanceCardTile(34));
+        gameboard.set(35, new ChanceCardTile(36));
+        gameboard.set(38, new ChanceCardTile(39));
+
+        return new Board(gameboard, "Monopoly", "A monopoly board", length, length);
     }
 }

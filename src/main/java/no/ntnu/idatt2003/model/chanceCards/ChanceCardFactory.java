@@ -6,6 +6,9 @@ public class ChanceCardFactory {
     public static ArrayList<ChanceCard> createDeck() {
         ArrayList<ChanceCard> chanceCards = new ArrayList<>();
         //TODO: create a deck of chance cards
+        chanceCards.add(new ChanceCardJail());
+        chanceCards.add(new ChanceCardJail());
+
         chanceCards.add(new ChanceCardMoney(-200, "You ride an electric scooter into a river"));
         return chanceCards;
     }

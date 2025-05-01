@@ -8,12 +8,11 @@ import no.ntnu.idatt2003.model.tile.Tile;
  * This class represents the board.
  */
 public class Board {
-
-    private ArrayList<Tile> gameboard;
-    private String name;
-    private String description;
-    private int rows;
-    private int cols;
+    private final ArrayList<Tile> gameboard;
+    private final String name;
+    private final String description;
+    private final int rows;
+    private final int cols;
 
     /**
      * Creates a board object.
@@ -96,7 +95,7 @@ public class Board {
      * @return the location based on inputed coordinates.
      */
     public int getLocation (int x, int y) {
-        int location = 0;
+        int location;
         int bottomRow = rows - 1 - y;
 
         //Checks if the next row is going right to left or left to right
