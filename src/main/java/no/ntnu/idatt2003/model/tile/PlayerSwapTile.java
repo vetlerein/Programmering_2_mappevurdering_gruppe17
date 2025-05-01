@@ -23,14 +23,21 @@ public class PlayerSwapTile extends Tile {
     @Override
     public void action(Player player, Game game) {
         Player playerToSwap = game.getPlayers().stream()
+            .filter(p -> p != player)                        
             .max(Comparator.comparingInt(Player::getPosition))
             .orElse(null);
-    
-            //TODO ADD VISUALS FOR THE SWAP
-        if (playerToSwap != null) {
-            int newPosition = playerToSwap.getPosition();
-            playerToSwap.setPosition(player.getPosition());
-            player.setPosition(newPosition);
+        
+        if (playerToSwap == null) { 
+            return;
         }
+        
+        System.out.println(player.getPlayerName() + ": " + player.getPosition() + " " + playerToSwap.getPlayerName() + ": "+ playerToSwap.getPosition());
+        int newPosition = playerToSwap.getPosition();
+        playerToSwap.setPosition(player.getPosition());
+        player.setPosition(newPosition);
+        game.getLaddergameView().playerSwitch(player, playerToSwap);
+        System.out.println(player.getPlayerName() + ": " + player.getPosition() + " " + playerToSwap.getPlayerName() + ": " + playerToSwap.getPosition());
+        
+        
     }
 }

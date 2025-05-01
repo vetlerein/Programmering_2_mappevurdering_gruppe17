@@ -65,10 +65,10 @@ public class Player {
 
     /**
      * Checks if the player is paused
-     * @return true if the player is paused, false otherwise
+     * @returns the players pause status
      */
-    public boolean isPlayerPause() {
-        return playerPause;
+    public boolean getPlayerPause() {
+        return this.playerPause;
     }
 
     /**

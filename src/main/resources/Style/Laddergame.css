@@ -40,8 +40,8 @@
 #rightMenu{
     -fx-background-color: rgb(202, 191, 191);
     -fx-text-fill: black;
-    -fx-min-width: 160px;
-    -fx-max-width: 200px;
+    -fx-min-width: 200px;
+    -fx-max-width: 250px;
     -fx-padding: 40px;
     -fx-spacing: 20px;
 }
