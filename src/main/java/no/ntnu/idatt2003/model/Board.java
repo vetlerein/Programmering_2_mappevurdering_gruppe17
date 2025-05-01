@@ -88,6 +88,24 @@ public class Board {
         return coordinates;
     }
 
+    public int[] getCoordinatesMonopoly (int location) {
+        int[] coordinates = new int[2];
+        if(location >= 1 && location <= 11) {
+            coordinates[0] = 0;
+            coordinates[1] = 11-location;
+        }else if(location >= 12 && location <= 20) {
+            coordinates[0] = location-11;
+            coordinates[1] = 0;
+        }else if(location >= 21 && location <=31 ) {
+            coordinates[0] = cols-1;
+            coordinates[1] = location-21;
+        }else if(location >= 32 && location <= 40) {
+            coordinates[1] = cols-1;
+            coordinates[0] = (location-41)*-1;
+        }
+        return coordinates;
+    }
+
     /**
      * Calculates the coordinates based on the position and a given number of rows and columns.
      * @param x the x coordinate

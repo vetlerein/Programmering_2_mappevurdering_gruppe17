@@ -87,16 +87,6 @@ public class BoardGameFactory {
         gameboard.set(rows*cols-1, new FinishTile(rows*cols));
 
         return new Board(gameboard, name, description, rows, cols);
-        //Write board to file
-        // try {
-        //     Board board = new Board(gameboard, name, description, rows, cols);
-        //     Path path = Paths.get("data/medium_board.json");
-        //     Files.createDirectories(path.getParent());
-        //     new BoardFileWriterGson().writeBoardToFile(path, board);
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        // }
-
     }
 
     /**
@@ -173,7 +163,7 @@ public class BoardGameFactory {
 
     public static Board createMonopolyBoard() {
         int length = 11;
-        int numberOfTiles = (length-2)*4 + 4; //40
+        int numberOfTiles = 40; 
         ArrayList<Tile> gameboard = new ArrayList<>();
 
         //24 properties
