@@ -4,9 +4,14 @@ import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.Property;
 
-public class PropertyTile extends Tile implements TileAction {
+public class PropertyTile extends Tile{
     private Property property;
 
+    /**
+     * Constructor for the PropertyTile class.
+     * @param location the location of the tile
+     * @param property the property associated with the tile
+     */
     public PropertyTile(int location, Property property) {
         super(location);
         this.property = property;

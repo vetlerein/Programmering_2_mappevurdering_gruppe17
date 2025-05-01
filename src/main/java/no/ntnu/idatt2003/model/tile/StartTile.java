@@ -3,8 +3,12 @@ package no.ntnu.idatt2003.model.tile;
 import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 
-public class StartTile extends Tile implements TileAction {
+public class StartTile extends Tile {
 
+    /**
+     * constructor for the StartTile class
+     * @param location
+     */
     public StartTile(int location) {
         super(location);
     }

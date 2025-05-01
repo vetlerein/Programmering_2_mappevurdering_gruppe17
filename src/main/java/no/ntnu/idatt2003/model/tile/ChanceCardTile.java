@@ -8,8 +8,13 @@ import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.chanceCards.ChanceCard;
 import no.ntnu.idatt2003.model.chanceCards.ChanceCardFactory;
 
-public class ChanceCardTile extends Tile implements TileAction{
-    private ArrayList<ChanceCard> chanceCards;
+public class ChanceCardTile extends Tile{
+    private final ArrayList<ChanceCard> chanceCards;
+
+    /**
+     * Constructor for the ChanceCardTile class.
+     * @param location the location of the tile
+     */
     public ChanceCardTile(int location) {
         super(location);
         this.chanceCards = ChanceCardFactory.createDeck();
