@@ -1,5 +1,6 @@
 package no.ntnu.idatt2003.model;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 
 import no.ntnu.idatt2003.view.PositionChangeObserver;
@@ -14,6 +15,11 @@ public class Player {
     private final Date birthDate;
     public boolean playerActive;
     public boolean playerPause = false;
+  
+    private int balance;
+    private ArrayList<Property> properties = new ArrayList<Property>();
+    private int jailStatus = 0;
+    private boolean getOutOfJailCard = false;
 
     private PositionChangeObserver observer;
     public URL[] dicePaths;
@@ -64,11 +70,99 @@ public class Player {
     }
 
     /**
-     * Checks if the player is paused
+     * sets the balance of the player
+     * @param balance the new balance of the player
+     */
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    /**
+     * adds the inputed property to the players property list
+     * @param property the property to add to the players property list
+     */
+    public void addProperty(Property property) {
+        this.properties.add(property);
+        property.setOwner(this);
+    }
+
+    /**
+     * Simulates a turn in jail.
+     */
+    public void turnInJail() {
+        if (this.jailStatus <= 5) {
+            this.jailStatus++;
+        } else {
+            this.jailStatus = 0;
+        }
+    }
+
+    /**
+     * Sets the jail status of the player to 1, which means the player is in jail.
+     */
+    public void sendToJail() {
+        this.jailStatus = 1;
+        setPosition(11); //TODO change to jail tile position
+    }
+
+
+    /**
+     * Uses the get out of jail card if the player has one.
+     */
+    public void useJailCard() {
+        if(this.getOutOfJailCard == true) {
+            this.jailStatus = 0;
+            this.getOutOfJailCard = false;
+        }
+    }
+
+    /**
+     * gives the player a get out of jail card
+     */
+    public void giveJailCard() {
+        this.getOutOfJailCard = true;
+    }
+
+    /**
+     * removes the inputed property from the players property list
+     * @param property the property to remove from the players property list
+     */
+    public void removeProperty(Property property) {
+        if (property.getOwner() == this) {
+            this.properties.remove(property);
+            property.setOwner(null);
+        }
+    }
+
+    /**
+     * adds the the amount to the players balance
+     * @param amount the amount of money to add to the players balance
+     */
+    public void addPlayerBalance(int amount) {
+        this.balance += amount;
+    }
+
+    /**
+     * returns the balance of the player
+     * @return balance of the player
+     */
+    public int getBalance() {
+        return this.balance;
+    }
+
+    /**
+     * returns the players pause status
      * @returns the players pause status
      */
     public boolean getPlayerPause() {
         return this.playerPause;
+    }
+
+    /**
+     * returns the players jail status
+     */
+    public int getJailStatus() {
+        return this.jailStatus;
     }
 
     /**
@@ -146,7 +240,7 @@ public class Player {
      * Throws the dice and moves the player on the board, and does actions according on where it lands
      */
     public void move(Game game) {
-        if(playerPause == false) {
+        if(playerPause == false && jailStatus == 0) {
             int diceRoll = Dice.rollDice(2, this);
             int finalTile = game.getBoard().getGameboard().size();
             if (this.position + diceRoll <= finalTile) {
@@ -158,6 +252,9 @@ public class Player {
             game.getBoard().getGameboard().get(this.position-1).action(this, game);   
         } else if (playerPause == true) {
             playerPause = false;
+        } else if (jailStatus > 0) {
+            turnInJail();
+            //TODO add option to pay to get out of jail and throw dice to get out
         }
         
         if (observer != null) {

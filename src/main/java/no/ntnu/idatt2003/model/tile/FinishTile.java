@@ -8,6 +8,10 @@ import no.ntnu.idatt2003.model.Player;
  */
 public class FinishTile extends Tile {
     
+    /**
+     * constructor for the FinishTile class
+     * @param location the location of the tile
+     */
     public FinishTile(int location) {
         super(location);
     }

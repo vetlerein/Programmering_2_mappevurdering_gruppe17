@@ -8,12 +8,11 @@ import no.ntnu.idatt2003.model.tile.Tile;
  * This class represents the board.
  */
 public class Board {
-
-    private ArrayList<Tile> gameboard;
-    private String name;
-    private String description;
-    private int rows;
-    private int cols;
+    private final ArrayList<Tile> gameboard;
+    private final String name;
+    private final String description;
+    private final int rows;
+    private final int cols;
 
     /**
      * Creates a board object.
@@ -89,6 +88,24 @@ public class Board {
             coordinates[0] = cols - 1 - ((location - 1) % cols);
         }
 
+        return coordinates;
+    }
+
+    public int[] getCoordinatesMonopoly (int location) {
+        int[] coordinates = new int[2];
+        if(location >= 1 && location <= 11) {
+            coordinates[0] = 0;
+            coordinates[1] = 11-location;
+        }else if(location >= 12 && location <= 20) {
+            coordinates[0] = location-11;
+            coordinates[1] = 0;
+        }else if(location >= 21 && location <=31 ) {
+            coordinates[0] = cols-1;
+            coordinates[1] = location-21;
+        }else if(location >= 32 && location <= 40) {
+            coordinates[1] = cols-1;
+            coordinates[0] = (location-41)*-1;
+        }
         return coordinates;
     }
 
