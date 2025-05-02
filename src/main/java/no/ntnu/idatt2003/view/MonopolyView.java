@@ -39,7 +39,13 @@ public class MonopolyView {
         //Right box
         VBox rightMenu = new VBox();
         rightMenu.setId("rightMenu");
-                
+        Button tradeButton = new Button("Trade");
+        tradeButton.setOnAction(e -> {
+            TradeView tradeView = new TradeView();
+            tradeView.showTradeView();
+        });
+        Button diceButton = new Button("Roll dice");
+
         //Bottom box
         HBox bottomMenu = new HBox();
 
@@ -52,6 +58,8 @@ public class MonopolyView {
     }
 
     public void setGameBoard(Game game){
+
+
 
     }
 }
