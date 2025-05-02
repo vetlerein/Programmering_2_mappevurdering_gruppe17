@@ -30,9 +30,7 @@ public class Board {
         this.rows = rows;
         this.cols = cols;
     }
-    
-    public Board(){
-    }
+
 
     /**
      * @return Returns an ArrayList of the tiles within the board.
@@ -107,6 +105,16 @@ public class Board {
             coordinates[0] = (location-41)*-1;
         }
         return coordinates;
+    }
+
+    public int getLocationMonopoly (int x, int y) {
+        int location = 0;
+        if(x == 0) {
+            location = 11-y;
+        }else if(y == 0) {
+            location = x+11;
+        }
+        return location;
     }
 
     /**

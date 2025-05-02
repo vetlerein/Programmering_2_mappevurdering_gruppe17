@@ -9,6 +9,7 @@ public class Property {
     private int houseCost;
     private int propertyLevel;
     private Player owner = null;
+    private String colorCode;
 
     public Property (String name, int location, int streetNumber, int price, int baseRent){
         this.name = name;
@@ -18,6 +19,33 @@ public class Property {
         this.baseRent = baseRent;
         //TODO House cost based on street number
         this.propertyLevel = 0;
+
+        switch(streetNumber) {
+            case 1:
+                this.colorCode = "#664825";
+                break;
+            case 2:
+                this.colorCode = "#42ddeb";
+                break;
+            case 3:
+                this.colorCode = "#d108b0";
+                break;
+            case 4:
+                this.colorCode = "#eb9e05";
+                break;
+            case 5:
+                this.colorCode = "#e3df09";
+                break;
+            case 6:
+                this.colorCode = "#e01d1d";
+                break;
+            case 7:
+                this.colorCode = "#459608";
+                break;
+            case 8:
+                this.colorCode = "#142375";
+                break;
+        }
     }
 
     /**
@@ -54,6 +82,14 @@ public class Property {
      */
     public String getName() {
         return this.name;
+    }
+
+    /**
+     * Returns the hex color code of the property.
+     * @return colorCode the color code of the property
+     */
+    public String getColor() {
+        return this.colorCode;
     }
 
     /**
