@@ -199,6 +199,14 @@ public class Player {
     }
 
     /**
+     * Returns the properties of the player.
+     * @return player properties
+     */
+    public ArrayList<Property> getProperties() {
+        return this.properties;
+    }
+
+    /**
      * Returns the name of the player.
      * @return player name  
      */

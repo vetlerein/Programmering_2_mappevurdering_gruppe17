@@ -139,8 +139,6 @@ public class Property {
                 return this.baseRent * 4;
             case 4:
                 return this.baseRent * 5;
-            case 5:
-                return this.baseRent * 6;
             default:
                 return this.baseRent;
         }

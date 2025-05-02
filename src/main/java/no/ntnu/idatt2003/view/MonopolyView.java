@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
@@ -25,6 +26,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
@@ -205,7 +207,123 @@ public class MonopolyView implements PositionChangeObserver{
             player.setObserver(this);
         }
 
-        //Right box
+        mainLayout = mainLayout();
+        gameBoard.setGridLinesVisible(false);
+        gameBoard.setId("gameBoardFinal");
+        mainLayout.setCenter(gameBoard);
+        updateSideBar();   
+    }
+
+    @Override
+    public void positionChanged(Player player) {
+        showPlayerCards(player);
+        int[] coordiantes = this.game.getBoard().getCoordinatesMonopoly(player.getPosition());
+        StackPane stackPane = getTileAt((GridPane) mainLayout.lookup("#gameBoardFinal"), coordiantes[0], coordiantes[1]);
+        String id = "player" + player.getPlayerNumber();
+        Node node = mainLayout.lookup("#"+id);
+        Rotate rotate = null;
+        if (node != null) {
+            rotate = (Rotate) node.getTransforms().get(0);
+            ((Pane) node.getParent()).getChildren().remove(node);
+        }
+        ImageView playerImage = new ImageView(player.getPicture().toExternalForm());
+        playerImage.setId(id);
+        playerImage.setFitWidth(playerSize);
+        playerImage.setFitHeight(playerSize);
+        playerImage.setTranslateY(-10);
+        playerImage.getTransforms().add(rotate);
+        stackPane.getChildren().add(playerImage);
+
+        Label positionLabel = (Label) mainLayout.lookup("#position" + player.getPlayerNumber());
+        positionLabel.setText(game.getBoard().getGameboard().get(player.getPosition()-1).getClass().getSimpleName());
+        if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof PropertyTile propertyTile){
+            positionLabel.setText(propertyTile.getProperty().getName());
+        }
+    }
+
+    private StackPane getTileAt(GridPane grid, int col, int row) {
+        for (Node node : grid.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                return (StackPane) node;
+            }
+        }
+        return null;
+    }
+
+    public void showPlayerCards(Player player) {
+        HBox cardBox = new HBox();
+
+        ScrollPane scroll = new ScrollPane(cardBox);
+        scroll.setFitToHeight(true);
+        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scroll.setPrefHeight(100);
+        scroll.setPannable(true);
+        
+
+        for (int i = 0; i < player.getProperties().size(); i++) {
+            Property property = player.getProperties().get(i);
+            cardBox.getChildren().add(getPropertyCard(property));
+        }
+
+        mainLayout.setBottom(scroll);
+    }
+
+    private VBox getPropertyCard(Property property) {
+        VBox card = new VBox(5);
+        card.setPrefSize(80, 100);
+        card.setPadding(new Insets(5));
+        card.setMaxSize(80, 100);
+        card.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
+        
+        //Nameplate
+        StackPane nameHolder = new StackPane();
+        nameHolder.setMaxWidth(Double.MAX_VALUE);
+        VBox.setVgrow(nameHolder, Priority.NEVER);  
+        Text name = new Text(property.getName());
+        name.setStyle("-fx-font-size: 10px; -fx-fill: white; -fx-font-weight: bold;");
+        Rectangle rect = new Rectangle();
+        rect.setHeight(30);
+        rect.widthProperty().bind(nameHolder.widthProperty());
+        rect.setFill(Color.valueOf(property.getColor()));
+        nameHolder.getChildren().addAll(rect, name);
+
+        //Rent grid
+        GridPane rentGrid = new GridPane();
+        for (int i = 0; i < 4; i++) {
+            Text rentText = new Text("Rent with " + i + " houses");
+            rentGrid.add(rentText, 0, i);
+            Text rentAmount = new Text(String.valueOf(property.getRent()) + " $");
+            rentGrid.add(rentAmount, 1, i);
+            rentGrid.setMargin(rentText, new Insets(5));
+            rentGrid.setMargin(rentAmount, new Insets(5));
+        }
+
+        //Hotel rent
+        Text rentText = new Text("Rent with a hotel");
+        rentGrid.add(rentText, 0, 4);
+        Text rentAmount = new Text(String.valueOf(property.getRent()) + " $");
+        rentGrid.add(rentAmount, 1, 4);
+        rentGrid.setGridLinesVisible(true);
+        rentGrid.setMargin(rentText, new Insets(5));
+        rentGrid.setMargin(rentAmount, new Insets(5));
+        rentGrid.setPadding(new Insets(5));
+
+        //Costs
+        Text houseCostText = new Text("House cost: " + property.getHouseCost() + " $");
+        Text propertyBuyPrice = new Text("Property price: " + property.getPrice() + " $");
+
+        Button pawnButton = new Button("Pawn property");
+        pawnButton.setId("pawnButton");
+        pawnButton.setOnAction(e -> {
+            //TODO add pawn button functionality
+            System.out.println("Pawn property: " + property.getName());
+        });
+        card.getChildren().addAll(nameHolder, rentGrid, houseCostText, propertyBuyPrice, pawnButton);
+        return card;
+    }
+
+    private void updateSideBar() {
         VBox rightMenu = new VBox();
         rightMenu.setId("rightMenu");
         Button throwDice = new Button("Throw dice");
@@ -216,6 +334,13 @@ public class MonopolyView implements PositionChangeObserver{
                 genericGameView.showDice(player.getDicePaths(), mainLayout);
                 game.getPlayers().get(game.getActivePlayer()).move(game);
                 game.nextPlayer();
+            }
+        });
+
+        Button tradeDice = new Button("Trade");
+        tradeDice.setOnAction(e -> {
+            if(game.getGameStatus() == true) {
+                
             }
         });
 
@@ -255,48 +380,8 @@ public class MonopolyView implements PositionChangeObserver{
             playersBox.getChildren().addAll(personalBox);
         }
 
-        rightMenu.getChildren().addAll(throwDice, whosTurn, players, playersBox);
-
-        
-        mainLayout = mainLayout();
-        gameBoard.setGridLinesVisible(false);
-        gameBoard.setId("gameBoardFinal");
-        mainLayout.setCenter(gameBoard);
+        rightMenu.getChildren().addAll(throwDice, tradeDice, whosTurn, players, playersBox);
         mainLayout.setRight(rightMenu);
     }
-
-    @Override
-    public void positionChanged(Player player) {
-        int[] coordiantes = this.game.getBoard().getCoordinatesMonopoly(player.getPosition());
-        StackPane stackPane = getTileAt((GridPane) mainLayout.lookup("#gameBoardFinal"), coordiantes[0], coordiantes[1]);
-        String id = "player" + player.getPlayerNumber();
-        Node node = mainLayout.lookup("#"+id);
-        Rotate rotate = null;
-        if (node != null) {
-            rotate = (Rotate) node.getTransforms().get(0);
-            ((Pane) node.getParent()).getChildren().remove(node);
-        }
-        ImageView playerImage = new ImageView(player.getPicture().toExternalForm());
-        playerImage.setId(id);
-        playerImage.setFitWidth(playerSize);
-        playerImage.setFitHeight(playerSize);
-        playerImage.setTranslateY(-10);
-        playerImage.getTransforms().add(rotate);
-        stackPane.getChildren().add(playerImage);
-
-        Label positionLabel = (Label) mainLayout.lookup("#position" + player.getPlayerNumber());
-        positionLabel.setText(game.getBoard().getGameboard().get(player.getPosition()-1).getClass().getSimpleName());
-        if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof PropertyTile propertyTile){
-            positionLabel.setText(propertyTile.getProperty().getName());
-        }
-    }
-
-     private StackPane getTileAt(GridPane grid, int col, int row) {
-        for (Node node : grid.getChildren()) {
-            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-                return (StackPane) node;
-            }
-        }
-        return null;
-    }
 }
+
