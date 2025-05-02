@@ -45,14 +45,14 @@ public class GenericGameView {
         }
 
         centerStackPane.getChildren().clear();
-        centerStackPane.getChildren().add(mainLayout.lookup("#gameBoardWithLadder"));
+        centerStackPane.getChildren().add(mainLayout.lookup("#gameBoardFinal"));
         centerStackPane.getChildren().add(dicePane);
         mainLayout.setCenter(centerStackPane);
     }
 
     public void playerWon(Player player, BorderPane mainLayout) {
         Pane winnerPane = new Pane();
-        StackPane stackPane = (StackPane) mainLayout.lookup("#gameBoardWithLadder");
+        StackPane stackPane = (StackPane) mainLayout.lookup("#gameBoardFinal");
 
         int size = 50;
 

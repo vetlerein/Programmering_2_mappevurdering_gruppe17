@@ -11,6 +11,7 @@ import no.ntnu.idatt2003.model.tile.LadderTile;
 import no.ntnu.idatt2003.model.tile.PauseTile;
 import no.ntnu.idatt2003.model.tile.PlayerSwapTile;
 import no.ntnu.idatt2003.model.tile.PropertyTile;
+import no.ntnu.idatt2003.model.tile.StartTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
 public class BoardGameFactory {
@@ -214,7 +215,7 @@ public class BoardGameFactory {
         }
 
         //Add the rest of the tiles
-        gameboard.set(0, new FinishTile(1));
+        gameboard.set(0, new StartTile(1));
         gameboard.set(3, new ChanceCardTile(4));
         gameboard.set(5, new ChanceCardTile(6));
         gameboard.set(8, new ChanceCardTile(9));

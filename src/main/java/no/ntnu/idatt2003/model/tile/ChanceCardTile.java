@@ -31,6 +31,7 @@ public class ChanceCardTile extends Tile{
         Random random = new Random();
         int randomIndex = random.nextInt(chanceCards.size());
         String cardDescription = chanceCards.get(randomIndex).toString();
+        System.out.println(cardDescription);
         chanceCards.get(randomIndex).effect(player);
     }
 }

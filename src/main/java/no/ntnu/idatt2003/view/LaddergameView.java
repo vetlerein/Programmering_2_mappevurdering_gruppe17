@@ -276,7 +276,7 @@ public class LaddergameView implements PositionChangeObserver{
 
         mainLayout = mainLayout();
         StackPane gameBoardWithLadder = new StackPane(gameBoard, lines);
-        gameBoardWithLadder.setId("gameBoardWithLadder");
+        gameBoardWithLadder.setId("gameBoardFinal");
         mainLayout.setCenter(gameBoardWithLadder);
         mainLayout.setRight(rightMenu);
     }

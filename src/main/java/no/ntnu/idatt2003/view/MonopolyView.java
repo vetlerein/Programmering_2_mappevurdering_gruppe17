@@ -3,6 +3,7 @@ package no.ntnu.idatt2003.view;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,6 +20,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -99,7 +101,6 @@ public class MonopolyView implements PositionChangeObserver{
     public void setGameBoard(Game game){
         this.game = game;
         GridPane gameBoard = new GridPane();
-        Pane centerOfBoard = new Pane();
 
         gameBoard.setId("gameBoard");
         int tileSize = 60;
@@ -223,37 +224,71 @@ public class MonopolyView implements PositionChangeObserver{
         Label players = new Label("Players: ");
 
         //Box on the side for the players
-        VBox playersBox = new VBox();
+        VBox playersBox = new VBox(10);
         playersBox.setId("playersBox");
         for (Player player : game.getPlayers()){
+            VBox personalBox = new VBox();
+            personalBox.setPadding(new Insets(5));
+            personalBox.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            personalBox.setMinWidth(Region.USE_COMPUTED_SIZE);
+            personalBox.setMaxWidth(Region.USE_COMPUTED_SIZE);
+                        
             HBox pictureNameSplitter = new HBox(10);
             ImageView playerImage = new ImageView(player.getPicture().toExternalForm());
-            ImageView pauseImage = new ImageView();
-            pauseImage.setId("image"+player.getPlayerNumber());
-            playerImage.setFitWidth(40); 
+            playerImage.setPreserveRatio(true); 
+            playerImage.setFitWidth(20); 
             playerImage.setPreserveRatio(true); 
             Label playerLabel = new Label(player.getPlayerName()+": ");
-            Label position = new Label(player.getPosition() + "");
-            position.setId("position" + player.getPlayerNumber());
-            pictureNameSplitter.getChildren().addAll(playerImage, playerLabel, position);
+            pictureNameSplitter.getChildren().addAll(playerImage, playerLabel);
             pictureNameSplitter.setId("playerBox" + player.getPlayerNumber());
-            playersBox.getChildren().add(pictureNameSplitter);
+
+            Label position = new Label(game.getBoard().getGameboard().get(player.getPosition()-1).getClass().getSimpleName());
+
+            if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof PropertyTile propertyTile){
+                position.setText(propertyTile.getProperty().getName());
+            }
+            position.setId("position" + player.getPlayerNumber());
+
+            Label playerBalance = new Label(player.getBalance() + " $");
+            personalBox.getChildren().addAll(pictureNameSplitter, playerBalance, position);
+            personalBox.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
+            playersBox.getChildren().addAll(personalBox);
         }
 
         rightMenu.getChildren().addAll(throwDice, whosTurn, players, playersBox);
 
         
         mainLayout = mainLayout();
-        //Adding a pane in the middle of the board 
-        gameBoard.add(centerOfBoard, 1, 1, cols-2, rows-2);
         gameBoard.setGridLinesVisible(false);
+        gameBoard.setId("gameBoardFinal");
         mainLayout.setCenter(gameBoard);
         mainLayout.setRight(rightMenu);
     }
 
     @Override
     public void positionChanged(Player player) {
+        int[] coordiantes = this.game.getBoard().getCoordinatesMonopoly(player.getPosition());
+        StackPane stackPane = getTileAt((GridPane) mainLayout.lookup("#gameBoardFinal"), coordiantes[0], coordiantes[1]);
+        String id = "player" + player.getPlayerNumber();
+        Node node = mainLayout.lookup("#"+id);
+        Rotate rotate = null;
+        if (node != null) {
+            rotate = (Rotate) node.getTransforms().get(0);
+            ((Pane) node.getParent()).getChildren().remove(node);
+        }
+        ImageView playerImage = new ImageView(player.getPicture().toExternalForm());
+        playerImage.setId(id);
+        playerImage.setFitWidth(playerSize);
+        playerImage.setFitHeight(playerSize);
+        playerImage.setTranslateY(-10);
+        playerImage.getTransforms().add(rotate);
+        stackPane.getChildren().add(playerImage);
 
+        Label positionLabel = (Label) mainLayout.lookup("#position" + player.getPlayerNumber());
+        positionLabel.setText(game.getBoard().getGameboard().get(player.getPosition()-1).getClass().getSimpleName());
+        if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof PropertyTile propertyTile){
+            positionLabel.setText(propertyTile.getProperty().getName());
+        }
     }
 
      private StackPane getTileAt(GridPane grid, int col, int row) {
