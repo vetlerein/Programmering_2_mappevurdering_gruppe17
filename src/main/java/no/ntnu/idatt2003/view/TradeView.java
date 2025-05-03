@@ -2,12 +2,17 @@ package no.ntnu.idatt2003.view;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import no.ntnu.idatt2003.controller.MonopolyController;
+import no.ntnu.idatt2003.model.Game;
+import no.ntnu.idatt2003.model.Property;
 
 public class TradeView {
     
@@ -15,10 +20,9 @@ public class TradeView {
     BorderPane mainLayout = new BorderPane();
     VBox leftMenu = new VBox();
     VBox rightMenu = new VBox();
+    MonopolyController monopolyController = new MonopolyController();
 
-    
-
-    public void showTradeView(){
+    public void showTradeView(Game game){
         
         tradeStage.initModality(Modality.APPLICATION_MODAL);
         tradeStage.setTitle("New Game");
@@ -29,11 +33,13 @@ public class TradeView {
         rightMenu.setId("tradeMenu");
 
         Label leftMenuName = new Label("Player 1");
+        
+        //TODO add a way to choose which player to trade with
         Label rightMenuName = new Label("Player 2");
         
-             
-
-
+        leftMenu.getChildren().add(monopolyController.getPlayerPropertiesBox(game.getPlayers().get(game.activePlayer)));
+        rightMenu.getChildren().add(monopolyController.getPlayerPropertiesBox(game.getPlayers().get(game.activePlayer + 1)));
+        //Player 2 properties
 
 
 
@@ -48,4 +54,5 @@ public class TradeView {
         tradeStage.getIcons().add(new Image(getClass().getResourceAsStream("/playerPieces/pepperoni.png")));
         tradeStage.showAndWait(); 
     }
+
 }

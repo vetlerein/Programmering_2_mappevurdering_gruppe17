@@ -8,10 +8,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import no.ntnu.idatt2003.controller.MonopolyController;
 import no.ntnu.idatt2003.model.Game;
 
 public class MonopolyView {
 
+    //eks for nå
+    Game game;
+
+    MonopolyController monopolyController = new MonopolyController();
     public BorderPane mainLayout = new BorderPane();
 
     public BorderPane mainLayout(){
@@ -21,7 +26,7 @@ public class MonopolyView {
         HBox topMenu = new HBox();
         topMenu.setId("topMenu");
         Button newGameButton = new Button("Start new game");
-        //newGameButton.setOnAction();
+        newGameButton.setOnAction(e -> monopolyController.newGame());
         Button backToMenuButton = new Button("Main menu");
         backToMenuButton.setOnAction(e -> {
             Stage currentStage = (Stage) mainLayout.getScene().getWindow();
@@ -42,9 +47,12 @@ public class MonopolyView {
         Button tradeButton = new Button("Trade");
         tradeButton.setOnAction(e -> {
             TradeView tradeView = new TradeView();
-            tradeView.showTradeView();
+            tradeView.showTradeView(game);
         });
         Button diceButton = new Button("Roll dice");
+
+        rightMenu.getChildren().addAll(tradeButton, diceButton);
+        rightMenu.setId("rightMenu");
 
         //Bottom box
         HBox bottomMenu = new HBox();

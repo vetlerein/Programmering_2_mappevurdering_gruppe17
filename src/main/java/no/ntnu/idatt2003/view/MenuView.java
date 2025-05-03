@@ -11,6 +11,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import no.ntnu.idatt2003.controller.LaddergameController;
+import no.ntnu.idatt2003.controller.MonopolyController;
 import no.ntnu.idatt2003.controller.PlayerController;
 import no.ntnu.idatt2003.model.Game;
 
@@ -53,15 +54,17 @@ public class MenuView {
         monopolyButton.setOnAction(e -> {
             
             MonopolyView monopolyView = new MonopolyView();
-
+            GenericGameView genericGameView = new GenericGameView();
             BorderPane monopoly = monopolyView.mainLayout();
 
             Scene monopolyScene = new Scene(monopoly, stage.getWidth(), stage.getHeight());
             monopolyScene.getStylesheets().add(getClass().getResource("/Style/Monopoly.css").toExternalForm());         
             stage.setScene(monopolyScene);
             stage.setTitle("Monopoly");
-
             
+            MonopolyController.setMonopolyView(monopolyView);
+            Game.setView(genericGameView);
+            Game.setMonopolyView(monopolyView);
         });
         
         Button newPlayerButton = new Button("New player");

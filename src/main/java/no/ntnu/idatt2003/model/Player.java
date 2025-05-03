@@ -86,6 +86,10 @@ public class Player {
         property.setOwner(this);
     }
 
+    public ArrayList<Property> getPropertyList() {
+        return this.properties;
+    }
+
     /**
      * Simulates a turn in jail.
      */
