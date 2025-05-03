@@ -44,7 +44,6 @@ public class MonopolyController {
         if (playerFileReader.readPlayers().isEmpty()) {
             PopupView.showInfoPopup("Can't create game","To create a new game, you need to add players first.");
         }else{
-            
             Stage popupStage = new Stage();
             popupStage.initModality(Modality.APPLICATION_MODAL);
             popupStage.setTitle("New Game");
@@ -134,20 +133,64 @@ public class MonopolyController {
         }
     }
 
-    public HBox getPlayerPropertiesBox(Player player) {
- 
+    public HBox getPlayerPropertiesBox(Player player, ArrayList<Property> tradeList) {
+    
         HBox playerProperties = new HBox();
         for (Property property : player.getPropertyList()) {
             
             VBox propertyBox = new VBox();
-            Button addButton = new Button("Add ");
+            Button addButton = new Button("Add");
+            Button removeButton = new Button("Remove");
             Label propertyLabel = new Label(property.getName());
+
+            addButton.setOnAction(e -> {
+                propertyBox.getChildren().setAll(removeButton, propertyLabel);
+                tradeList.add(property);
+            });
+            removeButton.setOnAction(e2 -> {
+                propertyBox.getChildren().setAll(addButton, propertyLabel);
+                tradeList.remove(property);
+            });
+             
             propertyBox.getChildren().addAll(addButton, propertyLabel);
             playerProperties.getChildren().add(propertyBox);
             
-        }
-        
+        }  
         return playerProperties;
+    }
+
+    public void executeTrade(Player p1, Player p2, ArrayList<Property> p1Properties, ArrayList<Property> p2Properties, int p1Money, int p2Money) {
+
+        for (Property property : p1Properties) {
+            p1.removeProperty(property);
+            p2.addProperty(property);
+        }
+        for (Property property : p2Properties) {
+            p2.removeProperty(property);
+            p1.addProperty(property);
+        }
+
+        p1.setBalance(p1.getBalance() - p1Money);
+        p2.setBalance(p2.getBalance() + p1Money);
+    
+        p2.setBalance(p2.getBalance() - p2Money);
+        p1.setBalance(p1.getBalance() + p2Money);
+
+        p1Properties.clear();
+        p2Properties.clear();
+    }
+
+    public ComboBox<Player> createPlayerDropdown(Game game){
+        List<ComboBox<Player>> playerComboBoxes = new ArrayList<>();
+        List<Player> players = game.getPlayers();
+        Player active = game.getPlayers().get(game.getActivePlayer());
+        players.remove(active);
+        
+        ComboBox<Player> choosePlayer = new ComboBox<>(FXCollections.observableArrayList(players));
+        choosePlayer.getStyleClass().add("custom-combo");
+        choosePlayer.setPromptText("Choose player");
+        playerComboBoxes.add(choosePlayer);
+        return choosePlayer;  
     }
 
     public void playerList(){
