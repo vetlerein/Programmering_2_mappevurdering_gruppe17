@@ -13,10 +13,10 @@ public class ChanceCardMoney implements ChanceCard {
 
     @Override
     public String toString() {
-        if(amount > 0){
-            return description + ", you recive " + amount;
-        } else {
-            return description + ", you pay " + amount*-1;
+        if(amount > 0)
+            return description + ", you recive " + amount + " $";
+         else {
+            return description + ", you pay " + amount*-1 + " $";
         }        
     }
 

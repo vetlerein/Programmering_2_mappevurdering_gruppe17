@@ -3,6 +3,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 
+import no.ntnu.idatt2003.model.tile.FinishTile;
+import no.ntnu.idatt2003.model.tile.StartTile;
 import no.ntnu.idatt2003.view.PositionChangeObserver;
 
 /**
@@ -102,7 +104,7 @@ public class Player {
      */
     public void sendToJail() {
         this.jailStatus = 1;
-        setPosition(11); //TODO change to jail tile position
+        setPosition(10); 
     }
 
 
@@ -197,6 +199,14 @@ public class Player {
     }
 
     /**
+     * Returns the properties of the player.
+     * @return player properties
+     */
+    public ArrayList<Property> getProperties() {
+        return this.properties;
+    }
+
+    /**
      * Returns the name of the player.
      * @return player name  
      */
@@ -245,8 +255,10 @@ public class Player {
             int finalTile = game.getBoard().getGameboard().size();
             if (this.position + diceRoll <= finalTile) {
                 this.position += diceRoll;
-            } else if (this.position + diceRoll > finalTile) {
+            } else if ((this.position + diceRoll > finalTile) && game.getBoard().getGameboard().get(finalTile-1) instanceof FinishTile) {
                 this.position = finalTile - (diceRoll-(finalTile-this.position));
+            } else if ((this.position + diceRoll > finalTile) && game.getBoard().getGameboard().get(0) instanceof StartTile) {
+                this.position = (this.position + diceRoll) - finalTile;
             }
 
             game.getBoard().getGameboard().get(this.position-1).action(this, game);   

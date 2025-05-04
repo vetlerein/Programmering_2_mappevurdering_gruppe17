@@ -38,7 +38,7 @@ public class LaddergameController {
     
     BorderPane laddergamePane = new BorderPane();
     PlayerFileReader playerFileReader;
-    Board board = new Board();
+    Board board;
 
     public static LaddergameView laddergameView;
     public static void setLadderGame(LaddergameView view){

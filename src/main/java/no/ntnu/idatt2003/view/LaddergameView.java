@@ -88,7 +88,7 @@ public class LaddergameView implements PositionChangeObserver{
         int rows = game.getBoard().getRows();
         int cols = game.getBoard().getCols();
 
-         for (int i = 0; i < cols; i++) {
+        for (int i = 0; i < cols; i++) {
             ColumnConstraints columnConstraints = new ColumnConstraints();
             columnConstraints.setPercentWidth(100.0 / cols);
             columnConstraints.setHgrow(Priority.ALWAYS);
@@ -276,7 +276,7 @@ public class LaddergameView implements PositionChangeObserver{
 
         mainLayout = mainLayout();
         StackPane gameBoardWithLadder = new StackPane(gameBoard, lines);
-        gameBoardWithLadder.setId("gameBoardWithLadder");
+        gameBoardWithLadder.setId("gameBoardFinal");
         mainLayout.setCenter(gameBoardWithLadder);
         mainLayout.setRight(rightMenu);
     }
