@@ -10,6 +10,7 @@ import no.ntnu.idatt2003.model.chanceCards.ChanceCardFactory;
 
 public class ChanceCardTile extends Tile{
     private final ArrayList<ChanceCard> chanceCards;
+    private ChanceCard activChanceCard;
 
     /**
      * Constructor for the ChanceCardTile class.
@@ -27,11 +28,13 @@ public class ChanceCardTile extends Tile{
      */
     @Override
     public void action(Player player, Game game) {
-        //TODO add popup to draw chance card
         Random random = new Random();
         int randomIndex = random.nextInt(chanceCards.size());
-        String cardDescription = chanceCards.get(randomIndex).toString();
-        System.out.println(cardDescription);
+        activChanceCard = chanceCards.get(randomIndex);
         chanceCards.get(randomIndex).effect(player);
+    }
+
+    public ChanceCard getActiveChaneCard() {
+        return this.activChanceCard;
     }
 }

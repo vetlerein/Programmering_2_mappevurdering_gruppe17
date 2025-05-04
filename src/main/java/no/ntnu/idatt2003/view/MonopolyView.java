@@ -3,7 +3,9 @@ package no.ntnu.idatt2003.view;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,14 +17,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -35,7 +35,9 @@ import no.ntnu.idatt2003.model.BoardGameFactory;
 import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.Property;
+import no.ntnu.idatt2003.model.chanceCards.ChanceCard;
 import no.ntnu.idatt2003.model.fileManagement.playerFileManagement.PlayerFileReader;
+import no.ntnu.idatt2003.model.tile.ChanceCardTile;
 import no.ntnu.idatt2003.model.tile.PropertyTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
@@ -47,6 +49,7 @@ public class MonopolyView implements PositionChangeObserver{
     private final int pivotY = playerSize;
 
     public BorderPane mainLayout = new BorderPane();
+    StackPane mainPane;
 
     public BorderPane mainLayout(){
         mainLayout.setId("mainLayout");
@@ -103,24 +106,15 @@ public class MonopolyView implements PositionChangeObserver{
     public void setGameBoard(Game game){
         this.game = game;
         GridPane gameBoard = new GridPane();
-
         gameBoard.setId("gameBoard");
-        int tileSize = 60;
         int rows = game.getBoard().getRows();
         int cols = game.getBoard().getCols();
+        int tileSize = 60;
+        mainPane = new StackPane();
+        mainPane.setId("mainPane");
+        mainPane.getChildren().add(gameBoard);
+        mainLayout.setCenter(mainPane);
 
-        for (int i = 0; i < cols; i++) {
-            ColumnConstraints columnConstraints = new ColumnConstraints();
-            columnConstraints.setPercentWidth(100.0 / cols);
-            columnConstraints.setHgrow(Priority.ALWAYS);
-            gameBoard.getColumnConstraints().add(columnConstraints);
-        }
-        for (int i = 0; i < rows; i++) {
-            RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setPercentHeight(100.0 / rows);
-            rowConstraints.setVgrow(Priority.ALWAYS);
-            gameBoard.getRowConstraints().add(rowConstraints);
-        }
 
         for (int i = 0; i < game.getBoard().getGameboard().size(); i++) {
                 StackPane stackPane = new StackPane();
@@ -207,11 +201,10 @@ public class MonopolyView implements PositionChangeObserver{
             player.setObserver(this);
         }
 
-        mainLayout = mainLayout();
         gameBoard.setGridLinesVisible(false);
         gameBoard.setId("gameBoardFinal");
-        mainLayout.setCenter(gameBoard);
         updateSideBar();   
+        showPlayerCards(game.getPlayers().get(0));
     }
 
     @Override
@@ -233,6 +226,15 @@ public class MonopolyView implements PositionChangeObserver{
         playerImage.setTranslateY(-10);
         playerImage.getTransforms().add(rotate);
         stackPane.getChildren().add(playerImage);
+        clearMiddleCard();
+
+        if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof ChanceCardTile chanceCard){
+            System.out.println("Sjanse");
+            showChanceCard(chanceCard.getActiveChaneCard());
+        } else if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof PropertyTile propertyTile){
+            showProperty(propertyTile.getProperty());
+        }
+        
 
         Label positionLabel = (Label) mainLayout.lookup("#position" + player.getPlayerNumber());
         positionLabel.setText(game.getBoard().getGameboard().get(player.getPosition()-1).getClass().getSimpleName());
@@ -332,7 +334,7 @@ public class MonopolyView implements PositionChangeObserver{
                 Player player = game.getPlayers().get(game.getActivePlayer());
                 player.move(game);
                 genericGameView.showDice(player.getDicePaths(), mainLayout);
-                game.getPlayers().get(game.getActivePlayer()).move(game);
+                
                 game.nextPlayer();
             }
         });
@@ -340,7 +342,7 @@ public class MonopolyView implements PositionChangeObserver{
         Button tradeDice = new Button("Trade");
         tradeDice.setOnAction(e -> {
             if(game.getGameStatus() == true) {
-                
+                //TODO add trade button functionality
             }
         });
 
@@ -383,5 +385,77 @@ public class MonopolyView implements PositionChangeObserver{
         rightMenu.getChildren().addAll(throwDice, tradeDice, whosTurn, players, playersBox);
         mainLayout.setRight(rightMenu);
     }
+
+    private void showChanceCard(ChanceCard chanceCard) {
+
+        //TODO feil med ChanceCardMove kort
+        GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
+
+        clearMiddleCard();
+
+        StackPane chanceCardPane = new StackPane();
+        chanceCardPane.setPrefSize(250, 100);
+        chanceCardPane.setMaxSize(250, 100);
+        chanceCardPane.setMinSize(250, 100);
+        Text chanceCardText = new Text(chanceCard.toString());
+        chanceCardText.setWrappingWidth(200);
+        chanceCardText.setStyle("-fx-font-size: 10px; -fx-fill: white; -fx-font-weight: bold;");
+        chanceCardPane.getChildren().add(chanceCardText);
+        chanceCardPane.setStyle("-fx-padding: 5px ;-fx-background-color:rgba(182, 181, 196, 1); -fx-border-color: rgba(31, 16, 241, 1); -fx-border-width: 2px; -fx-border-style: solid;");
+        chanceCardPane.setId("middleShowcase");
+
+        int cols = game.getBoard().getCols();
+        int rows = game.getBoard().getRows();
+        board.add(chanceCardPane, 0, 0, cols, rows);
+        GridPane.setHalignment(chanceCardPane, HPos.CENTER);
+        GridPane.setValignment(chanceCardPane, VPos.CENTER);
+
+        chanceCardPane.toFront();
+    }
+
+    private void showProperty(Property property) {
+        GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
+
+        clearMiddleCard();
+        StackPane propertyPane = new StackPane();
+        propertyPane.setId("middleShowcase");
+        propertyPane.setMaxSize(200, 400);
+        propertyPane.setMinSize(200, 400);
+    
+        VBox card = getPropertyCard(property);
+        card.getChildren().removeIf(n ->
+            n instanceof Button && "pawnButton".equals(n.getId())
+        );
+    
+
+        if (property.getOwner() == null) {
+            Button buy = new Button("Buy property");
+            //TODO add buying
+            propertyPane.getChildren().add(new VBox(5, card, buy));
+        } else {
+            Text owner = new Text("Owner: " + property.getOwner().getPlayerName());
+            owner.setStyle("-fx-font-size:10px; -fx-fill:white; -fx-font-weight:bold;");
+            propertyPane.getChildren().add(new VBox(5, card, owner));
+        }
+    
+        int cols = game.getBoard().getCols();
+        int rows = game.getBoard().getRows();
+        board.add(propertyPane, 0, 0, cols, rows);
+        GridPane.setHalignment(propertyPane, HPos.CENTER);
+        GridPane.setValignment(propertyPane, VPos.CENTER);
+        propertyPane.setTranslateY(50);
+        propertyPane.toFront();
+    }
+
+    private void clearMiddleCard() {
+        GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
+        if (board != null) {
+            board.getChildren().removeIf(node ->
+                "middleShowcase".equals(node.getId())
+            );
+        }
+    }
+    
+
 }
 

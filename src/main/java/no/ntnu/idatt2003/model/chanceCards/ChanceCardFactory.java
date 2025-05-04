@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class ChanceCardFactory {
     public static ArrayList<ChanceCard> createDeck() {
         ArrayList<ChanceCard> chanceCards = new ArrayList<>();
-        //TODO: create a deck of chance cards
         chanceCards.add(new ChanceCardJail());
         chanceCards.add(new ChanceCardJail());
         chanceCards.add(new ChanceCardJail());
@@ -17,7 +16,7 @@ public class ChanceCardFactory {
         chanceCards.add(new ChanceCardMoney(-300, "You buy a new computer to play minecraft"));
         chanceCards.add(new ChanceCardMoney(-500, "You are invited to a wedding and you need a new suit"));
         chanceCards.add(new ChanceCardMoney(-800, "You rent a lamborghini to look rich on social media"));
-        chanceCards.add(new ChanceCardMoney(-1000, "Someone stole your your monopoly game collection"));
+        chanceCards.add(new ChanceCardMoney(-1000, "Someone stole your monopoly game collection"));
         chanceCards.add(new ChanceCardMoney(-1500, "You send your money to a Nigerian prince, he promised you a lot of money in return"));
         
         chanceCards.add(new ChanceCardMoney(500, "You stole money from a baby, i hope you feel good about yourself"));

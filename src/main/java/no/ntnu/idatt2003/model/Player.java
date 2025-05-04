@@ -104,7 +104,7 @@ public class Player {
      */
     public void sendToJail() {
         this.jailStatus = 1;
-        setPosition(11); //TODO change to jail tile position
+        setPosition(10); 
     }
 
 
