@@ -30,6 +30,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
+import no.ntnu.idatt2003.controller.MonopolyController;
 import no.ntnu.idatt2003.model.Board;
 import no.ntnu.idatt2003.model.BoardGameFactory;
 import no.ntnu.idatt2003.model.Game;
@@ -48,6 +49,10 @@ public class MonopolyView implements PositionChangeObserver{
     private final int pivotX = playerSize/2;
     private final int pivotY = playerSize;
 
+    //eks for nå
+    Game game;
+
+    MonopolyController monopolyController = new MonopolyController();
     public BorderPane mainLayout = new BorderPane();
     StackPane mainPane;
 
@@ -58,6 +63,9 @@ public class MonopolyView implements PositionChangeObserver{
         HBox topMenu = new HBox();
         topMenu.setId("topMenu");
         Button newGameButton = new Button("Start new game");
+
+       //newGameButton.setOnAction(e -> monopolyController.newGame());
+
         newGameButton.setOnAction(e->{
             //TODO add a new game button with player selection
             Board board = BoardGameFactory.createMonopolyBoard();
@@ -90,7 +98,16 @@ public class MonopolyView implements PositionChangeObserver{
         //Right box
         VBox rightMenu = new VBox();
         rightMenu.setId("rightMenu");
-                
+        Button tradeButton = new Button("Trade");
+        tradeButton.setOnAction(e -> {
+            TradeView tradeView = new TradeView();
+            tradeView.showTradeView(game);
+        });
+        Button diceButton = new Button("Roll dice");
+
+        rightMenu.getChildren().addAll(tradeButton, diceButton);
+        rightMenu.setId("rightMenu");
+
         //Bottom box
         HBox bottomMenu = new HBox();
         bottomMenu.setId("bottomMenu");

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import no.ntnu.idatt2003.view.GenericGameView;
 import no.ntnu.idatt2003.view.LaddergameView;
+import no.ntnu.idatt2003.view.MonopolyView;
 
 /**
  * Controls the game.
@@ -36,6 +37,11 @@ public class Game {
     public static LaddergameView laddergameView;
     public static void setLadderView(LaddergameView view){
         laddergameView = view;
+    }
+
+    public static MonopolyView monopolyView;
+    public static void setMonopolyView(MonopolyView view){
+        monopolyView = view;
     }
 
     /**

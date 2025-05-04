@@ -31,7 +31,6 @@ public class Board {
         this.cols = cols;
     }
 
-
     /**
      * @return Returns an ArrayList of the tiles within the board.
      */

@@ -106,7 +106,6 @@ public class LaddergameController {
             boardSizeBox.setPromptText("Choose board size");        
             boardSizeBox.getItems().addAll("Small", "Medium", "Chaos", "laddergame1");
             
-            
             File folder = new File("data/boards"); 
             File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
 
