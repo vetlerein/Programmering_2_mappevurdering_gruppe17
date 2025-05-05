@@ -49,9 +49,6 @@ public class MonopolyView implements PositionChangeObserver{
     private final int pivotX = playerSize/2;
     private final int pivotY = playerSize;
 
-    //eks for nå
-    Game game;
-
     MonopolyController monopolyController = new MonopolyController();
     public BorderPane mainLayout = new BorderPane();
     StackPane mainPane;
