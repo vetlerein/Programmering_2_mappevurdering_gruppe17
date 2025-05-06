@@ -62,6 +62,9 @@ public class Player {
      */
     public void setPosition(int positionIn) {
         this.position = positionIn;
+        if (observer != null) {
+            observer.positionChanged(this);
+        }
     }
 
     /**

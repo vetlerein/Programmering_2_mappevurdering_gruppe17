@@ -20,8 +20,7 @@ public class StartTile extends Tile {
      */
     @Override
     public void action(Player player, Game game) {
-        //TODO add final passing start bonus
-        player.addPlayerBalance(1000);
+        player.addPlayerBalance(2000);
     }
     
 }

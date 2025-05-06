@@ -29,13 +29,13 @@ public class ChanceCardFactory {
         chanceCards.add(new ChanceCardMoney(1500, "You help your grandmother set up her computer"));
 
         chanceCards.add(new ChanceCardMove(2, "You go to study at NTNU trondheim"));
-        chanceCards.add(new ChanceCardMove(9, "You visit Kjetil Rekdal"));
-        chanceCards.add(new ChanceCardMove(12, "You go to see the northern lights"));
+        chanceCards.add(new ChanceCardMove(9, "You visit Kjetil Rekdal, move to Ålesund"));
+        chanceCards.add(new ChanceCardMove(12, "You go to see the northern lights, go to Tromsø"));
         chanceCards.add(new ChanceCardMove(19, "You go to Kristiansund for no apparent reason")); 
-        chanceCards.add(new ChanceCardMove(26, "You go to ride a reindeer"));
-        chanceCards.add(new ChanceCardMove(39, "You go on vaction to Norway's Dubai"));
-        chanceCards.add(new ChanceCardMove(37, "You go to visit Julius the chimpanzee"));
-
+        chanceCards.add(new ChanceCardMove(26, "You go to ride a reindeer, move to Kautokeino"));
+        chanceCards.add(new ChanceCardMove(39, "You go on vaction to Norway's Dubai, go to Molde"));
+        chanceCards.add(new ChanceCardMove(37, "You go to visit Julius the chimpanzee, go to Kristiansand"));
+        
         return chanceCards;
     }
 }

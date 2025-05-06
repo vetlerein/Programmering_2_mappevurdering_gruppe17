@@ -31,10 +31,11 @@ public class ChanceCardTile extends Tile{
         Random random = new Random();
         int randomIndex = random.nextInt(chanceCards.size());
         activChanceCard = chanceCards.get(randomIndex);
+        System.out.println(activChanceCard.toString());
         chanceCards.get(randomIndex).effect(player);
     }
 
-    public ChanceCard getActiveChaneCard() {
+    public ChanceCard getActiveChanceCard() {
         return this.activChanceCard;
     }
 }

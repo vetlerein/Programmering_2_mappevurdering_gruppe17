@@ -243,8 +243,7 @@ public class MonopolyView implements PositionChangeObserver{
         clearMiddleCard();
 
         if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof ChanceCardTile chanceCard){
-            System.out.println("Sjanse");
-            showChanceCard(chanceCard.getActiveChaneCard());
+            showChanceCard(chanceCard.getActiveChanceCard());
         } else if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof PropertyTile propertyTile){
             showProperty(propertyTile.getProperty());
         }
@@ -309,7 +308,7 @@ public class MonopolyView implements PositionChangeObserver{
         for (int i = 0; i < 4; i++) {
             Text rentText = new Text("Rent with " + i + " houses");
             rentGrid.add(rentText, 0, i);
-            Text rentAmount = new Text(String.valueOf(property.getRent()) + " $");
+            Text rentAmount = new Text(String.valueOf(property.getRent()*(i+1)) + " $");
             rentGrid.add(rentAmount, 1, i);
             rentGrid.setMargin(rentText, new Insets(5));
             rentGrid.setMargin(rentAmount, new Insets(5));
@@ -318,7 +317,7 @@ public class MonopolyView implements PositionChangeObserver{
         //Hotel rent
         Text rentText = new Text("Rent with a hotel");
         rentGrid.add(rentText, 0, 4);
-        Text rentAmount = new Text(String.valueOf(property.getRent()) + " $");
+        Text rentAmount = new Text(String.valueOf(property.getRent()*6) + " $");
         rentGrid.add(rentAmount, 1, 4);
         rentGrid.setGridLinesVisible(true);
         rentGrid.setMargin(rentText, new Insets(5));
@@ -353,8 +352,8 @@ public class MonopolyView implements PositionChangeObserver{
             }
         });
 
-        Button tradeDice = new Button("Trade");
-        tradeDice.setOnAction(e -> {
+        Button tradeButton = new Button("Trade");
+        tradeButton.setOnAction(e -> {
             if(game.getGameStatus() == true) {
                 //TODO add trade button functionality
             }
@@ -396,13 +395,11 @@ public class MonopolyView implements PositionChangeObserver{
             playersBox.getChildren().addAll(personalBox);
         }
 
-        rightMenu.getChildren().addAll(throwDice, tradeDice, whosTurn, players, playersBox);
+        rightMenu.getChildren().addAll(throwDice, tradeButton, whosTurn, players, playersBox);
         mainLayout.setRight(rightMenu);
     }
 
     private void showChanceCard(ChanceCard chanceCard) {
-
-        //TODO feil med ChanceCardMove kort
         GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
 
         clearMiddleCard();
