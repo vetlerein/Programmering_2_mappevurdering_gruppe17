@@ -71,6 +71,7 @@ public class LaddergameView implements PositionChangeObserver{
         //Adding everything to the final window
         mainLayout.setTop(topMenu);
         mainLayout.setRight(rightMenu);
+        genericGameView.setMainLayout(mainLayout);
         return mainLayout;
     }
 
@@ -234,7 +235,7 @@ public class LaddergameView implements PositionChangeObserver{
             if(game.getGameStatus() == true && animationActive == false) {
                 Player player = game.getPlayers().get(game.getActivePlayer());
                 player.move(game);
-                genericGameView.showDice(player.getDicePaths(), mainLayout);
+                genericGameView.showDice(player.getDicePaths());
                 if(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == true){
                     while(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == true) {
                         game.getPlayers().get(game.getActivePlayer()).move(game);
@@ -291,7 +292,7 @@ public class LaddergameView implements PositionChangeObserver{
         if(game.getGameStatus() == true && animationActive == false) {
             Player player = game.getPlayers().get(game.getActivePlayer());
             player.move(game);
-            genericGameView.showDice(player.getDicePaths(), mainLayout);
+            genericGameView.showDice(player.getDicePaths());
             if(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == false){
                 while(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == true) {
                     game.getPlayers().get(game.getActivePlayer()).move(game);

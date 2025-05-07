@@ -113,7 +113,7 @@ public class MonopolyView implements PositionChangeObserver{
         mainLayout.setTop(topMenu);
         mainLayout.setRight(rightMenu);
         mainLayout.setBottom(bottomMenu);
-
+        GenericGameView.setMainLayout(mainLayout);
         return mainLayout;
     }
 
@@ -342,14 +342,14 @@ public class MonopolyView implements PositionChangeObserver{
         VBox rightMenu = new VBox();
         rightMenu.setId("rightMenu");
         Button throwDice = new Button("Throw dice");
+        int diceThrows = 0;
         throwDice.setOnAction(e -> {
-            if(game.getGameStatus() == true) {
-                Player player = game.getPlayers().get(game.getActivePlayer());
+            Player player = game.getPlayers().get(game.getActivePlayer());
+            if(game.getGameStatus() == true && player.getJailStatus() == 0) {
                 player.move(game);
-                genericGameView.showDice(player.getDicePaths(), mainLayout);
-                
+                genericGameView.showDice(player.getDicePaths());
                 game.nextPlayer();
-            }
+            } 
         });
 
         Button tradeButton = new Button("Trade");
