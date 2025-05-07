@@ -339,8 +339,8 @@ public class MonopolyView implements PositionChangeObserver{
             }
         });
 
-        Button tradeDice = new Button("Trade");
-        tradeDice.setOnAction(e -> {
+        Button tradeButton = new Button("Trade");
+        tradeButton.setOnAction(e -> {
             if(game.getGameStatus() == true) {
                 TradeView tradeView = new TradeView();
                 tradeView.showTradeView(game);
@@ -385,7 +385,7 @@ public class MonopolyView implements PositionChangeObserver{
             playersBox.getChildren().addAll(personalBox);
         }
 
-        rightMenu.getChildren().addAll(throwDice, tradeDice, whosTurn, players, playersBox);
+        rightMenu.getChildren().addAll(throwDice, tradeButton, whosTurn, players, playersBox);
         mainLayout.setRight(rightMenu);
     }
 

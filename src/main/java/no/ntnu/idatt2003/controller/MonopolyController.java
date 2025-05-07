@@ -192,8 +192,7 @@ public class MonopolyController {
 
     public ComboBox<Player> createPlayerDropdown(Game game){
         List<ComboBox<Player>> playerComboBoxes = new ArrayList<>();
-        List<Player> tempPlayers = new ArrayList<>();
-        tempPlayers = game.getPlayers();
+        List<Player> tempPlayers = new ArrayList<>(game.getPlayers());
         Player active = game.getPlayers().get(game.getActivePlayer());
         tempPlayers.remove(active);
         
