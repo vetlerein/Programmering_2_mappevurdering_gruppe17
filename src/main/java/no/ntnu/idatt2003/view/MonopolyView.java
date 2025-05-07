@@ -49,9 +49,6 @@ public class MonopolyView implements PositionChangeObserver{
     private final int pivotX = playerSize/2;
     private final int pivotY = playerSize;
 
-    //eks for nå
-    Game game;
-
     MonopolyController monopolyController = new MonopolyController();
     public BorderPane mainLayout = new BorderPane();
     StackPane mainPane;
@@ -95,26 +92,12 @@ public class MonopolyView implements PositionChangeObserver{
         });
         topMenu.getChildren().addAll(newGameButton, backToMenuButton);
 
-        //Right box
-        VBox rightMenu = new VBox();
-        rightMenu.setId("rightMenu");
-        Button tradeButton = new Button("Trade");
-        tradeButton.setOnAction(e -> {
-            TradeView tradeView = new TradeView();
-            tradeView.showTradeView(game);
-        });
-        Button diceButton = new Button("Roll dice");
-
-        rightMenu.getChildren().addAll(tradeButton, diceButton);
-        rightMenu.setId("rightMenu");
-
         //Bottom box
         HBox bottomMenu = new HBox();
         bottomMenu.setId("bottomMenu");
 
         //Adding everything to the final window
         mainLayout.setTop(topMenu);
-        mainLayout.setRight(rightMenu);
         mainLayout.setBottom(bottomMenu);
 
         return mainLayout;
@@ -351,7 +334,7 @@ public class MonopolyView implements PositionChangeObserver{
                 Player player = game.getPlayers().get(game.getActivePlayer());
                 player.move(game);
                 genericGameView.showDice(player.getDicePaths(), mainLayout);
-                
+                 
                 game.nextPlayer();
             }
         });
@@ -359,7 +342,10 @@ public class MonopolyView implements PositionChangeObserver{
         Button tradeDice = new Button("Trade");
         tradeDice.setOnAction(e -> {
             if(game.getGameStatus() == true) {
-                //TODO add trade button functionality
+                TradeView tradeView = new TradeView();
+                tradeView.showTradeView(game);
+            }else {
+                PopupView.showInfoPopup("No active game", "You need to start a game before you can trade.");
             }
         });
 

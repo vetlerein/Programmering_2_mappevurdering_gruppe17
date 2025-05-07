@@ -14,7 +14,7 @@
     -fx-background-color: rgb(147, 147, 147);
     -fx-text-fill: black;
     -fx-min-width: 100px;
-    -fx-min-height: 30px;
+    -fx-min-height: 35px;
     -fx-padding: 10px;
     -fx-spacing: 20px;
     -fx-radius: 40px;
@@ -23,7 +23,7 @@
     -fx-background-color: rgb(123, 123, 123);
     -fx-text-fill: black;
     -fx-min-width: 100px;
-    -fx-min-height: 30px;
+    -fx-min-height: 35px;
     -fx-padding: 10px;
     -fx-spacing: 20px;
     -fx-radius: 40px;

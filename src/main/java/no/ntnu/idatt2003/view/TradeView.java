@@ -3,6 +3,7 @@ package no.ntnu.idatt2003.view;
 import java.util.ArrayList;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -23,8 +24,8 @@ public class TradeView {
     
     Stage tradeStage = new Stage();
     BorderPane mainLayout = new BorderPane();
-    VBox leftMenu = new VBox();
-    VBox rightMenu = new VBox();
+    BorderPane leftMenu = new BorderPane();
+    BorderPane rightMenu = new BorderPane();
     MonopolyController monopolyController = new MonopolyController();
 
     private Player chosenPlayer;
@@ -39,20 +40,26 @@ public class TradeView {
      * @param game The game object that contains the players and their properties.
      */
     public void showTradeView(Game game){
-        
+        System.out.println("TradeView ");
         //Setting up the stage
         tradeStage.initModality(Modality.APPLICATION_MODAL);
         tradeStage.setTitle("New Game");
-        tradeStage.setMinWidth(500);
-        tradeStage.setMinHeight(300);
-        tradeStage.setResizable(false);
+        tradeStage.setMinWidth(600);
+        tradeStage.setMinHeight(400);
+        // tradeStage.setResizable(false);
         leftMenu.setId("tradeMenu");
         rightMenu.setId("tradeMenu");
         
+
+        VBox activePlayerMoneyVBox = new VBox(10);
+        VBox chosenPlayerMoneyVBox = new VBox(10);
         TextField activePlayerMoneyField = new TextField();
-        activePlayerMoneyField.setPromptText("Money to offer");
+        activePlayerMoneyField.setPromptText("Enter amount");
         TextField chosenPlayerMoneyField = new TextField();
-        chosenPlayerMoneyField.setPromptText("Money to offer");
+        chosenPlayerMoneyField.setPromptText("Enter amount");
+        activePlayerMoneyVBox.getChildren().addAll(new Label("Offer money to the trade:"), activePlayerMoneyField);
+        chosenPlayerMoneyVBox.getChildren().addAll(new Label("Offer money to the trade:"), chosenPlayerMoneyField);
+
 
         Player activePlayer = game.getPlayers().get(game.activePlayer);
         ComboBox<Player> playerDropdown = monopolyController.createPlayerDropdown(game);
@@ -60,15 +67,17 @@ public class TradeView {
         playerDropdown.setOnAction(e -> {
             chosenPlayer = playerDropdown.getValue();
 
-            rightMenu.getChildren().clear();
-            rightMenu.getChildren().addAll(
-                new Label(chosenPlayer.getPlayerName()), 
-                monopolyController.getPlayerPropertiesBox(chosenPlayer, chosenPlayerChosenProperties), 
-                chosenPlayerMoneyField);
+            rightMenu.setTop(null);
+            rightMenu.setCenter(null);
+            rightMenu.setBottom(null);
+            rightMenu.setTop(new Label(chosenPlayer.getPlayerName()));
+            rightMenu.setCenter(monopolyController.getPlayerPropertiesBox(chosenPlayer, chosenPlayerChosenProperties));
+            rightMenu.setBottom(chosenPlayerMoneyVBox);
         });
 
         //Bottom buttons
         HBox bottomButtons = new HBox(10);
+        bottomButtons.setPadding(new Insets(10));
         Button acceptTrade = new Button("Accept trade");
 
         acceptTrade.setOnAction(e -> {
@@ -88,9 +97,9 @@ public class TradeView {
                     }
 
                     if (activePlayer.getBalance() < activePlayerMoneyBox) {
-                        PopupView.showInfoPopup("Not enough money", activePlayer.getPlayerName()+" don't have enough money to offer.");
+                        PopupView.showInfoPopup("Not enough money", activePlayer.getPlayerName()+" only has "+activePlayer.getBalance()+" to offer.");
                     } else if (chosenPlayer.getBalance() < chosenPlayerMoneyBox) {
-                        PopupView.showInfoPopup("Not enough money", chosenPlayer.getPlayerName()+" don't have enough money to offer.");
+                        PopupView.showInfoPopup("Not enough money", chosenPlayer.getPlayerName()+" only has "+chosenPlayer.getBalance()+" to offer.");
                     } else {
                         monopolyController.executeTrade(
                             activePlayer, chosenPlayer,
@@ -113,11 +122,14 @@ public class TradeView {
             tradeStage.close();
         });
         bottomButtons.getChildren().addAll(acceptTrade, cancelTrade);
+        bottomButtons.setAlignment(Pos.CENTER);
 
 
         //Adding everything to the final window
-        leftMenu.getChildren().addAll(new Label(activePlayer.toString()), monopolyController.getPlayerPropertiesBox(activePlayer, activePlayerChosenProperties), activePlayerMoneyField);
-        rightMenu.getChildren().addAll(playerDropdown);
+        leftMenu.setTop(new Label(activePlayer.toString()));
+        leftMenu.setCenter(monopolyController.getPlayerPropertiesBox(activePlayer, activePlayerChosenProperties));
+        leftMenu.setBottom(activePlayerMoneyVBox);
+        rightMenu.setTop(playerDropdown);
         mainLayout.setLeft(leftMenu);
         mainLayout.setRight(rightMenu);
         mainLayout.setBottom(bottomButtons);
@@ -126,5 +138,6 @@ public class TradeView {
         tradeStage.setScene(new Scene(mainLayout));
         tradeStage.getIcons().add(new Image(getClass().getResourceAsStream("/playerPieces/pepperoni.png")));
         tradeStage.showAndWait(); 
+        System.out.println("TradeView open");
     }
 }
