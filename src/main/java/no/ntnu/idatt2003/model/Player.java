@@ -18,7 +18,7 @@ public class Player {
     public boolean playerActive;
     public boolean playerPause = false;
   
-    private int balance;
+    private int balance = 10000;
     private ArrayList<Property> properties = new ArrayList<Property>();
     private int jailStatus = 0;
     private boolean getOutOfJailCard = false;
@@ -77,6 +77,9 @@ public class Player {
      */
     public void setBalance(int balance) {
         this.balance = balance;
+        if (observer != null) {
+            observer.positionChanged(this);
+        }
     }
 
     /**
@@ -146,6 +149,9 @@ public class Player {
      */
     public void addPlayerBalance(int amount) {
         this.balance += amount;
+        if (observer != null) {
+            observer.positionChanged(this);
+        }
     }
 
     /**

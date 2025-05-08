@@ -92,26 +92,12 @@ public class MonopolyView implements PositionChangeObserver{
         });
         topMenu.getChildren().addAll(newGameButton, backToMenuButton);
 
-        //Right box
-        VBox rightMenu = new VBox();
-        rightMenu.setId("rightMenu");
-        Button tradeButton = new Button("Trade");
-        tradeButton.setOnAction(e -> {
-            TradeView tradeView = new TradeView();
-            tradeView.showTradeView(game);
-        });
-        Button diceButton = new Button("Roll dice");
-
-        rightMenu.getChildren().addAll(tradeButton, diceButton);
-        rightMenu.setId("rightMenu");
-
         //Bottom box
         HBox bottomMenu = new HBox();
         bottomMenu.setId("bottomMenu");
 
         //Adding everything to the final window
         mainLayout.setTop(topMenu);
-        mainLayout.setRight(rightMenu);
         mainLayout.setBottom(bottomMenu);
 
         return mainLayout;
@@ -249,12 +235,14 @@ public class MonopolyView implements PositionChangeObserver{
             showProperty(propertyTile.getProperty());
         }
         
-
         Label positionLabel = (Label) mainLayout.lookup("#position" + player.getPlayerNumber());
         positionLabel.setText(game.getBoard().getGameboard().get(player.getPosition()-1).getClass().getSimpleName());
         if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof PropertyTile propertyTile){
             positionLabel.setText(propertyTile.getProperty().getName());
-        }
+        }   
+
+        Label balanceLabel = (Label) mainLayout.lookup("#balance" + player.getPlayerNumber());
+        balanceLabel.setText(player.getBalance() + " $");
     }
 
     private StackPane getTileAt(GridPane grid, int col, int row) {
@@ -311,8 +299,8 @@ public class MonopolyView implements PositionChangeObserver{
             rentGrid.add(rentText, 0, i);
             Text rentAmount = new Text(String.valueOf(property.getRent()) + " $");
             rentGrid.add(rentAmount, 1, i);
-            rentGrid.setMargin(rentText, new Insets(5));
-            rentGrid.setMargin(rentAmount, new Insets(5));
+            GridPane.setMargin(rentText, new Insets(5));
+            GridPane.setMargin(rentAmount, new Insets(5));
         }
 
         //Hotel rent
@@ -321,8 +309,8 @@ public class MonopolyView implements PositionChangeObserver{
         Text rentAmount = new Text(String.valueOf(property.getRent()) + " $");
         rentGrid.add(rentAmount, 1, 4);
         rentGrid.setGridLinesVisible(true);
-        rentGrid.setMargin(rentText, new Insets(5));
-        rentGrid.setMargin(rentAmount, new Insets(5));
+        GridPane.setMargin(rentText, new Insets(5));
+        GridPane.setMargin(rentAmount, new Insets(5));
         rentGrid.setPadding(new Insets(5));
 
         //Costs
@@ -348,15 +336,18 @@ public class MonopolyView implements PositionChangeObserver{
                 Player player = game.getPlayers().get(game.getActivePlayer());
                 player.move(game);
                 genericGameView.showDice(player.getDicePaths(), mainLayout);
-                
+                 
                 game.nextPlayer();
             }
         });
 
-        Button tradeDice = new Button("Trade");
-        tradeDice.setOnAction(e -> {
+        Button tradeButton = new Button("Trade");
+        tradeButton.setOnAction(e -> {
             if(game.getGameStatus() == true) {
-                //TODO add trade button functionality
+                TradeView tradeView = new TradeView();
+                tradeView.showTradeView(game);
+            }else {
+                PopupView.showInfoPopup("No active game", "You need to start a game before you can trade.");
             }
         });
 
@@ -391,12 +382,13 @@ public class MonopolyView implements PositionChangeObserver{
             position.setId("position" + player.getPlayerNumber());
 
             Label playerBalance = new Label(player.getBalance() + " $");
+            playerBalance.setId("balance" + player.getPlayerNumber());
             personalBox.getChildren().addAll(pictureNameSplitter, playerBalance, position);
             personalBox.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
             playersBox.getChildren().addAll(personalBox);
         }
 
-        rightMenu.getChildren().addAll(throwDice, tradeDice, whosTurn, players, playersBox);
+        rightMenu.getChildren().addAll(throwDice, tradeButton, whosTurn, players, playersBox);
         mainLayout.setRight(rightMenu);
     }
 

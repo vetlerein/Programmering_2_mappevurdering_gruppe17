@@ -391,7 +391,6 @@ public class LaddergameView implements PositionChangeObserver{
             pictureNameSplitter.getChildren().add(0,pauseImage);   
 
             //Adds visual for pause on the whole board
-            ImageView bigPauseImage = new ImageView(urlWatch.toExternalForm());
             String pauseText = player.getPlayerName() + " has been paused!";
             showImageAndText(urlWatch, pauseText);
         }	
