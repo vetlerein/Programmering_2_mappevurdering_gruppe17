@@ -76,7 +76,7 @@ public class TradeView {
             rightMenu.setTop(new Label(chosenPlayer.getPlayerName()));
             rightMenu.setCenter(propertyScroll2);
             rightMenu.setBottom(chosenPlayerMoneyVBox);
-            leftMenu.setMargin(propertyScroll2, new Insets(10, 0, 10, 0)); 
+            BorderPane.setMargin(propertyScroll2, new Insets(10, 0, 10, 0));
         });
 
         //Bottom buttons
@@ -137,7 +137,7 @@ public class TradeView {
         leftMenu.setTop(new Label(activePlayer.toString()));
         leftMenu.setCenter(propertyScroll1);
         leftMenu.setBottom(activePlayerMoneyVBox);
-        leftMenu.setMargin(propertyScroll1, new Insets(10, 0, 10, 0)); 
+        BorderPane.setMargin(propertyScroll1, new Insets(10, 0, 10, 0)); 
         rightMenu.setTop(playerDropdown);
         mainLayout.setLeft(leftMenu);
         mainLayout.setRight(rightMenu);

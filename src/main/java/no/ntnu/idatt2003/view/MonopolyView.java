@@ -296,8 +296,8 @@ public class MonopolyView implements PositionChangeObserver{
             rentGrid.add(rentText, 0, i);
             Text rentAmount = new Text(String.valueOf(property.getRent()) + " $");
             rentGrid.add(rentAmount, 1, i);
-            rentGrid.setMargin(rentText, new Insets(5));
-            rentGrid.setMargin(rentAmount, new Insets(5));
+            GridPane.setMargin(rentText, new Insets(5));
+            GridPane.setMargin(rentAmount, new Insets(5));
         }
 
         //Hotel rent
@@ -306,8 +306,8 @@ public class MonopolyView implements PositionChangeObserver{
         Text rentAmount = new Text(String.valueOf(property.getRent()) + " $");
         rentGrid.add(rentAmount, 1, 4);
         rentGrid.setGridLinesVisible(true);
-        rentGrid.setMargin(rentText, new Insets(5));
-        rentGrid.setMargin(rentAmount, new Insets(5));
+        GridPane.setMargin(rentText, new Insets(5));
+        GridPane.setMargin(rentAmount, new Insets(5));
         rentGrid.setPadding(new Insets(5));
 
         //Costs
