@@ -111,7 +111,11 @@ public class Player {
      */
     public void sendToJail() {
         this.jailStatus = 1;
-        setPosition(10); 
+        setPosition(11); 
+    }
+
+    public void setJailStatus(int newStatus) {
+        this.jailStatus = newStatus;
     }
 
 
@@ -271,9 +275,6 @@ public class Player {
             game.getBoard().getGameboard().get(this.position-1).action(this, game);   
         } else if (playerPause == true) {
             playerPause = false;
-        } else if (jailStatus > 0) {
-            turnInJail();
-            //TODO add option to pay to get out of jail and throw dice to get out
         }
         
         if (observer != null) {

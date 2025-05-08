@@ -1,6 +1,7 @@
 package no.ntnu.idatt2003.view;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javafx.geometry.HPos;
@@ -33,12 +34,14 @@ import javafx.stage.Stage;
 import no.ntnu.idatt2003.controller.MonopolyController;
 import no.ntnu.idatt2003.model.Board;
 import no.ntnu.idatt2003.model.BoardGameFactory;
+import no.ntnu.idatt2003.model.Dice;
 import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.Property;
 import no.ntnu.idatt2003.model.chanceCards.ChanceCard;
 import no.ntnu.idatt2003.model.fileManagement.playerFileManagement.PlayerFileReader;
 import no.ntnu.idatt2003.model.tile.ChanceCardTile;
+import no.ntnu.idatt2003.model.tile.JailTile;
 import no.ntnu.idatt2003.model.tile.PropertyTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
@@ -72,7 +75,6 @@ public class MonopolyView implements PositionChangeObserver{
             for(Player player : players){
                 player.setPicture(getClass().getResource("/playerPieces/cheese.png"));
             }
-
             Game game = new Game(players, board);
             setGameBoard(game);
         }
@@ -128,7 +130,7 @@ public class MonopolyView implements PositionChangeObserver{
         mainPane.setId("mainPane");
         mainPane.getChildren().add(gameBoard);
         mainLayout.setCenter(mainPane);
-
+  
 
         for (int i = 0; i < game.getBoard().getGameboard().size(); i++) {
                 StackPane stackPane = new StackPane();
@@ -242,18 +244,24 @@ public class MonopolyView implements PositionChangeObserver{
         stackPane.getChildren().add(playerImage);
         clearMiddleCard();
 
-        if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof ChanceCardTile chanceCard){
+        Tile tile = game.getBoard().getGameboard().get(player.getPosition() - 1);
+        if (tile instanceof ChanceCardTile chanceCard){
             showChanceCard(chanceCard.getActiveChanceCard());
-        } else if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof PropertyTile propertyTile){
+        } else if (tile instanceof PropertyTile propertyTile){
             showProperty(propertyTile.getProperty());
+        } else if(tile instanceof JailTile && player.getJailStatus() != 0) {
+            inJailText(player);
         }
-        
+        Label whosTurn = (Label) mainLayout.lookup("#whosTurn");
+        whosTurn.setText(game.getPlayers().get(game.activePlayer) + "'s turn");
 
         Label positionLabel = (Label) mainLayout.lookup("#position" + player.getPlayerNumber());
         positionLabel.setText(game.getBoard().getGameboard().get(player.getPosition()-1).getClass().getSimpleName());
         if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof PropertyTile propertyTile){
             positionLabel.setText(propertyTile.getProperty().getName());
         }
+
+        diceThrows = 0;
     }
 
     private StackPane getTileAt(GridPane grid, int col, int row) {
@@ -338,18 +346,31 @@ public class MonopolyView implements PositionChangeObserver{
         return card;
     }
 
+    int diceThrows = 0;
     private void updateSideBar() {
         VBox rightMenu = new VBox();
         rightMenu.setId("rightMenu");
         Button throwDice = new Button("Throw dice");
-        int diceThrows = 0;
+
+        diceThrows = 0;
         throwDice.setOnAction(e -> {
             Player player = game.getPlayers().get(game.getActivePlayer());
             if(game.getGameStatus() == true && player.getJailStatus() == 0) {
                 player.move(game);
                 genericGameView.showDice(player.getDicePaths());
-                game.nextPlayer();
-            } 
+            } else if(diceThrows<3 && player.getJailStatus() != 0){
+                Dice.rollDice(2, player);
+                URL[]dicePaths = player.getDicePaths();
+                genericGameView.showDice(player.getDicePaths());
+                diceThrows ++; 
+                if(dicePaths[0].equals(dicePaths[1])){
+                    player.setJailStatus(0);
+                    game.nextPlayer();
+                }else if(diceThrows == 3) {
+                    player.turnInJail();
+                    game.nextPlayer();
+               }
+            }
         });
 
         Button tradeButton = new Button("Trade");
@@ -467,6 +488,23 @@ public class MonopolyView implements PositionChangeObserver{
         }
     }
     
-
+    private void inJailText(Player player){
+        GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
+        clearMiddleCard();
+        StackPane stackPane = new StackPane();
+        stackPane.setId("middleShowcase");
+        stackPane.setPrefSize(200, 400);
+        stackPane.setMaxSize(200, 400);
+        stackPane.setMinSize(200, 400);
+        GridPane.setHalignment(stackPane, HPos.CENTER);
+        GridPane.setValignment(stackPane, VPos.CENTER);
+        Text jailText = new Text(player.getPlayerName() + " has gone to jail");
+        jailText.setStyle("-fx-font-size:20px; -fx-fill:black; -fx-font-weight:bold;");
+        stackPane.getChildren().add(jailText);
+        int cols = game.getBoard().getCols();
+        int rows = game.getBoard().getRows();
+        board.add(stackPane, 0, 0, cols, rows);
+        stackPane.toFront();
+    }
 }
 
