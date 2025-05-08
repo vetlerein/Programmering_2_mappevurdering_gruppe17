@@ -77,6 +77,9 @@ public class Player {
      */
     public void setBalance(int balance) {
         this.balance = balance;
+        if (observer != null) {
+            observer.positionChanged(this);
+        }
     }
 
     /**
@@ -146,6 +149,9 @@ public class Player {
      */
     public void addPlayerBalance(int amount) {
         this.balance += amount;
+        if (observer != null) {
+            observer.positionChanged(this);
+        }
     }
 
     /**

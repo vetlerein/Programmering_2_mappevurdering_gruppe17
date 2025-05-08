@@ -240,6 +240,9 @@ public class MonopolyView implements PositionChangeObserver{
         if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof PropertyTile propertyTile){
             positionLabel.setText(propertyTile.getProperty().getName());
         }   
+
+        Label balanceLabel = (Label) mainLayout.lookup("#balance" + player.getPlayerNumber());
+        balanceLabel.setText(player.getBalance() + " $");
     }
 
     private StackPane getTileAt(GridPane grid, int col, int row) {
@@ -379,6 +382,7 @@ public class MonopolyView implements PositionChangeObserver{
             position.setId("position" + player.getPlayerNumber());
 
             Label playerBalance = new Label(player.getBalance() + " $");
+            playerBalance.setId("balance" + player.getPlayerNumber());
             personalBox.getChildren().addAll(pictureNameSplitter, playerBalance, position);
             personalBox.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
             playersBox.getChildren().addAll(personalBox);
