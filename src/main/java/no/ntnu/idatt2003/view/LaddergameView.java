@@ -53,8 +53,9 @@ public class LaddergameView implements PositionChangeObserver{
         Button backToMenuButton = new Button("Main menu");
         backToMenuButton.setOnAction(e -> {
             Stage currentStage = (Stage) mainLayout.getScene().getWindow();
+            Scene currentScene = currentStage.getScene();
             try {
-                Scene mainMenuScene = new Scene(new MenuView().mainMenu(currentStage), currentStage.getWidth(), currentStage.getHeight());
+                Scene mainMenuScene = new Scene(new MenuView().mainMenu(currentStage), currentScene.getWidth(), currentScene.getHeight());
                 mainMenuScene.getStylesheets().add(getClass().getResource("/Style/Launcherwindow.css").toExternalForm());
                 currentStage.setScene(mainMenuScene);
                 currentStage.setTitle("Main Menu");
