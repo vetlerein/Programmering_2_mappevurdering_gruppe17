@@ -235,12 +235,11 @@ public class MonopolyView implements PositionChangeObserver{
             showProperty(propertyTile.getProperty());
         }
         
-
         Label positionLabel = (Label) mainLayout.lookup("#position" + player.getPlayerNumber());
         positionLabel.setText(game.getBoard().getGameboard().get(player.getPosition()-1).getClass().getSimpleName());
         if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof PropertyTile propertyTile){
             positionLabel.setText(propertyTile.getProperty().getName());
-        }
+        }   
     }
 
     private StackPane getTileAt(GridPane grid, int col, int row) {

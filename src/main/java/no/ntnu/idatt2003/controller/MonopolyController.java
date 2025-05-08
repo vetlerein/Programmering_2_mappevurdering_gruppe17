@@ -140,7 +140,7 @@ public class MonopolyController {
         if (tradeList.isEmpty()) {
             
             // Label emptyLabel = new Label("No properties selected for trade.");
-            Label noPropertiesLabel = new Label("You have no properties to trade.");
+            Label noPropertiesLabel = new Label("You have no properties to trade. ");
             playerProperties.getChildren().add(noPropertiesLabel);
             return  playerProperties;
         } else {

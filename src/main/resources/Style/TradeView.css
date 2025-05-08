@@ -49,3 +49,16 @@
     -fx-background-color: rgb(123, 123, 123); 
     -fx-text-fill: black; 
 }
+#tradeMenu{
+    -fx-background-color: rgb(202, 191, 191); 
+    -fx-background-radius: 10px;
+    -fx-text-fill: black; 
+    -fx-min-width: 160px; 
+    -fx-max-width: 400px; 
+    -fx-padding: 15px; 
+    -fx-spacing: 25px; 
+}
+
+#background {
+    -fx-background-color: linear-gradient(to bottom, #73e7d2, #ACB6E5);
+}

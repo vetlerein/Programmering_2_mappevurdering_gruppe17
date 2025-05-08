@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -40,16 +41,15 @@ public class TradeView {
      * @param game The game object that contains the players and their properties.
      */
     public void showTradeView(Game game){
-        System.out.println("TradeView ");
         //Setting up the stage
         tradeStage.initModality(Modality.APPLICATION_MODAL);
         tradeStage.setTitle("New Game");
         tradeStage.setMinWidth(600);
         tradeStage.setMinHeight(400);
         // tradeStage.setResizable(false);
+        mainLayout.setId("background");
         leftMenu.setId("tradeMenu");
         rightMenu.setId("tradeMenu");
-        
 
         VBox activePlayerMoneyVBox = new VBox(10);
         VBox chosenPlayerMoneyVBox = new VBox(10);
@@ -66,13 +66,17 @@ public class TradeView {
         playerDropdown.setPromptText("Choose a player to trade with");
         playerDropdown.setOnAction(e -> {
             chosenPlayer = playerDropdown.getValue();
-
+            ScrollPane propertyScroll2 = new ScrollPane(monopolyController.getPlayerPropertiesBox(chosenPlayer, chosenPlayerChosenProperties));
+            propertyScroll2.setFitToWidth(true);    
+            propertyScroll2.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); 
+            propertyScroll2.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
             rightMenu.setTop(null);
             rightMenu.setCenter(null);
             rightMenu.setBottom(null);
             rightMenu.setTop(new Label(chosenPlayer.getPlayerName()));
-            rightMenu.setCenter(monopolyController.getPlayerPropertiesBox(chosenPlayer, chosenPlayerChosenProperties));
+            rightMenu.setCenter(propertyScroll2);
             rightMenu.setBottom(chosenPlayerMoneyVBox);
+            leftMenu.setMargin(propertyScroll2, new Insets(10, 0, 10, 0)); 
         });
 
         //Bottom buttons
@@ -91,9 +95,9 @@ public class TradeView {
                     }
                     if (chosenPlayerMoneyField.getText().isEmpty()) {
                         chosenPlayerMoneyField.setText("0");
-                        chosenPlayerMoneyBox = Integer.parseInt(activePlayerMoneyField.getText());
+                        chosenPlayerMoneyBox = Integer.parseInt(chosenPlayerMoneyField.getText());
                     } else {
-                        chosenPlayerMoneyBox = Integer.parseInt(activePlayerMoneyField.getText());
+                        chosenPlayerMoneyBox = Integer.parseInt(chosenPlayerMoneyField.getText());
                     }
 
                     if (activePlayer.getBalance() < activePlayerMoneyBox) {
@@ -125,10 +129,15 @@ public class TradeView {
         bottomButtons.setAlignment(Pos.CENTER);
 
 
+        ScrollPane propertyScroll1 = new ScrollPane(monopolyController.getPlayerPropertiesBox(activePlayer, activePlayerChosenProperties));
+        propertyScroll1.setFitToWidth(true);    
+        propertyScroll1.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); 
+        propertyScroll1.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         //Adding everything to the final window
         leftMenu.setTop(new Label(activePlayer.toString()));
-        leftMenu.setCenter(monopolyController.getPlayerPropertiesBox(activePlayer, activePlayerChosenProperties));
+        leftMenu.setCenter(propertyScroll1);
         leftMenu.setBottom(activePlayerMoneyVBox);
+        leftMenu.setMargin(propertyScroll1, new Insets(10, 0, 10, 0)); 
         rightMenu.setTop(playerDropdown);
         mainLayout.setLeft(leftMenu);
         mainLayout.setRight(rightMenu);
@@ -138,6 +147,5 @@ public class TradeView {
         tradeStage.setScene(new Scene(mainLayout));
         tradeStage.getIcons().add(new Image(getClass().getResourceAsStream("/playerPieces/pepperoni.png")));
         tradeStage.showAndWait(); 
-        System.out.println("TradeView open");
     }
 }
