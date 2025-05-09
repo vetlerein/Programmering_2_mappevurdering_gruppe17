@@ -21,7 +21,6 @@ public class JailTile extends Tile{
      */
     @Override
     public void action(Player player, Game game) {
-        //TODO add popup to pay bail or throw dice
         if(player.getJailStatus() >= 1) {
             player.turnInJail();
         }

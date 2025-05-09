@@ -270,7 +270,7 @@ public class MonopolyView implements PositionChangeObserver{
         ScrollPane scroll = new ScrollPane(cardBox);
         scroll.setFitToHeight(true);
         scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scroll.setPrefHeight(100);
         scroll.setPannable(true);
         
@@ -509,7 +509,7 @@ public class MonopolyView implements PositionChangeObserver{
             optionBox.getChildren().add(freeCardButton);
         }
 
-        if (player.getBalance() < 2000) {
+        if (player.getBalance() >= 2000) {
             Button payButton = new Button("Pay to get out of jail");
             payButton.setOnAction(e -> {
                 player.addPlayerBalance(-2000);
