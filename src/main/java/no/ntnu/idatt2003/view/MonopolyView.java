@@ -260,7 +260,7 @@ public class MonopolyView implements PositionChangeObserver{
 
         diceThrows = 0;
         Label balanceLabel = (Label) mainLayout.lookup("#balance" + player.getPlayerNumber());
-        balanceLabel.setText(player.getBalance() + " $");
+        balanceLabel.setText(player.getBalance() + " kr");
         checkForWinner();
     }
 
@@ -352,18 +352,23 @@ public class MonopolyView implements PositionChangeObserver{
             //Rent grid
             GridPane rentGrid = new GridPane();
             for (int i = 0; i < 4; i++) {
-                Text rentText = new Text("Rent with " + i + " houses");
+                
+                Label rentText = new Label("Rent with " + i + " houses");
+                rentText.setMinWidth(100);
                 rentGrid.add(rentText, 0, i);
-                Text rentAmount = new Text(String.valueOf(property.getRent()) + " $");
+                Label rentAmount = new Label(String.valueOf(property.getRent()*(i+1)) + " kr");
+                rentAmount.setMinWidth(40);
                 rentGrid.add(rentAmount, 1, i);
                 GridPane.setMargin(rentText, new Insets(5));
                 GridPane.setMargin(rentAmount, new Insets(5));
             }
 
             //Hotel rent
-            Text rentText = new Text("Rent with a hotel");
+            Label rentText = new Label("Rent with a hotel");
+            rentText.setMinWidth(60);
             rentGrid.add(rentText, 0, 4);
-            Text rentAmount = new Text(String.valueOf(property.getRent()) + " $");
+            Label rentAmount = new Label(String.valueOf(property.getRent()*6) + " kr");
+            rentAmount.setMinWidth(20);
             rentGrid.add(rentAmount, 1, 4);
             rentGrid.setGridLinesVisible(true);
 
@@ -371,21 +376,57 @@ public class MonopolyView implements PositionChangeObserver{
             GridPane.setMargin(rentAmount, new Insets(5));
             rentGrid.setPadding(new Insets(5));
 
-            //Costs
-            Text houseCostText = new Text("House cost: " + property.getHouseCost() + " $");
-            Text propertyBuyPrice = new Text("Property price: " + property.getPrice() + " $");
+            //Making the current propertylevel green
+            int currentPropertyLevel = property.getPropertyLevel();
+       
+            for (Node node : rentGrid.getChildren()) {
+                Integer col = GridPane.getColumnIndex(node);
+                Integer row = GridPane.getRowIndex(node);
+            
+                col = (col == null) ? 0 : col;
+                row = (row == null) ? 0 : row;
+            
+                if (row == currentPropertyLevel) {
+                    node.setStyle("-fx-background-color: lightgreen;");
+                }
+            }
 
+            //Costs
+            Label houseCostText = new Label("House cost: " + property.getHouseCost() + " kr");
+            Label propertyBuyPrice = new Label("Property price: " + property.getPrice() + " kr");
+
+            HBox houseButtons = new HBox(2);
+            StackPane centerHouseButtons = new StackPane();
+            StackPane centerPawnButton = new StackPane();
             Button pawnButton = new Button("Pawn");
+            Button buyHouseButton = new Button("Buy house");
+            Button sellHouseButton = new Button("Sell house");
+            pawnButton.setId("propertyButton");
+            centerPawnButton.getChildren().add(pawnButton);
+            centerHouseButtons.getChildren().add(houseButtons);
+            buyHouseButton.setId("propertyButton");
+            sellHouseButton.setId("propertyButton");
             card.getChildren().addAll(nameHolder, rentGrid, houseCostText, propertyBuyPrice);
+           
             if (property.getOwner() == activePlayer) {
                 pawnButton.setOnAction(e -> {
-
                     property.setPawned();
                     activePlayer.setBalance(activePlayer.getBalance()+property.getPrice()/2);
-                    showPlayerCards(activePlayer);
                 }); 
-
-                card.getChildren().add(pawnButton);
+                if (property.getPropertyLevel() < 5 ) {
+        
+                    buyHouseButton.setOnAction(e -> {
+                        monopolyController.buyPropertyHouse(activePlayer, property);
+                    });
+                    houseButtons.getChildren().add(buyHouseButton);
+                }
+                if (property.getPropertyLevel() > 0) {
+                    sellHouseButton.setOnAction(e -> {
+                    monopolyController.sellPropertyHouse(activePlayer, property);
+                    });   
+                    houseButtons.getChildren().add(sellHouseButton);
+                }
+                card.getChildren().addAll(centerPawnButton, centerHouseButtons);
             }
             return card;
 
@@ -408,8 +449,8 @@ public class MonopolyView implements PositionChangeObserver{
         }
 
     }
-
     int diceThrows = 0;
+
     Player activePlayer;
     private void updateSideBar() {
         VBox rightMenu = new VBox();
@@ -464,7 +505,7 @@ public class MonopolyView implements PositionChangeObserver{
             }
             position.setId("position" + player.getPlayerNumber());
 
-            Label playerBalance = new Label(player.getBalance() + " $");
+            Label playerBalance = new Label(player.getBalance() + " kr");
             playerBalance.setId("balance" + player.getPlayerNumber());
             personalBox.getChildren().addAll(pictureNameSplitter, playerBalance, position);
             personalBox.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
@@ -524,7 +565,7 @@ public class MonopolyView implements PositionChangeObserver{
 
             propertyPane.getChildren().add(new VBox(5, card, buyButton));
         } else {
-            Text owner = new Text("Owner: " + property.getOwner().getPlayerName());
+            Label owner = new Label("Owner: " + property.getOwner().getPlayerName());
             owner.setStyle("-fx-font-size:10px; -fx-fill:white; -fx-font-weight:bold;");
             propertyPane.getChildren().add(new VBox(5, card, owner));
         }

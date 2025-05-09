@@ -71,3 +71,21 @@
     -fx-font-size: 60px;
 }
 
+#propertyButton {
+    -fx-background-color: rgb(147, 147, 147);
+    -fx-text-fill: black;
+    -fx-min-width: 60px;
+    -fx-min-height: 30px;
+    -fx-padding: 5px;
+    -fx-spacing: 5px;
+    -fx-radius: 20px;
+}
+#propertyButton:hover{
+    -fx-background-color: rgb(123, 123, 123);
+    -fx-text-fill: black;
+    -fx-min-width: 60px;
+    -fx-min-height: 30px;
+    -fx-padding: 5px;
+    -fx-spacing: 5px;
+    -fx-radius: 20px;
+}

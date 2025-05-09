@@ -5,6 +5,7 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -191,6 +193,7 @@ public class MonopolyController {
         p2Properties.clear();
     }
 
+
     public ComboBox<Player> createPlayerDropdown(Game game){
         List<ComboBox<Player>> playerComboBoxes = new ArrayList<>();
         List<Player> tempPlayers = new ArrayList<>(game.getPlayers());
@@ -212,5 +215,20 @@ public class MonopolyController {
             Label playerLabel = new Label(player.getPlayerName() + " - " + player.getPlayerNumber() + " - " + player.getBirthDate());
             playerListBox.getChildren().add(playerLabel);
         }
+    }
+
+    public void buyPropertyHouse(Player player, Property property) {
+
+        if (player.getBalance()<property.getHouseCost()) {
+            PopupView.showInfoPopup("Can't buy house!", "You don't have enought money to buy a house.");
+        } else {
+            property.setPropertyLevel(property.getPropertyLevel()+1);
+            player.setBalance(player.getBalance()-property.getHouseCost());
+        }
+    }
+
+    public void sellPropertyHouse(Player player, Property property) {
+        property.setPropertyLevel(property.getPropertyLevel()-1);
+        player.setBalance(player.getBalance() + property.getHouseCost()/2);
     }
 }

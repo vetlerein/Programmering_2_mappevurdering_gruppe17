@@ -148,6 +148,8 @@ public class Property {
                 return this.baseRent * 4;
             case 4:
                 return this.baseRent * 5;
+            case 5:
+                return this.baseRent * 6;
             default:
                 return this.baseRent;
         }
@@ -190,5 +192,23 @@ public class Property {
      */
     public void rePurchase() {
         this.isPawned = false;
+    }
+
+    /**
+     * Sets the property level of the property.
+     * Shows how many houses are bought.
+     * @param propertyLevel the new property level of the property
+     */
+    public void setPropertyLevel(int propertyLevel) {
+        this.propertyLevel = propertyLevel;
+    }
+
+
+    /**
+     * Returns the current property level of the property.
+     * @return propertyLevel the current property level of the property
+     */
+    public int getPropertyLevel() {
+        return this.propertyLevel;
     }
 }
