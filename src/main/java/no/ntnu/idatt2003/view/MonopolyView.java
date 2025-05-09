@@ -242,16 +242,19 @@ public class MonopolyView implements PositionChangeObserver{
         playerImage.setTranslateY(-10);
         playerImage.getTransforms().add(rotate);
         stackPane.getChildren().add(playerImage);
-        clearMiddleCard();
+        
 
         Tile tile = game.getBoard().getGameboard().get(player.getPosition() - 1);
         if (tile instanceof ChanceCardTile chanceCard){
             showChanceCard(chanceCard.getActiveChanceCard());
         } else if (tile instanceof PropertyTile propertyTile){
             showProperty(propertyTile.getProperty());
-        } else if(tile instanceof JailTile && player.getJailStatus() != 0) {
+        } else if(tile instanceof JailTile && player.getJailStatus() == 1) {
             inJailText(player);
+        } else {
+            clearMiddleCard();
         }
+
         Label whosTurn = (Label) mainLayout.lookup("#whosTurn");
         whosTurn.setText(game.getPlayers().get(game.activePlayer) + "'s turn");
 
@@ -352,24 +355,13 @@ public class MonopolyView implements PositionChangeObserver{
         rightMenu.setId("rightMenu");
         Button throwDice = new Button("Throw dice");
 
-        diceThrows = 0;
         throwDice.setOnAction(e -> {
             Player player = game.getPlayers().get(game.getActivePlayer());
             if(game.getGameStatus() == true && player.getJailStatus() == 0) {
                 player.move(game);
                 genericGameView.showDice(player.getDicePaths());
-            } else if(diceThrows<3 && player.getJailStatus() != 0){
-                Dice.rollDice(2, player);
-                URL[]dicePaths = player.getDicePaths();
-                genericGameView.showDice(player.getDicePaths());
-                diceThrows ++; 
-                if(dicePaths[0].equals(dicePaths[1])){
-                    player.setJailStatus(0);
-                    game.nextPlayer();
-                }else if(diceThrows == 3) {
-                    player.turnInJail();
-                    game.nextPlayer();
-               }
+            } else if(player.getJailStatus() >= 1){
+                inJailOptions(player);
             }
         });
 
@@ -504,6 +496,64 @@ public class MonopolyView implements PositionChangeObserver{
         int cols = game.getBoard().getCols();
         int rows = game.getBoard().getRows();
         board.add(stackPane, 0, 0, cols, rows);
+        stackPane.toFront();
+    }
+
+    private void inJailOptions(Player player) {
+        GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
+        clearMiddleCard();
+        StackPane stackPane = new StackPane();
+        stackPane.setId("middleShowcase");
+        stackPane.setPrefSize(200, 400);
+        stackPane.setMaxSize(200, 400);
+        stackPane.setMinSize(200, 400);
+        VBox optionBox = new VBox(10);
+        if (player.getJailCard()) {
+            Button freeCardButton = new Button("Use get out of jail free card");
+            freeCardButton.setOnAction(e -> {
+                player.useJailCard();
+                game.nextPlayer();
+            });
+            optionBox.getChildren().add(freeCardButton);
+        }
+
+        if (player.getBalance() < 2000) {
+            Button payButton = new Button("Pay to get out of jail");
+            payButton.setOnAction(e -> {
+                player.addPlayerBalance(-2000);
+                player.setJailStatus(0);
+                game.nextPlayer();
+            });
+            optionBox.getChildren().add(payButton);
+        }
+
+        Button throwButton = new Button("Throw Dice");
+        throwButton.setOnAction(e -> {
+            Dice.rollDice(2, player);
+            URL[]dicePaths = player.getDicePaths();
+            genericGameView.showDice(player.getDicePaths());
+            diceThrows ++; 
+            if(dicePaths[0].equals(dicePaths[1])){
+                player.setJailStatus(0);
+                game.nextPlayer();
+                clearMiddleCard();
+            }else if(diceThrows == 3) {
+                player.turnInJail();
+                game.nextPlayer();
+                clearMiddleCard();
+           }
+        });
+
+        int cols = game.getBoard().getCols();
+        int rows = game.getBoard().getRows();
+        optionBox.getChildren().add(throwButton);
+        optionBox.setTranslateY(50);
+        stackPane.getChildren().add(optionBox);
+        board.add(stackPane, 0, 0, cols, rows);
+        GridPane.setHalignment(stackPane, HPos.CENTER);
+        GridPane.setValignment(stackPane, VPos.CENTER);
+        GridPane.setHalignment(stackPane, HPos.CENTER);
+        GridPane.setValignment(stackPane, VPos.CENTER);
         stackPane.toFront();
     }
 }

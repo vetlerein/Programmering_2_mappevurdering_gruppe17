@@ -29,6 +29,7 @@ public class GenericGameView {
             ImageView diceImageView = new ImageView(dicePath.toExternalForm());
             diceImageView.setFitWidth(size);
             diceImageView.setFitHeight(size);
+            diceImageView.setMouseTransparent(true);
 
             Random random = new Random();
 
@@ -43,6 +44,7 @@ public class GenericGameView {
 
             diceImageView.setRotate(random.nextInt(0, 360));
             dicePane.getChildren().add(diceImageView);
+            dicePane.setMouseTransparent(true);
         }
 
         centerStackPane.getChildren().clear();

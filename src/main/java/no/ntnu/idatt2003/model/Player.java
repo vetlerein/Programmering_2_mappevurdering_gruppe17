@@ -114,6 +114,10 @@ public class Player {
         setPosition(11); 
     }
 
+    /**
+     * Changes the players jail status
+     * @param newStatus the new jail status of the palyer
+     */
     public void setJailStatus(int newStatus) {
         this.jailStatus = newStatus;
     }
@@ -134,6 +138,14 @@ public class Player {
      */
     public void giveJailCard() {
         this.getOutOfJailCard = true;
+    }
+
+    /**
+     * returns if the player has a get out of jail free card
+     * @return boolean for if the player has a get out of jail free card
+     */
+    public boolean  getJailCard() {
+        return this.getOutOfJailCard;
     }
 
     /**
