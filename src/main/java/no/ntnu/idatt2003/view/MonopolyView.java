@@ -252,7 +252,7 @@ public class MonopolyView implements PositionChangeObserver{
         diceThrows = 0;
       
         Label balanceLabel = (Label) mainLayout.lookup("#balance" + player.getPlayerNumber());
-        balanceLabel.setText(player.getBalance() + " $");
+        balanceLabel.setText(player.getBalance() + " kr");
 
 
     }
@@ -313,7 +313,7 @@ public class MonopolyView implements PositionChangeObserver{
             for (int i = 0; i < 4; i++) {
                 Text rentText = new Text("Rent with " + i + " houses");
                 rentGrid.add(rentText, 0, i);
-                Text rentAmount = new Text(String.valueOf(property.getRent()) + " $");
+                Text rentAmount = new Text(String.valueOf(property.getRent()*(i+1)) + " kr");
                 rentGrid.add(rentAmount, 1, i);
                 GridPane.setMargin(rentText, new Insets(5));
                 GridPane.setMargin(rentAmount, new Insets(5));
@@ -322,7 +322,7 @@ public class MonopolyView implements PositionChangeObserver{
             //Hotel rent
             Text rentText = new Text("Rent with a hotel");
             rentGrid.add(rentText, 0, 4);
-            Text rentAmount = new Text(String.valueOf(property.getRent()) + " $");
+            Text rentAmount = new Text(String.valueOf(property.getRent()*5) + " kr");
             rentGrid.add(rentAmount, 1, 4);
             rentGrid.setGridLinesVisible(true);
 
@@ -331,8 +331,8 @@ public class MonopolyView implements PositionChangeObserver{
             rentGrid.setPadding(new Insets(5));
 
             //Costs
-            Text houseCostText = new Text("House cost: " + property.getHouseCost() + " $");
-            Text propertyBuyPrice = new Text("Property price: " + property.getPrice() + " $");
+            Text houseCostText = new Text("House cost: " + property.getHouseCost() + " kr");
+            Text propertyBuyPrice = new Text("Property price: " + property.getPrice() + " kr");
 
             Button pawnButton = new Button("Pawn");
             card.getChildren().addAll(nameHolder, rentGrid, houseCostText, propertyBuyPrice);
@@ -424,7 +424,7 @@ public class MonopolyView implements PositionChangeObserver{
             }
             position.setId("position" + player.getPlayerNumber());
 
-            Label playerBalance = new Label(player.getBalance() + " $");
+            Label playerBalance = new Label(player.getBalance() + " kr");
             playerBalance.setId("balance" + player.getPlayerNumber());
             personalBox.getChildren().addAll(pictureNameSplitter, playerBalance, position);
             personalBox.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
@@ -462,7 +462,6 @@ public class MonopolyView implements PositionChangeObserver{
 
     private void showProperty(Property property) {
         GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
-        Player activePlayer = game.getPlayers().get(game.getActivePlayer());
 
         clearMiddleCard();
         StackPane propertyPane = new StackPane();
