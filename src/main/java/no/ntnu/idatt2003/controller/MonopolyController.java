@@ -133,13 +133,12 @@ public class MonopolyController {
         }
     }
 
-    public HBox getPlayerPropertiesBox(Player player, ArrayList<Property> tradeList) {
+    public VBox getPlayerPropertiesBox(Player player, ArrayList<Property> tradeList) {
         
-        HBox playerProperties = new HBox();
+        VBox playerProperties = new VBox();
+        playerProperties.setSpacing(5);
 
-        if (tradeList.isEmpty()) {
-            
-            // Label emptyLabel = new Label("No properties selected for trade.");
+        if (player.getPropertyList().isEmpty()) {
             Label noPropertiesLabel = new Label("You have no properties to trade. ");
             playerProperties.getChildren().add(noPropertiesLabel);
             return  playerProperties;
@@ -147,7 +146,7 @@ public class MonopolyController {
             
             for (Property property : player.getPropertyList()) {
                 
-                VBox propertyBox = new VBox();
+                HBox propertyBox = new HBox();
                 Button addButton = new Button("Add");
                 Button removeButton = new Button("Remove");
                 Label propertyLabel = new Label(property.getName());
@@ -160,6 +159,8 @@ public class MonopolyController {
                     propertyBox.getChildren().setAll(addButton, propertyLabel);
                     tradeList.remove(property);
                 });
+                addButton.setId("tradeButton");
+                removeButton.setId("tradeButton");
                 
                 propertyBox.getChildren().addAll(addButton, propertyLabel);
                 playerProperties.getChildren().add(propertyBox);

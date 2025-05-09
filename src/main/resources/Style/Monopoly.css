@@ -5,8 +5,9 @@
 #topMenu{
     -fx-background-color: rgb(184, 176, 176);
     -fx-text-fill: black;
-    -fx-min-height: 40px;
-    -fx-padding: 30px;
+    -fx-min-height: 20px;
+    -fx-max-height: 50px;
+    -fx-padding: 10px;
     -fx-spacing: 20px;
 }
 
@@ -32,7 +33,7 @@
 #gameBoard{
     -fx-background-color: white;
     -fx-text-fill: black;
-    -fx-min-height: 300px;
+    -fx-min-height: 280px;
     -fx-min-width: 300px;
 
 }
@@ -59,14 +60,14 @@
 #bottomBox{
     -fx-background-color: rgb(105, 91, 91);
     -fx-text-fill: black;
-    -fx-min-height: 50px ;
-    -fx-padding: 20px;
-    -fx-spacing: 20px;
+    -fx-min-height: 60px ;
+    -fx-padding: 2px;
+    -fx-spacing: 2px;
 }
-
 #winnerText {
     -fx-fill: white;
     -fx-stroke: black;      
     -fx-stroke-width: 2;     
     -fx-font-size: 60px;
 }
+

@@ -10,6 +10,7 @@ public class Property {
     private int propertyLevel;
     private Player owner = null;
     private String colorCode;
+    private boolean isPawned;
 
     public Property (String name, int location, int streetNumber, int price, int baseRent){
         this.name = name;
@@ -19,6 +20,7 @@ public class Property {
         this.baseRent = baseRent;
         //TODO House cost based on street number
         this.propertyLevel = 0;
+        this.isPawned = false;
 
         switch(streetNumber) {
             case 1:
@@ -70,7 +72,8 @@ public class Property {
      */
     public void buyProperty(Player player){
         if (player.getBalance() > this.price) {
-            //TODO add buying
+            player.addProperty(this);
+            player.setBalance(player.getBalance() - this.price);
             this.owner = player;
         }
     }
@@ -166,5 +169,28 @@ public class Property {
      */
     public Player getOwner() {
         return this.owner;
+    }
+
+    /**
+     * Returns a boolean indicating if the property is pawned or not.
+     * @return isPawned true if the property is pawned, false otherwise
+     */
+    public boolean isPawned() {
+        return this.isPawned;
+    }
+
+    /**
+     * Sets the property to pawned.
+     */
+    public void setPawned() {
+        this.isPawned = true;
+    }
+
+    /**
+     * Sets the property to not pawned, when repurchased.
+     * This is used when the player repurchases the property after it has been pawned.
+     */
+    public void rePurchase() {
+        this.isPawned = false;
     }
 }
