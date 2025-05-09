@@ -248,9 +248,9 @@ public class MonopolyView implements PositionChangeObserver{
         }
 
         for (Player playerByBox : game.getPlayers()) {
-            if (game.getPlayers().get(game.getActivePlayer()).equals(playerByBox)) {
+            if (activePlayer.equals(playerByBox)) {
                 VBox playerBox = (VBox) mainLayout.lookup("#playerBox" + playerByBox.getPlayerNumber());
-                playerBox.setStyle("-fx-background-color: green; -fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
+                playerBox.setStyle("-fx-background-color: lightgreen; -fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
             } else {
                 VBox playerBox = (VBox) mainLayout.lookup("#playerBox" + playerByBox.getPlayerNumber());
                 playerBox.setStyle("-fx-background-color: none; -fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
@@ -410,18 +410,19 @@ public class MonopolyView implements PositionChangeObserver{
     }
 
     int diceThrows = 0;
+    Player activePlayer;
     private void updateSideBar() {
         VBox rightMenu = new VBox();
         rightMenu.setId("rightMenu");
         Button throwDice = new Button("Throw dice");
 
         throwDice.setOnAction(e -> {
-            Player player = game.getPlayers().get(game.getActivePlayer());
-            if(game.getGameStatus() == true && player.getJailStatus() == 0) {
-                player.move(game);
-                genericGameView.showDice(player.getDicePaths());
-            } else if(player.getJailStatus() >= 1){
-                inJailOptions(player);
+            activePlayer = game.getPlayers().get(game.getActivePlayer());
+            if(game.getGameStatus() == true && activePlayer.getJailStatus() == 0) {
+                activePlayer.move(game);
+                genericGameView.showDice(activePlayer.getDicePaths());
+            } else if(activePlayer.getJailStatus() >= 1){
+                inJailOptions(activePlayer);
             }
         });
 
@@ -501,8 +502,6 @@ public class MonopolyView implements PositionChangeObserver{
 
     private void showProperty(Property property) {
         GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
-        Player activePlayer = game.getPlayers().get(game.getActivePlayer());
-
         clearMiddleCard();
         StackPane propertyPane = new StackPane();
         propertyPane.setId("middleShowcase");
@@ -518,8 +517,8 @@ public class MonopolyView implements PositionChangeObserver{
         if (property.getOwner() == null) {
             Button buyButton = new Button("Buy property");
             buyButton.setOnAction(e -> {
-                property.buyProperty(game.getPlayers().get(game.getActivePlayer()));
-                showPlayerCards(game.getPlayers().get(game.getActivePlayer()));
+                property.buyProperty(activePlayer);
+                showPlayerCards(activePlayer);
                 clearMiddleCard();
             });
 
