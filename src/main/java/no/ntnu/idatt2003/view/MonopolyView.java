@@ -322,7 +322,7 @@ public class MonopolyView implements PositionChangeObserver{
             //Hotel rent
             Text rentText = new Text("Rent with a hotel");
             rentGrid.add(rentText, 0, 4);
-            Text rentAmount = new Text(String.valueOf(property.getRent()*5) + " kr");
+            Text rentAmount = new Text(String.valueOf(property.getRent()*6) + " kr");
             rentGrid.add(rentAmount, 1, 4);
             rentGrid.setGridLinesVisible(true);
 
@@ -334,17 +334,38 @@ public class MonopolyView implements PositionChangeObserver{
             Text houseCostText = new Text("House cost: " + property.getHouseCost() + " kr");
             Text propertyBuyPrice = new Text("Property price: " + property.getPrice() + " kr");
 
+            HBox houseButtons = new HBox(2);
+            StackPane centerHouseButtons = new StackPane();
+            StackPane centerPawnButton = new StackPane();
             Button pawnButton = new Button("Pawn");
+            Button buyHouseButton = new Button("Buy house");
+            Button sellHouseButton = new Button("Sell house");
+            pawnButton.setId("propertyButton");
+            centerPawnButton.getChildren().add(pawnButton);
+            centerHouseButtons.getChildren().add(houseButtons);
+            buyHouseButton.setId("propertyButton");
+            sellHouseButton.setId("propertyButton");
             card.getChildren().addAll(nameHolder, rentGrid, houseCostText, propertyBuyPrice);
+           
             if (property.getOwner() == activePlayer) {
                 pawnButton.setOnAction(e -> {
-
                     property.setPawned();
                     activePlayer.setBalance(activePlayer.getBalance()+property.getPrice()/2);
-                    showPlayerCards(activePlayer);
                 }); 
-
-                card.getChildren().add(pawnButton);
+                if (property.getPropertyLevel() < 5 ) {
+        
+                    buyHouseButton.setOnAction(e -> {
+                        monopolyController.buyPropertyHouse(activePlayer, property);
+                    });
+                    houseButtons.getChildren().add(buyHouseButton);
+                }
+                if (property.getPropertyLevel() > 0) {
+                    sellHouseButton.setOnAction(e -> {
+                    monopolyController.sellPropertyHouse(activePlayer, property);
+                    });   
+                    houseButtons.getChildren().add(sellHouseButton);
+                }
+                card.getChildren().addAll(centerPawnButton, centerHouseButtons);
             }
             return card;
 

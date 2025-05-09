@@ -191,6 +191,7 @@ public class MonopolyController {
         p2Properties.clear();
     }
 
+
     public ComboBox<Player> createPlayerDropdown(Game game){
         List<ComboBox<Player>> playerComboBoxes = new ArrayList<>();
         List<Player> tempPlayers = new ArrayList<>(game.getPlayers());
@@ -212,5 +213,20 @@ public class MonopolyController {
             Label playerLabel = new Label(player.getPlayerName() + " - " + player.getPlayerNumber() + " - " + player.getBirthDate());
             playerListBox.getChildren().add(playerLabel);
         }
+    }
+
+    public void buyPropertyHouse(Player player, Property property) {
+
+        if (player.getBalance()<property.getHouseCost()) {
+            PopupView.showInfoPopup("Can't buy house!", "You don't have enought money to buy a house.");
+        } else {
+            property.setPropertyLevel(property.getPropertyLevel()+1);
+            player.setBalance(player.getBalance()-property.getHouseCost());
+        }
+    }
+
+    public void sellPropertyHouse(Player player, Property property) {
+        property.setPropertyLevel(property.getPropertyLevel()-1);
+        player.setBalance(player.getBalance() + property.getHouseCost()/2);
     }
 }
