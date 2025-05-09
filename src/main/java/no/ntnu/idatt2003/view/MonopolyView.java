@@ -322,17 +322,16 @@ public class MonopolyView implements PositionChangeObserver{
             Property property = player.getProperties().get(i);
             cardBox.getChildren().add(getPropertyCard(property));
         }
-
         mainLayout.setBottom(scroll);
     }
 
     private VBox getPropertyCard(Property property) {
+        Player activePlayer = game.getPlayers().get(game.getActivePlayer());
         VBox card = new VBox(5);
         card.setPrefSize(80, 100);
         card.setPadding(new Insets(5));
         card.setMaxSize(80, 100);
-        card.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
-        
+    
         //Nameplate
         StackPane nameHolder = new StackPane();
         nameHolder.setMaxWidth(Double.MAX_VALUE);
@@ -345,39 +344,69 @@ public class MonopolyView implements PositionChangeObserver{
         rect.setFill(Color.valueOf(property.getColor()));
         nameHolder.getChildren().addAll(rect, name);
 
-        //Rent grid
-        GridPane rentGrid = new GridPane();
-        for (int i = 0; i < 4; i++) {
-            Text rentText = new Text("Rent with " + i + " houses");
-            rentGrid.add(rentText, 0, i);
-            Text rentAmount = new Text(String.valueOf(property.getRent()*(i+1)) + " $");
-            rentGrid.add(rentAmount, 1, i);
+
+        if (property.isPawned() == false) {
+        
+            card.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
+
+            //Rent grid
+            GridPane rentGrid = new GridPane();
+            for (int i = 0; i < 4; i++) {
+                Text rentText = new Text("Rent with " + i + " houses");
+                rentGrid.add(rentText, 0, i);
+                Text rentAmount = new Text(String.valueOf(property.getRent()) + " $");
+                rentGrid.add(rentAmount, 1, i);
+                GridPane.setMargin(rentText, new Insets(5));
+                GridPane.setMargin(rentAmount, new Insets(5));
+            }
+
+            //Hotel rent
+            Text rentText = new Text("Rent with a hotel");
+            rentGrid.add(rentText, 0, 4);
+            Text rentAmount = new Text(String.valueOf(property.getRent()) + " $");
+            rentGrid.add(rentAmount, 1, 4);
+            rentGrid.setGridLinesVisible(true);
+
             GridPane.setMargin(rentText, new Insets(5));
             GridPane.setMargin(rentAmount, new Insets(5));
+            rentGrid.setPadding(new Insets(5));
+
+            //Costs
+            Text houseCostText = new Text("House cost: " + property.getHouseCost() + " $");
+            Text propertyBuyPrice = new Text("Property price: " + property.getPrice() + " $");
+
+            Button pawnButton = new Button("Pawn");
+            card.getChildren().addAll(nameHolder, rentGrid, houseCostText, propertyBuyPrice);
+            if (property.getOwner() == activePlayer) {
+                pawnButton.setOnAction(e -> {
+
+                    property.setPawned();
+                    activePlayer.setBalance(activePlayer.getBalance()+property.getPrice()/2);
+                    showPlayerCards(activePlayer);
+                }); 
+
+                card.getChildren().add(pawnButton);
+            }
+            return card;
+
+        } else if (property.isPawned() == true) {
+
+            Button rePurchaseButton = new Button("Re-purchase property");
+            rePurchaseButton.setOnAction(e -> {
+                property.rePurchase();
+                activePlayer.setBalance(activePlayer.getBalance()-property.getPrice());
+                showPlayerCards(activePlayer);
+                clearMiddleCard();
+            });
+
+            card.getChildren().addAll(nameHolder, rePurchaseButton);
+            return card;
+
+        } else {
+            PopupView.showInfoPopup("Error!", "Error loading a property card.");
+            return null;
         }
 
-        //Hotel rent
-        Text rentText = new Text("Rent with a hotel");
-        rentGrid.add(rentText, 0, 4);
-        Text rentAmount = new Text(String.valueOf(property.getRent()*6) + " $");
-        rentGrid.add(rentAmount, 1, 4);
-        rentGrid.setGridLinesVisible(true);
-        GridPane.setMargin(rentText, new Insets(5));
-        GridPane.setMargin(rentAmount, new Insets(5));
-        rentGrid.setPadding(new Insets(5));
-
-        //Costs
-        Text houseCostText = new Text("House cost: " + property.getHouseCost() + " $");
-        Text propertyBuyPrice = new Text("Property price: " + property.getPrice() + " $");
-
-        Button pawnButton = new Button("Pawn property");
-        pawnButton.setId("pawnButton");
-        pawnButton.setOnAction(e -> {
-            //TODO add pawn button functionality
-            System.out.println("Pawn property: " + property.getName());
-        });
-        card.getChildren().addAll(nameHolder, rentGrid, houseCostText, propertyBuyPrice, pawnButton);
-        return card;
     }
 
     int diceThrows = 0;
@@ -472,6 +501,7 @@ public class MonopolyView implements PositionChangeObserver{
 
     private void showProperty(Property property) {
         GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
+        Player activePlayer = game.getPlayers().get(game.getActivePlayer());
 
         clearMiddleCard();
         StackPane propertyPane = new StackPane();
@@ -486,9 +516,14 @@ public class MonopolyView implements PositionChangeObserver{
     
 
         if (property.getOwner() == null) {
-            Button buy = new Button("Buy property");
-            //TODO add buying
-            propertyPane.getChildren().add(new VBox(5, card, buy));
+            Button buyButton = new Button("Buy property");
+            buyButton.setOnAction(e -> {
+                property.buyProperty(game.getPlayers().get(game.getActivePlayer()));
+                showPlayerCards(game.getPlayers().get(game.getActivePlayer()));
+                clearMiddleCard();
+            });
+
+            propertyPane.getChildren().add(new VBox(5, card, buyButton));
         } else {
             Text owner = new Text("Owner: " + property.getOwner().getPlayerName());
             owner.setStyle("-fx-font-size:10px; -fx-fill:white; -fx-font-weight:bold;");
