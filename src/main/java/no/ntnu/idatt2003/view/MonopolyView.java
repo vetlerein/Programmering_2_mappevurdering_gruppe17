@@ -273,7 +273,7 @@ public class MonopolyView implements PositionChangeObserver{
     
             boolean hasUnpawned = false;
             for (Property property : player.getProperties()) {
-                if (true) {  //TODO check if property is pawned
+                if (property.isPawned() == false) {
                     hasUnpawned = true;
                     break;
                 }
