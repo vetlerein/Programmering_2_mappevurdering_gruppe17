@@ -89,6 +89,9 @@ public class Player {
     public void addProperty(Property property) {
         this.properties.add(property);
         property.setOwner(this);
+        if (observer != null) {
+            observer.positionChanged(this);
+        }
     }
 
     public ArrayList<Property> getPropertyList() {
@@ -140,6 +143,9 @@ public class Player {
         if (property.getOwner() == this) {
             this.properties.remove(property);
             property.setOwner(null);
+        }
+        if (observer != null) {
+            observer.positionChanged(this);
         }
     }
 

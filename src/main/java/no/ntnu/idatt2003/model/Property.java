@@ -64,7 +64,8 @@ public class Property {
      */
     public void buyProperty(Player player){
         if (player.getBalance() > this.price) {
-            //TODO add buying
+            player.addProperty(this);
+            player.setBalance(player.getBalance() - this.price);
             this.owner = player;
         }
     }

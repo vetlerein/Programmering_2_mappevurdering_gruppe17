@@ -243,6 +243,8 @@ public class MonopolyView implements PositionChangeObserver{
 
         Label balanceLabel = (Label) mainLayout.lookup("#balance" + player.getPlayerNumber());
         balanceLabel.setText(player.getBalance() + " $");
+
+
     }
 
     private StackPane getTileAt(GridPane grid, int col, int row) {
@@ -269,12 +271,11 @@ public class MonopolyView implements PositionChangeObserver{
             Property property = player.getProperties().get(i);
             cardBox.getChildren().add(getPropertyCard(property));
         }
-
         mainLayout.setBottom(scroll);
     }
 
     private VBox getPropertyCard(Property property) {
-
+        Player activePlayer = game.getPlayers().get(game.getActivePlayer());
         VBox card = new VBox(5);
         card.setPrefSize(80, 100);
         card.setPadding(new Insets(5));
@@ -323,11 +324,12 @@ public class MonopolyView implements PositionChangeObserver{
 
             Button pawnButton = new Button("Pawn");
             card.getChildren().addAll(nameHolder, rentGrid, houseCostText, propertyBuyPrice);
-            if (property.getOwner() == game.getPlayers().get(game.getActivePlayer())) {
+            if (property.getOwner() == activePlayer) {
                 pawnButton.setOnAction(e -> {
 
                     property.setPawned();
-                    showPlayerCards(game.getPlayers().get(game.getActivePlayer()));
+                    activePlayer.setBalance(activePlayer.getBalance()+property.getPrice()/2);
+                    showPlayerCards(activePlayer);
                 }); 
 
                 card.getChildren().add(pawnButton);
@@ -339,7 +341,8 @@ public class MonopolyView implements PositionChangeObserver{
             Button rePurchaseButton = new Button("Re-purchase property");
             rePurchaseButton.setOnAction(e -> {
                 property.rePurchase();
-                showPlayerCards(game.getPlayers().get(game.getActivePlayer()));
+                activePlayer.setBalance(activePlayer.getBalance()-property.getPrice());
+                showPlayerCards(activePlayer);
                 clearMiddleCard();
             });
 
@@ -446,6 +449,7 @@ public class MonopolyView implements PositionChangeObserver{
 
     private void showProperty(Property property) {
         GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
+        Player activePlayer = game.getPlayers().get(game.getActivePlayer());
 
         clearMiddleCard();
         StackPane propertyPane = new StackPane();
@@ -466,7 +470,6 @@ public class MonopolyView implements PositionChangeObserver{
                 showPlayerCards(game.getPlayers().get(game.getActivePlayer()));
                 clearMiddleCard();
             });
-
 
             propertyPane.getChildren().add(new VBox(5, card, buyButton));
         } else {
