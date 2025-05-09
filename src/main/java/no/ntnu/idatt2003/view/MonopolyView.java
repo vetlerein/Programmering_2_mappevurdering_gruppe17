@@ -311,18 +311,23 @@ public class MonopolyView implements PositionChangeObserver{
             //Rent grid
             GridPane rentGrid = new GridPane();
             for (int i = 0; i < 4; i++) {
-                Text rentText = new Text("Rent with " + i + " houses");
+                
+                Label rentText = new Label("Rent with " + i + " houses");
+                rentText.setMinWidth(100);
                 rentGrid.add(rentText, 0, i);
-                Text rentAmount = new Text(String.valueOf(property.getRent()*(i+1)) + " kr");
+                Label rentAmount = new Label(String.valueOf(property.getRent()*(i+1)) + " kr");
+                rentAmount.setMinWidth(40);
                 rentGrid.add(rentAmount, 1, i);
                 GridPane.setMargin(rentText, new Insets(5));
                 GridPane.setMargin(rentAmount, new Insets(5));
             }
 
             //Hotel rent
-            Text rentText = new Text("Rent with a hotel");
+            Label rentText = new Label("Rent with a hotel");
+            rentText.setMinWidth(60);
             rentGrid.add(rentText, 0, 4);
-            Text rentAmount = new Text(String.valueOf(property.getRent()*6) + " kr");
+            Label rentAmount = new Label(String.valueOf(property.getRent()*6) + " kr");
+            rentAmount.setMinWidth(20);
             rentGrid.add(rentAmount, 1, 4);
             rentGrid.setGridLinesVisible(true);
 
@@ -330,9 +335,24 @@ public class MonopolyView implements PositionChangeObserver{
             GridPane.setMargin(rentAmount, new Insets(5));
             rentGrid.setPadding(new Insets(5));
 
+            //Making the current propertylevel green
+            int currentPropertyLevel = property.getPropertyLevel();
+       
+            for (Node node : rentGrid.getChildren()) {
+                Integer col = GridPane.getColumnIndex(node);
+                Integer row = GridPane.getRowIndex(node);
+            
+                col = (col == null) ? 0 : col;
+                row = (row == null) ? 0 : row;
+            
+                if (row == currentPropertyLevel) {
+                    node.setStyle("-fx-background-color: lightgreen;");
+                }
+            }
+
             //Costs
-            Text houseCostText = new Text("House cost: " + property.getHouseCost() + " kr");
-            Text propertyBuyPrice = new Text("Property price: " + property.getPrice() + " kr");
+            Label houseCostText = new Label("House cost: " + property.getHouseCost() + " kr");
+            Label propertyBuyPrice = new Label("Property price: " + property.getPrice() + " kr");
 
             HBox houseButtons = new HBox(2);
             StackPane centerHouseButtons = new StackPane();
@@ -388,8 +408,8 @@ public class MonopolyView implements PositionChangeObserver{
         }
 
     }
-
     int diceThrows = 0;
+
     private void updateSideBar() {
         VBox rightMenu = new VBox();
         rightMenu.setId("rightMenu");
@@ -506,7 +526,7 @@ public class MonopolyView implements PositionChangeObserver{
 
             propertyPane.getChildren().add(new VBox(5, card, buyButton));
         } else {
-            Text owner = new Text("Owner: " + property.getOwner().getPlayerName());
+            Label owner = new Label("Owner: " + property.getOwner().getPlayerName());
             owner.setStyle("-fx-font-size:10px; -fx-fill:white; -fx-font-weight:bold;");
             propertyPane.getChildren().add(new VBox(5, card, owner));
         }
