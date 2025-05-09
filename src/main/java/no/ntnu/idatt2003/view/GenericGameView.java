@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -58,11 +59,21 @@ public class GenericGameView {
      * @param player
      */
     public void playerWon(Player player) {
-        Pane winnerPane = new Pane();
-        
-        Pane overlayContainer = (Pane) mainLayout.getCenter();
-        if (overlayContainer == null) return;
+        Pane centerPane = (Pane) mainLayout.getCenter();
 
+        Pane overlay = null;
+        for (Node child : centerPane.getChildren()) {
+            if ("winnerOverlay".equals(child.getId())) {
+                overlay = (Pane) child;
+                break;
+            }
+        }
+        if (overlay == null) {
+            overlay = new Pane();
+            overlay.setId("winnerOverlay");
+            overlay.setMouseTransparent(false);
+            centerPane.getChildren().add(overlay);
+        }
         int size = 50;
 
         List<Image> images = new ArrayList<>();
@@ -87,14 +98,14 @@ public class GenericGameView {
 
             imageView.setFitWidth(size);
             imageView.setFitHeight(size);
-            winnerPane.getChildren().add(imageView);
+            overlay.getChildren().add(imageView);
             pizzas.add(imageView);
         }
         Text winnerText = new Text(player.getPlayerName() + " has won the game!");
         winnerText.setId("winnerText");
-        overlayContainer.getChildren().add(winnerPane);
-        overlayContainer.getChildren().add(winnerText);
-        mainLayout.setCenter(overlayContainer);
+        overlay.getChildren().add(winnerText);
+        overlay.setMouseTransparent(true);
+        mainLayout.setCenter(overlay);
 
         double fallSpeed = 2; 
         AnimationTimer timer = new AnimationTimer() {

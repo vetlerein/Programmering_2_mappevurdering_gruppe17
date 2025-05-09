@@ -24,6 +24,7 @@ public class PropertyTile extends Tile{
      */
     @Override
     public void action(Player player, Game game) {
+        //TODO check if property is pawned 
         if (this.property.getOwner() != null && this.property.getOwner() != player) {
             player.addPlayerBalance(-1*this.property.getRent());
             this.property.getOwner().addPlayerBalance(this.property.getRent());
