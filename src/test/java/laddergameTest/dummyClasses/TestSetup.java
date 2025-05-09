@@ -34,7 +34,7 @@ public class TestSetup {
 
         Board smallboard = BoardGameFactory.createSmallBoard();
         Game game = new Game(players, smallboard);
-        game.setLadderView(new DummyLaddergameView());
+        Game.setLadderView(new DummyLaddergameView());
         DummyGenericGameView dummyView = new DummyGenericGameView();
         Game.setView(dummyView);
 

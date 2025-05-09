@@ -44,6 +44,7 @@ public class GenericGameView {
             diceImageView.setLayoutY(y);
 
             diceImageView.setRotate(random.nextInt(0, 360));
+            dicePane.setMouseTransparent(true);
             dicePane.getChildren().add(diceImageView);
             dicePane.setMouseTransparent(true);
         }
