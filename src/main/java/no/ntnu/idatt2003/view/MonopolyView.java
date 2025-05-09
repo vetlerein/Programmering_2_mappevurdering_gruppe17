@@ -67,7 +67,6 @@ public class MonopolyView implements PositionChangeObserver{
        //newGameButton.setOnAction(e -> monopolyController.newGame());
 
         newGameButton.setOnAction(e->{
-            //TODO add a new game button with player selection
             Board board = BoardGameFactory.createMonopolyBoard();
 
             PlayerFileReader playerFileReader = new PlayerFileReader();
@@ -83,8 +82,9 @@ public class MonopolyView implements PositionChangeObserver{
         Button backToMenuButton = new Button("Main menu");
         backToMenuButton.setOnAction(e -> {
             Stage currentStage = (Stage) mainLayout.getScene().getWindow();
+            Scene currentScene = currentStage.getScene();
             try {
-                Scene mainMenuScene = new Scene(new MenuView().mainMenu(currentStage), currentStage.getWidth(), currentStage.getHeight());
+                Scene mainMenuScene = new Scene(new MenuView().mainMenu(currentStage), currentScene.getWidth(), currentScene.getHeight());
                 mainMenuScene.getStylesheets().add(getClass().getResource("/Style/Launcherwindow.css").toExternalForm());
                 currentStage.setScene(mainMenuScene);
                 currentStage.setTitle("Main Menu");
@@ -94,26 +94,12 @@ public class MonopolyView implements PositionChangeObserver{
         });
         topMenu.getChildren().addAll(newGameButton, backToMenuButton);
 
-        //Right box
-        VBox rightMenu = new VBox();
-        rightMenu.setId("rightMenu");
-        Button tradeButton = new Button("Trade");
-        tradeButton.setOnAction(e -> {
-            TradeView tradeView = new TradeView();
-            tradeView.showTradeView(game);
-        });
-        Button diceButton = new Button("Roll dice");
-
-        rightMenu.getChildren().addAll(tradeButton, diceButton);
-        rightMenu.setId("rightMenu");
-
         //Bottom box
         HBox bottomMenu = new HBox();
         bottomMenu.setId("bottomMenu");
 
         //Adding everything to the final window
         mainLayout.setTop(topMenu);
-        mainLayout.setRight(rightMenu);
         mainLayout.setBottom(bottomMenu);
         GenericGameView.setMainLayout(mainLayout);
         return mainLayout;
@@ -257,7 +243,6 @@ public class MonopolyView implements PositionChangeObserver{
 
         Label whosTurn = (Label) mainLayout.lookup("#whosTurn");
         whosTurn.setText(game.getPlayers().get(game.activePlayer) + "'s turn");
-
         Label positionLabel = (Label) mainLayout.lookup("#position" + player.getPlayerNumber());
         positionLabel.setText(game.getBoard().getGameboard().get(player.getPosition()-1).getClass().getSimpleName());
         if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof PropertyTile propertyTile){
@@ -265,6 +250,9 @@ public class MonopolyView implements PositionChangeObserver{
         }
 
         diceThrows = 0;
+      
+        Label balanceLabel = (Label) mainLayout.lookup("#balance" + player.getPlayerNumber());
+        balanceLabel.setText(player.getBalance() + " $");
     }
 
     private StackPane getTileAt(GridPane grid, int col, int row) {
@@ -321,8 +309,8 @@ public class MonopolyView implements PositionChangeObserver{
             rentGrid.add(rentText, 0, i);
             Text rentAmount = new Text(String.valueOf(property.getRent()*(i+1)) + " $");
             rentGrid.add(rentAmount, 1, i);
-            rentGrid.setMargin(rentText, new Insets(5));
-            rentGrid.setMargin(rentAmount, new Insets(5));
+            GridPane.setMargin(rentText, new Insets(5));
+            GridPane.setMargin(rentAmount, new Insets(5));
         }
 
         //Hotel rent
@@ -331,8 +319,8 @@ public class MonopolyView implements PositionChangeObserver{
         Text rentAmount = new Text(String.valueOf(property.getRent()*6) + " $");
         rentGrid.add(rentAmount, 1, 4);
         rentGrid.setGridLinesVisible(true);
-        rentGrid.setMargin(rentText, new Insets(5));
-        rentGrid.setMargin(rentAmount, new Insets(5));
+        GridPane.setMargin(rentText, new Insets(5));
+        GridPane.setMargin(rentAmount, new Insets(5));
         rentGrid.setPadding(new Insets(5));
 
         //Costs
@@ -368,7 +356,10 @@ public class MonopolyView implements PositionChangeObserver{
         Button tradeButton = new Button("Trade");
         tradeButton.setOnAction(e -> {
             if(game.getGameStatus() == true) {
-                //TODO add trade button functionality
+                TradeView tradeView = new TradeView();
+                tradeView.showTradeView(game);
+            }else {
+                PopupView.showInfoPopup("No active game", "You need to start a game before you can trade.");
             }
         });
 
@@ -403,6 +394,7 @@ public class MonopolyView implements PositionChangeObserver{
             position.setId("position" + player.getPlayerNumber());
 
             Label playerBalance = new Label(player.getBalance() + " $");
+            playerBalance.setId("balance" + player.getPlayerNumber());
             personalBox.getChildren().addAll(pictureNameSplitter, playerBalance, position);
             personalBox.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
             playersBox.getChildren().addAll(personalBox);
