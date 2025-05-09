@@ -1,6 +1,7 @@
 package no.ntnu.idatt2003.view;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javafx.geometry.HPos;
@@ -33,12 +34,14 @@ import javafx.stage.Stage;
 import no.ntnu.idatt2003.controller.MonopolyController;
 import no.ntnu.idatt2003.model.Board;
 import no.ntnu.idatt2003.model.BoardGameFactory;
+import no.ntnu.idatt2003.model.Dice;
 import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.Property;
 import no.ntnu.idatt2003.model.chanceCards.ChanceCard;
 import no.ntnu.idatt2003.model.fileManagement.playerFileManagement.PlayerFileReader;
 import no.ntnu.idatt2003.model.tile.ChanceCardTile;
+import no.ntnu.idatt2003.model.tile.JailTile;
 import no.ntnu.idatt2003.model.tile.PropertyTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
@@ -71,7 +74,6 @@ public class MonopolyView implements PositionChangeObserver{
             for(Player player : players){
                 player.setPicture(getClass().getResource("/playerPieces/cheese.png"));
             }
-
             Game game = new Game(players, board);
             setGameBoard(game);
         }
@@ -99,7 +101,7 @@ public class MonopolyView implements PositionChangeObserver{
         //Adding everything to the final window
         mainLayout.setTop(topMenu);
         mainLayout.setBottom(bottomMenu);
-
+        GenericGameView.setMainLayout(mainLayout);
         return mainLayout;
     }
 
@@ -114,7 +116,7 @@ public class MonopolyView implements PositionChangeObserver{
         mainPane.setId("mainPane");
         mainPane.getChildren().add(gameBoard);
         mainLayout.setCenter(mainPane);
-
+  
 
         for (int i = 0; i < game.getBoard().getGameboard().size(); i++) {
                 StackPane stackPane = new StackPane();
@@ -226,21 +228,29 @@ public class MonopolyView implements PositionChangeObserver{
         playerImage.setTranslateY(-10);
         playerImage.getTransforms().add(rotate);
         stackPane.getChildren().add(playerImage);
-        clearMiddleCard();
-
-        if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof ChanceCardTile chanceCard){
-            System.out.println("Sjanse");
-            showChanceCard(chanceCard.getActiveChaneCard());
-        } else if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof PropertyTile propertyTile){
-            showProperty(propertyTile.getProperty());
-        }
         
+
+        Tile tile = game.getBoard().getGameboard().get(player.getPosition() - 1);
+        if (tile instanceof ChanceCardTile chanceCard){
+            showChanceCard(chanceCard.getActiveChanceCard());
+        } else if (tile instanceof PropertyTile propertyTile){
+            showProperty(propertyTile.getProperty());
+        } else if(tile instanceof JailTile && player.getJailStatus() == 1) {
+            inJailText(player);
+        } else {
+            clearMiddleCard();
+        }
+
+        Label whosTurn = (Label) mainLayout.lookup("#whosTurn");
+        whosTurn.setText(game.getPlayers().get(game.activePlayer) + "'s turn");
         Label positionLabel = (Label) mainLayout.lookup("#position" + player.getPlayerNumber());
         positionLabel.setText(game.getBoard().getGameboard().get(player.getPosition()-1).getClass().getSimpleName());
         if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof PropertyTile propertyTile){
             positionLabel.setText(propertyTile.getProperty().getName());
-        }   
+        }
 
+        diceThrows = 0;
+      
         Label balanceLabel = (Label) mainLayout.lookup("#balance" + player.getPlayerNumber());
         balanceLabel.setText(player.getBalance() + " $");
     }
@@ -297,7 +307,7 @@ public class MonopolyView implements PositionChangeObserver{
         for (int i = 0; i < 4; i++) {
             Text rentText = new Text("Rent with " + i + " houses");
             rentGrid.add(rentText, 0, i);
-            Text rentAmount = new Text(String.valueOf(property.getRent()) + " $");
+            Text rentAmount = new Text(String.valueOf(property.getRent()*(i+1)) + " $");
             rentGrid.add(rentAmount, 1, i);
             GridPane.setMargin(rentText, new Insets(5));
             GridPane.setMargin(rentAmount, new Insets(5));
@@ -306,7 +316,7 @@ public class MonopolyView implements PositionChangeObserver{
         //Hotel rent
         Text rentText = new Text("Rent with a hotel");
         rentGrid.add(rentText, 0, 4);
-        Text rentAmount = new Text(String.valueOf(property.getRent()) + " $");
+        Text rentAmount = new Text(String.valueOf(property.getRent()*6) + " $");
         rentGrid.add(rentAmount, 1, 4);
         rentGrid.setGridLinesVisible(true);
         GridPane.setMargin(rentText, new Insets(5));
@@ -327,17 +337,19 @@ public class MonopolyView implements PositionChangeObserver{
         return card;
     }
 
+    int diceThrows = 0;
     private void updateSideBar() {
         VBox rightMenu = new VBox();
         rightMenu.setId("rightMenu");
         Button throwDice = new Button("Throw dice");
+
         throwDice.setOnAction(e -> {
-            if(game.getGameStatus() == true) {
-                Player player = game.getPlayers().get(game.getActivePlayer());
+            Player player = game.getPlayers().get(game.getActivePlayer());
+            if(game.getGameStatus() == true && player.getJailStatus() == 0) {
                 player.move(game);
-                genericGameView.showDice(player.getDicePaths(), mainLayout);
-                 
-                game.nextPlayer();
+                genericGameView.showDice(player.getDicePaths());
+            } else if(player.getJailStatus() >= 1){
+                inJailOptions(player);
             }
         });
 
@@ -393,8 +405,6 @@ public class MonopolyView implements PositionChangeObserver{
     }
 
     private void showChanceCard(ChanceCard chanceCard) {
-
-        //TODO feil med ChanceCardMove kort
         GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
 
         clearMiddleCard();
@@ -462,6 +472,81 @@ public class MonopolyView implements PositionChangeObserver{
         }
     }
     
+    private void inJailText(Player player){
+        GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
+        clearMiddleCard();
+        StackPane stackPane = new StackPane();
+        stackPane.setId("middleShowcase");
+        stackPane.setPrefSize(200, 400);
+        stackPane.setMaxSize(200, 400);
+        stackPane.setMinSize(200, 400);
+        GridPane.setHalignment(stackPane, HPos.CENTER);
+        GridPane.setValignment(stackPane, VPos.CENTER);
+        Text jailText = new Text(player.getPlayerName() + " has gone to jail");
+        jailText.setStyle("-fx-font-size:20px; -fx-fill:black; -fx-font-weight:bold;");
+        stackPane.getChildren().add(jailText);
+        int cols = game.getBoard().getCols();
+        int rows = game.getBoard().getRows();
+        board.add(stackPane, 0, 0, cols, rows);
+        stackPane.toFront();
+    }
 
+    private void inJailOptions(Player player) {
+        GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
+        clearMiddleCard();
+        StackPane stackPane = new StackPane();
+        stackPane.setId("middleShowcase");
+        stackPane.setPrefSize(200, 400);
+        stackPane.setMaxSize(200, 400);
+        stackPane.setMinSize(200, 400);
+        VBox optionBox = new VBox(10);
+        if (player.getJailCard()) {
+            Button freeCardButton = new Button("Use get out of jail free card");
+            freeCardButton.setOnAction(e -> {
+                player.useJailCard();
+                game.nextPlayer();
+            });
+            optionBox.getChildren().add(freeCardButton);
+        }
+
+        if (player.getBalance() < 2000) {
+            Button payButton = new Button("Pay to get out of jail");
+            payButton.setOnAction(e -> {
+                player.addPlayerBalance(-2000);
+                player.setJailStatus(0);
+                game.nextPlayer();
+            });
+            optionBox.getChildren().add(payButton);
+        }
+
+        Button throwButton = new Button("Throw Dice");
+        throwButton.setOnAction(e -> {
+            Dice.rollDice(2, player);
+            URL[]dicePaths = player.getDicePaths();
+            genericGameView.showDice(player.getDicePaths());
+            diceThrows ++; 
+            if(dicePaths[0].equals(dicePaths[1])){
+                player.setJailStatus(0);
+                game.nextPlayer();
+                clearMiddleCard();
+            }else if(diceThrows == 3) {
+                player.turnInJail();
+                game.nextPlayer();
+                clearMiddleCard();
+           }
+        });
+
+        int cols = game.getBoard().getCols();
+        int rows = game.getBoard().getRows();
+        optionBox.getChildren().add(throwButton);
+        optionBox.setTranslateY(50);
+        stackPane.getChildren().add(optionBox);
+        board.add(stackPane, 0, 0, cols, rows);
+        GridPane.setHalignment(stackPane, HPos.CENTER);
+        GridPane.setValignment(stackPane, VPos.CENTER);
+        GridPane.setHalignment(stackPane, HPos.CENTER);
+        GridPane.setValignment(stackPane, VPos.CENTER);
+        stackPane.toFront();
+    }
 }
 

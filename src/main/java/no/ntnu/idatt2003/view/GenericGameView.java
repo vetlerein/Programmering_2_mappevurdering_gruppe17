@@ -15,11 +15,12 @@ import javafx.scene.text.Text;
 import no.ntnu.idatt2003.model.Player;
 
 public class GenericGameView {
+    public static BorderPane mainLayout;
     /**
      * Shows the physical dice on the board
      * @param dicePaths the paths to the dice images
      */
-    public void showDice(URL[] dicePaths, BorderPane mainLayout) {
+    public void showDice(URL[] dicePaths) {
         StackPane centerStackPane = new StackPane();
         Pane dicePane = new Pane();
         dicePane.setId("dicePane");
@@ -28,6 +29,7 @@ public class GenericGameView {
             ImageView diceImageView = new ImageView(dicePath.toExternalForm());
             diceImageView.setFitWidth(size);
             diceImageView.setFitHeight(size);
+            diceImageView.setMouseTransparent(true);
 
             Random random = new Random();
 
@@ -42,6 +44,7 @@ public class GenericGameView {
 
             diceImageView.setRotate(random.nextInt(0, 360));
             dicePane.getChildren().add(diceImageView);
+            dicePane.setMouseTransparent(true);
         }
 
         centerStackPane.getChildren().clear();
@@ -50,7 +53,11 @@ public class GenericGameView {
         mainLayout.setCenter(centerStackPane);
     }
 
-    public void playerWon(Player player, BorderPane mainLayout) {
+    /**
+     * Method for when a player wins the game
+     * @param player
+     */
+    public void playerWon(Player player) {
         Pane winnerPane = new Pane();
         StackPane stackPane = (StackPane) mainLayout.lookup("#gameBoardFinal");
 
@@ -106,5 +113,13 @@ public class GenericGameView {
         };
         timer.start();
 
+    }
+
+    /**
+     * Sets the main layout for the view
+     * @param layout
+     */
+    public static void setMainLayout(BorderPane layout){
+        mainLayout = layout;
     }
 }

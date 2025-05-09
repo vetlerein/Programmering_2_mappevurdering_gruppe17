@@ -23,27 +23,35 @@ public class Property {
         switch(streetNumber) {
             case 1:
                 this.colorCode = "#664825";
+                this.houseCost = 500;
                 break;
             case 2:
                 this.colorCode = "#42ddeb";
+                this.houseCost = 600;
                 break;
             case 3:
                 this.colorCode = "#d108b0";
+                this.houseCost = 750;
                 break;
             case 4:
                 this.colorCode = "#eb9e05";
+                this.houseCost = 900;
                 break;
             case 5:
                 this.colorCode = "#e3df09";
+                this.houseCost = 1100;
                 break;
             case 6:
                 this.colorCode = "#e01d1d";
+                this.houseCost = 1300;
                 break;
             case 7:
                 this.colorCode = "#459608";
+                this.houseCost = 1600;
                 break;
             case 8:
                 this.colorCode = "#142375";
+                this.houseCost = 2000;
                 break;
         }
     }
