@@ -18,7 +18,6 @@ public class Property {
         this.streetNumber = streetNumber;
         this.price = price;
         this.baseRent = baseRent;
-        //TODO House cost based on street number
         this.propertyLevel = 0;
         this.isPawned = false;
 

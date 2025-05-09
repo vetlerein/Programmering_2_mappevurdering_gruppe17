@@ -20,7 +20,7 @@ public class ChanceCardMove implements ChanceCard {
 
     @Override
     public void effect(Player player) {
-        PauseTransition pause = new PauseTransition(Duration.millis(4000));
+        PauseTransition pause = new PauseTransition(Duration.millis(1500));
         
         pause.setOnFinished(e -> {
             if (newPosition < player.getPosition()) {
