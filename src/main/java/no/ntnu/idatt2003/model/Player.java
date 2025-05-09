@@ -44,8 +44,8 @@ public class Player {
     /**
      * Actives the player for the game.
      */
-    public void setPlayerActive() {
-        this.playerActive = true;
+    public void setPlayerActive(Boolean active) {
+        this.playerActive = active;
     }
 
     /**
