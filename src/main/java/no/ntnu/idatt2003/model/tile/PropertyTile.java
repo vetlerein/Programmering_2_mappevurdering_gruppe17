@@ -24,7 +24,10 @@ public class PropertyTile extends Tile{
      */
     @Override
     public void action(Player player, Game game) {
-        //TODO add popup to buy property
+        if (this.property.getOwner() != null && this.property.getOwner() != player) {
+            player.addPlayerBalance(-1*this.property.getRent());
+            this.property.getOwner().addPlayerBalance(this.property.getRent());
+        }
     }
 
     /**

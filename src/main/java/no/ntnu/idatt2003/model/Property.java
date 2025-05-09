@@ -17,7 +17,6 @@ public class Property {
         this.streetNumber = streetNumber;
         this.price = price;
         this.baseRent = baseRent;
-        //TODO House cost based on street number
         this.propertyLevel = 0;
 
         switch(streetNumber) {
@@ -137,7 +136,6 @@ public class Property {
      * @return rent the current rent of the property
      */
     public int getRent() {
-        //TODO add rent calculation based on property level
         switch (this.propertyLevel) {
             case 1:
                 return this.baseRent * 2;

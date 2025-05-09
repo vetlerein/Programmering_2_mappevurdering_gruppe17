@@ -59,7 +59,9 @@ public class GenericGameView {
      */
     public void playerWon(Player player) {
         Pane winnerPane = new Pane();
-        StackPane stackPane = (StackPane) mainLayout.lookup("#gameBoardFinal");
+        
+        Pane overlayContainer = (Pane) mainLayout.getCenter();
+        if (overlayContainer == null) return;
 
         int size = 50;
 
@@ -90,9 +92,9 @@ public class GenericGameView {
         }
         Text winnerText = new Text(player.getPlayerName() + " has won the game!");
         winnerText.setId("winnerText");
-        stackPane.getChildren().add(winnerPane);
-        stackPane.getChildren().add(winnerText);
-        mainLayout.setCenter(stackPane);
+        overlayContainer.getChildren().add(winnerPane);
+        overlayContainer.getChildren().add(winnerText);
+        mainLayout.setCenter(overlayContainer);
 
         double fallSpeed = 2; 
         AnimationTimer timer = new AnimationTimer() {

@@ -241,19 +241,62 @@ public class MonopolyView implements PositionChangeObserver{
             clearMiddleCard();
         }
 
-        Label whosTurn = (Label) mainLayout.lookup("#whosTurn");
-        whosTurn.setText(game.getPlayers().get(game.activePlayer) + "'s turn");
         Label positionLabel = (Label) mainLayout.lookup("#position" + player.getPlayerNumber());
         positionLabel.setText(game.getBoard().getGameboard().get(player.getPosition()-1).getClass().getSimpleName());
         if (game.getBoard().getGameboard().get(player.getPosition()-1) instanceof PropertyTile propertyTile){
             positionLabel.setText(propertyTile.getProperty().getName());
         }
 
+        for (Player playerByBox : game.getPlayers()) {
+            if (game.getPlayers().get(game.getActivePlayer()).equals(playerByBox)) {
+                VBox playerBox = (VBox) mainLayout.lookup("#playerBox" + playerByBox.getPlayerNumber());
+                playerBox.setStyle("-fx-background-color: green; -fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
+            } else {
+                VBox playerBox = (VBox) mainLayout.lookup("#playerBox" + playerByBox.getPlayerNumber());
+                playerBox.setStyle("-fx-background-color: none; -fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
+            }
+        }
+        
+
         diceThrows = 0;
-      
         Label balanceLabel = (Label) mainLayout.lookup("#balance" + player.getPlayerNumber());
         balanceLabel.setText(player.getBalance() + " $");
+        checkForWinner();
     }
+
+    private void checkForWinner() {
+        for (Player player : game.getPlayers()) {
+            if (player.getBalance() <= 0) {
+                player.setPlayerActive(false);
+                continue;
+            }
+    
+            boolean hasUnpawned = false;
+            for (Property property : player.getProperties()) {
+                if (true) {  //TODO check if property is pawned
+                    hasUnpawned = true;
+                    break;
+                }
+            }
+            if (!hasUnpawned) {
+                player.setPlayerActive(false);
+            }
+        }
+    
+        Player lastActive = null;
+        int activeCount = 0;
+        for (Player player : game.getPlayers()) {
+            if (player.getPlayerActive()) {
+                activeCount++;
+                lastActive = player; 
+            }
+        }
+
+        if (activeCount == 1 && lastActive != null) {
+            game.finish(lastActive);
+        }
+    }
+    
 
     private StackPane getTileAt(GridPane grid, int col, int row) {
         for (Node node : grid.getChildren()) {
@@ -363,8 +406,6 @@ public class MonopolyView implements PositionChangeObserver{
             }
         });
 
-        Label whosTurn = new Label(game.getPlayers().get(game.activePlayer) + "'s turn");
-        whosTurn.setId("whosTurn");
         Label players = new Label("Players: ");
 
         //Box on the side for the players
@@ -384,7 +425,7 @@ public class MonopolyView implements PositionChangeObserver{
             playerImage.setPreserveRatio(true); 
             Label playerLabel = new Label(player.getPlayerName()+": ");
             pictureNameSplitter.getChildren().addAll(playerImage, playerLabel);
-            pictureNameSplitter.setId("playerBox" + player.getPlayerNumber());
+            personalBox.setId("playerBox" + player.getPlayerNumber());
 
             Label position = new Label(game.getBoard().getGameboard().get(player.getPosition()-1).getClass().getSimpleName());
 
@@ -396,11 +437,11 @@ public class MonopolyView implements PositionChangeObserver{
             Label playerBalance = new Label(player.getBalance() + " $");
             playerBalance.setId("balance" + player.getPlayerNumber());
             personalBox.getChildren().addAll(pictureNameSplitter, playerBalance, position);
-            personalBox.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
+            personalBox.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
             playersBox.getChildren().addAll(personalBox);
         }
 
-        rightMenu.getChildren().addAll(throwDice, tradeButton, whosTurn, players, playersBox);
+        rightMenu.getChildren().addAll(throwDice, tradeButton, players, playersBox);
         mainLayout.setRight(rightMenu);
     }
 
@@ -520,6 +561,7 @@ public class MonopolyView implements PositionChangeObserver{
         }
 
         Button throwButton = new Button("Throw Dice");
+        diceThrows = 0;
         throwButton.setOnAction(e -> {
             Dice.rollDice(2, player);
             URL[]dicePaths = player.getDicePaths();

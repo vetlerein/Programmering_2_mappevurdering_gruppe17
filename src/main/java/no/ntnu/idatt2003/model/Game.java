@@ -96,7 +96,7 @@ public class Game {
      * Changes whose turn it is
      */
     public void nextPlayer() {
-        if (activePlayer == playerAmount - 1) {
+        if (activePlayer == players.size() - 1) {
             activePlayer = 0;
         } else {
             activePlayer++;
