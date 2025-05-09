@@ -58,8 +58,7 @@ public class Game {
      */
     public void finish(Player player){
         gameActiveStatus = false;
-        //TODO Set the layout based on active game
-        genericGameView.playerWon(player, laddergameView.getMainLayout());
+        genericGameView.playerWon(player);
     }
 
     /**

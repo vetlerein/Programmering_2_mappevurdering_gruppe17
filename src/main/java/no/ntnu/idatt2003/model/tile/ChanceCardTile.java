@@ -34,7 +34,7 @@ public class ChanceCardTile extends Tile{
         chanceCards.get(randomIndex).effect(player);
     }
 
-    public ChanceCard getActiveChaneCard() {
+    public ChanceCard getActiveChanceCard() {
         return this.activChanceCard;
     }
 }

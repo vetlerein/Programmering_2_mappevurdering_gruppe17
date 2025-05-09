@@ -1,32 +1,34 @@
 package no.ntnu.idatt2003.model.chanceCards;
 
-import no.ntnu.idatt2003.model.Board;
-import no.ntnu.idatt2003.model.BoardGameFactory;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 import no.ntnu.idatt2003.model.Player;
-import no.ntnu.idatt2003.model.tile.PropertyTile;
 
 public class ChanceCardMove implements ChanceCard {
     private final int newPosition;
     private final String description;
 
     public ChanceCardMove(int position, String description) {
-        this.newPosition = position;
+        this.newPosition = position+1;
         this.description = description;
     }
 
     @Override
     public String toString() {
-        Board board = BoardGameFactory.createMonopolyBoard();
-        PropertyTile tile = (PropertyTile) board.getGameboard().get(newPosition);
-        return description + ", move to " + tile.getProperty().getName() + ".";
+        return this.description;
     }
 
     @Override
     public void effect(Player player) {
-        if (newPosition < player.getPosition()) {
-            player.setPosition(0);
-        } 
-        player.setPosition(newPosition);
+        PauseTransition pause = new PauseTransition(Duration.millis(4000));
+        
+        pause.setOnFinished(e -> {
+            if (newPosition < player.getPosition()) {
+                player.addPlayerBalance(2000);
+            } 
+            player.setPosition(newPosition);
+        });
+        pause.play();
     }
 }
 

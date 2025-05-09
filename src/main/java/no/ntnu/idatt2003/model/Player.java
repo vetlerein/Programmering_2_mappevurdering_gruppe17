@@ -62,6 +62,9 @@ public class Player {
      */
     public void setPosition(int positionIn) {
         this.position = positionIn;
+        if (observer != null) {
+            observer.positionChanged(this);
+        }
     }
 
     /**
@@ -114,7 +117,15 @@ public class Player {
      */
     public void sendToJail() {
         this.jailStatus = 1;
-        setPosition(10); 
+        setPosition(11); 
+    }
+
+    /**
+     * Changes the players jail status
+     * @param newStatus the new jail status of the palyer
+     */
+    public void setJailStatus(int newStatus) {
+        this.jailStatus = newStatus;
     }
 
 
@@ -133,6 +144,14 @@ public class Player {
      */
     public void giveJailCard() {
         this.getOutOfJailCard = true;
+    }
+
+    /**
+     * returns if the player has a get out of jail free card
+     * @return boolean for if the player has a get out of jail free card
+     */
+    public boolean  getJailCard() {
+        return this.getOutOfJailCard;
     }
 
     /**
@@ -280,9 +299,6 @@ public class Player {
             game.getBoard().getGameboard().get(this.position-1).action(this, game);   
         } else if (playerPause == true) {
             playerPause = false;
-        } else if (jailStatus > 0) {
-            turnInJail();
-            //TODO add option to pay to get out of jail and throw dice to get out
         }
         
         if (observer != null) {
