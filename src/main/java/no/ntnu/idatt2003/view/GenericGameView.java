@@ -128,6 +128,7 @@ public class GenericGameView {
         timer.start();
 
     }
+    
 
     /**
      * Sets the main layout for the view
