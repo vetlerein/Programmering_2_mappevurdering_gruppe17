@@ -58,7 +58,9 @@ public class Game {
      */
     public void finish(Player player){
         gameActiveStatus = false;
-        genericGameView.playerWon(player);
+        if(genericGameView != null){
+            genericGameView.playerWon(player);
+        }
     }
 
     /**

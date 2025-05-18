@@ -25,6 +25,11 @@ public class PlayerSwapTest {
         player1 = (Player) setup.get("player1");
         player2 = (Player) setup.get("player2");
         player3 = (Player) setup.get("player3");
+
+        System.out.println("Player 1: " + player1.getPlayerName() + ", Position: " + player1.getPosition());
+        System.out.println("Player 2: " + player2.getPlayerName() + ", Position: " + player2.getPosition());
+        System.out.println("Player 3: " + player3.getPlayerName() + ", Position: " + player3.getPosition());
+        System.out.println("Game: " + game);
     }
 
     /**

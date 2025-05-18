@@ -33,6 +33,8 @@ public class PlayerSwapTile extends Tile {
         int newPosition = playerToSwap.getPosition();
         playerToSwap.setPosition(player.getPosition());
         player.setPosition(newPosition);
-        game.getLaddergameView().playerSwitch(player, playerToSwap);
+        if (game.getLaddergameView() != null) {
+            game.getLaddergameView().playerSwitch(player, playerToSwap);
+        }   
     }
 }
