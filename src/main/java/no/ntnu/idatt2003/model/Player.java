@@ -306,9 +306,4 @@ public class Player {
         }
         game.nextPlayer();
     }
-
-    @Override
-    public String toString() {
-        return playerName;
-    }
 }

@@ -40,6 +40,7 @@ public class LaddergameView implements PositionChangeObserver{
     private final int pivotX = playerSize/2;
     private final int pivotY = playerSize;
     private boolean animationActive = false;
+    private LaddergameController laddergameController = new LaddergameController();
 
     //Main layout
     public BorderPane mainLayout(){
@@ -49,7 +50,7 @@ public class LaddergameView implements PositionChangeObserver{
         HBox topMenu = new HBox();
         topMenu.setId("topMenu");
         Button newGameButton = new Button("Start new game");
-        newGameButton.setOnAction(e -> new LaddergameController().newGame());
+        newGameButton.setOnAction(e -> laddergameController.newGame());
         Button backToMenuButton = new Button("Main menu");
         backToMenuButton.setOnAction(e -> {
             Stage currentStage = (Stage) mainLayout.getScene().getWindow();
@@ -233,22 +234,12 @@ public class LaddergameView implements PositionChangeObserver{
         rightMenu.setId("rightMenu");
         Button throwDice = new Button("Throw dice");
         throwDice.setOnAction(e -> {
-            if(game.getGameStatus() == true && animationActive == false) {
-                Player player = game.getPlayers().get(game.getActivePlayer());
-                player.move(game);
-                genericGameView.showDice(player.getDicePaths());
-                if(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == true){
-                    while(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == true) {
-                        game.getPlayers().get(game.getActivePlayer()).move(game);
-                        game.nextPlayer();
-                    }
-                }
-            }
+            laddergameController.throwDice(game, animationActive);
         });
 
         Button simulateDice = new Button("Simulate game");
         simulateDice.setOnAction(e -> {
-            simulateGame(0, 2000);     
+            laddergameController.simulateGame(0, 2000, game, animationActive);     
         });
 
         Label whosTurn = new Label(game.getPlayers().get(game.activePlayer) + "'s turn");
@@ -281,35 +272,6 @@ public class LaddergameView implements PositionChangeObserver{
         gameBoardWithLadder.setId("gameBoardFinal");
         mainLayout.setCenter(gameBoardWithLadder);
         mainLayout.setRight(rightMenu);
-    }
-
-    public void simulateGame(int currentTurn, int maxTurns) {
-        if (currentTurn > maxTurns || !game.getGameStatus()) {
-            return;
-        }
-
-        PauseTransition pause = new PauseTransition(Duration.millis(100));
-
-        if(game.getGameStatus() == true && animationActive == false) {
-            Player player = game.getPlayers().get(game.getActivePlayer());
-            player.move(game);
-            genericGameView.showDice(player.getDicePaths());
-            if(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == false){
-                while(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == true) {
-                    game.getPlayers().get(game.getActivePlayer()).move(game);
-                    game.nextPlayer();
-                }
-            }
-
-        } else {
-            pause = new PauseTransition(Duration.millis(2000));
-        }
-
-        
-        pause.setOnFinished(e -> {
-            simulateGame(currentTurn + 1, maxTurns); 
-        });
-        pause.play();
     }
     
     private StackPane getTileAt(GridPane grid, int col, int row) {

@@ -279,4 +279,41 @@ public class MonopolyController {
             game.nextPlayer();
         }
     }
+
+    /**
+     * Checks if a player has won the game.
+     * @param game the game instance
+     */
+    public void checkForWinner(Game game) {
+        for (Player player : game.getPlayers()) {
+            if (player.getBalance() <= 0) {
+                player.setPlayerActive(false);
+                continue;
+            }
+    
+            boolean hasUnpawned = false;
+            for (Property property : player.getProperties()) {
+                if (property.isPawned() == false) {
+                    hasUnpawned = true;
+                    break;
+                }
+            }
+            if (!hasUnpawned) {
+                player.setPlayerActive(false);
+            }
+        }
+    
+        Player lastActive = null;
+        int activeCount = 0;
+        for (Player player : game.getPlayers()) {
+            if (player.getPlayerActive()) {
+                activeCount++;
+                lastActive = player; 
+            }
+        }
+
+        if (activeCount == 1 && lastActive != null) {
+            game.finish(lastActive);
+        }
+    }
 }

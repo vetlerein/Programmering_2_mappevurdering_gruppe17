@@ -243,42 +243,8 @@ public class MonopolyView implements PositionChangeObserver{
         diceThrows = 0;
         Label balanceLabel = (Label) mainLayout.lookup("#balance" + player.getPlayerNumber());
         balanceLabel.setText(player.getBalance() + " kr");
-        checkForWinner();
+        monopolyController.checkForWinner(game);
     }
-
-    private void checkForWinner() {
-        for (Player player : game.getPlayers()) {
-            if (player.getBalance() <= 0) {
-                player.setPlayerActive(false);
-                continue;
-            }
-    
-            boolean hasUnpawned = false;
-            for (Property property : player.getProperties()) {
-                if (property.isPawned() == false) {
-                    hasUnpawned = true;
-                    break;
-                }
-            }
-            if (!hasUnpawned) {
-                player.setPlayerActive(false);
-            }
-        }
-    
-        Player lastActive = null;
-        int activeCount = 0;
-        for (Player player : game.getPlayers()) {
-            if (player.getPlayerActive()) {
-                activeCount++;
-                lastActive = player; 
-            }
-        }
-
-        if (activeCount == 1 && lastActive != null) {
-            game.finish(lastActive);
-        }
-    }
-    
 
     private StackPane getTileAt(GridPane grid, int col, int row) {
         for (Node node : grid.getChildren()) {
