@@ -112,22 +112,6 @@ public class Board {
     }
 
     /**
-     * Calculates the location based on the coordinates.
-     * @param x the x coordinate
-     * @param y the y coordinate
-     * @return the location based on inputed coordinates.
-     */
-    public int getLocationMonopoly (int x, int y) {
-        int location = 0;
-        if(x == 0) {
-            location = 11-y;
-        }else if(y == 0) {
-            location = x+11;
-        }
-        return location;
-    }
-
-    /**
      * Calculates the coordinates based on the position and a given number of rows and columns.
      * @param x the x coordinate
      * @param y the y coordinate

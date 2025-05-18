@@ -4,11 +4,11 @@ package no.ntnu.idatt2003.model;
  * The Property class represents a property on the game board.
  */
 public class Property {
-    private String name;
-    private int location;
-    private int streetNumber;
-    private int price;
-    private int baseRent;
+    private final String name;
+    private final int location;
+    private final int streetNumber;
+    private final int price;
+    private final int baseRent;
     private int houseCost;
     private int propertyLevel;
     private Player owner = null;
@@ -138,32 +138,18 @@ public class Property {
     }
 
     /**
-     * Returns the base rent of the property.
-     * @return baseRent the base rent of the property
-     */
-    public int getBaseRent() {
-        return this.baseRent;
-    }
-
-    /**
      * Returns the current rent for the proprty including houses
      * @return rent the current rent of the property
      */
     public int getRent() {
-        switch (this.propertyLevel) {
-            case 1:
-                return this.baseRent * 2;
-            case 2:
-                return this.baseRent * 3;
-            case 3:
-                return this.baseRent * 4;
-            case 4:
-                return this.baseRent * 5;
-            case 5:
-                return this.baseRent * 6;
-            default:
-                return this.baseRent;
-        }
+        return switch (this.propertyLevel) {
+            case 1 -> this.baseRent * 2;
+            case 2 -> this.baseRent * 3;
+            case 3 -> this.baseRent * 4;
+            case 4 -> this.baseRent * 5;
+            case 5 -> this.baseRent * 6;
+            default -> this.baseRent;
+        };
     }
 
     /**

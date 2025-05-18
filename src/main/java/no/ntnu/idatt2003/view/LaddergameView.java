@@ -40,10 +40,8 @@ public class LaddergameView implements PositionChangeObserver{
     public GenericGameView genericGameView = new GenericGameView();
     private Game game;
     private final int playerSize = 25;
-    private final int pivotX = playerSize/2;
-    private final int pivotY = playerSize;
     private boolean animationActive = false;
-    private LaddergameController laddergameController = new LaddergameController();
+    private final LaddergameController laddergameController = new LaddergameController();
 
     /**
      * Creates the main layout of the game
@@ -86,7 +84,6 @@ public class LaddergameView implements PositionChangeObserver{
     /**
      * Shows the physical board
      * @param game the active game
-     * @return borderpane with the board
      */
     public void setGameBoard(Game game) {
         this.game = game;
@@ -225,7 +222,8 @@ public class LaddergameView implements PositionChangeObserver{
             playerImage.setFitWidth(playerSize);
             playerImage.setFitHeight(playerSize);
             //rotate by the bottom middle of the image
-            Rotate rotate = new Rotate(72*index, pivotX, pivotY);
+            int pivotX = playerSize / 2;
+            Rotate rotate = new Rotate(72*index, pivotX, playerSize);
             playerImage.getTransforms().add(rotate);
             playerImage.setTranslateY(-10);
             index++;
@@ -316,7 +314,7 @@ public class LaddergameView implements PositionChangeObserver{
         Node node = mainLayout.lookup("#"+id);
         Rotate rotate = null;
         if (node != null) {
-            rotate = (Rotate) node.getTransforms().get(0);
+            rotate = (Rotate) node.getTransforms().getFirst();
             ((Pane) node.getParent()).getChildren().remove(node);
         }
         ImageView playerImage = new ImageView(player.getPicture().toExternalForm());
@@ -329,7 +327,7 @@ public class LaddergameView implements PositionChangeObserver{
     
         Label turnLabel = (Label) mainLayout.lookup("#whosTurn");
         if (game.getActivePlayer()+1 >= game.getPlayers().size()) {
-            turnLabel.setText(game.getPlayers().get(0) + "'s turn");
+            turnLabel.setText(game.getPlayers().getFirst() + "'s turn");
         } else {
             turnLabel.setText(game.getPlayers().get(game.getActivePlayer()+1) + "'s turn");
         }
@@ -363,7 +361,7 @@ public class LaddergameView implements PositionChangeObserver{
      */
     public void playerPaused (Player player) {
         HBox pictureNameSplitter = (HBox) mainLayout.lookup("#playerBox" + player.getPlayerNumber());
-        if(player.getPlayerPause() == false) {
+        if(!player.getPlayerPause()) {
             ImageView pauseImage = (ImageView) pictureNameSplitter.lookup("#pause"+player.getPlayerNumber());
             pictureNameSplitter.getChildren().remove(pauseImage);
         } else {
@@ -373,7 +371,7 @@ public class LaddergameView implements PositionChangeObserver{
             pauseImage.setId("pause"+player.getPlayerNumber());
             pauseImage.setFitWidth(20);
             pauseImage.setFitHeight(20);
-            pictureNameSplitter.getChildren().add(0,pauseImage);   
+            pictureNameSplitter.getChildren().addFirst(pauseImage);
 
             //Adds visual for pause on the whole board
             String pauseText = player.getPlayerName() + " has been paused!";

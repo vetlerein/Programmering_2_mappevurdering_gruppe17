@@ -40,7 +40,6 @@ public class TradeView {
 
     /**
      * The method shows the trade view.
-     * 
      * @param game The game object that contains the players and their properties.
      */
     public void showTradeView(Game game, Player activePlayer) {

@@ -6,14 +6,13 @@ import no.ntnu.idatt2003.model.Player;
  * ChanceCardJail class represents a chance card that gives the player a "Get Out of Jail Free" card.
  */
 public class ChanceCardJail implements ChanceCard {
-    private final String description = "You recive a get out of jail free card!";
 
     /**
     * toString method returns the description of the chance card.
     */
     @Override
     public String toString() {
-        return description;
+        return "You receive a get out of jail free card!";
     }
 
     /**

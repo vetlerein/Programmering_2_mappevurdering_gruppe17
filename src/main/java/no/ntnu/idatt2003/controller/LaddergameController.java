@@ -133,7 +133,7 @@ public class LaddergameController {
                 
                 if (selectedFile != null) {
                     
-                    String filename = selectedFile.getName().toString(); // f.eks. "mittBrett.json"
+                    String filename = selectedFile.getName(); // f.eks. "mittBrett.json"
                     String name = filename.replaceFirst("[.][^.]+$", ""); // fjerner .json
 
                     try {
@@ -180,7 +180,7 @@ public class LaddergameController {
                     } catch (IOException ex) {
                         PopupView.showInfoPopup("Can't create game","Error loading board: " + ex.getMessage());
                     }
-                } else if (selectedBoard != null) {
+                } else {
 
                     try {
                         board = boardFileReaderGson.readBoardFromFile("data/boards/" + selectedBoard + ".json");
@@ -228,8 +228,8 @@ public class LaddergameController {
                 Player player = game.getPlayers().get(game.getActivePlayer());
                 player.move(game);
                 genericGameView.showDice(player.getDicePaths());
-                if(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == true){
-                    while(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == true) {
+                if(game.getPlayers().get(game.getActivePlayer()).getPlayerPause()){
+                    while(game.getPlayers().get(game.getActivePlayer()).getPlayerPause()) {
                         game.getPlayers().get(game.getActivePlayer()).move(game);
                         game.nextPlayer();
                     }
@@ -255,8 +255,8 @@ public class LaddergameController {
             Player player = game.getPlayers().get(game.getActivePlayer());
             player.move(game);
             genericGameView.showDice(player.getDicePaths());
-            if(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == false){
-                while(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == true) {
+            if(!game.getPlayers().get(game.getActivePlayer()).getPlayerPause()){
+                while(game.getPlayers().get(game.getActivePlayer()).getPlayerPause()) {
                     game.getPlayers().get(game.getActivePlayer()).move(game);
                     game.nextPlayer();
                 }

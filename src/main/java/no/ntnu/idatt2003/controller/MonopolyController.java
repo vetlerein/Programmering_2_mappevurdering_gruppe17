@@ -223,21 +223,19 @@ public class MonopolyController {
      * @return a ComboBox for selecting players
      */
     public ComboBox<Player> createPlayerDropdown(Game game, Player active){
-        List<ComboBox<Player>> playerComboBoxes = new ArrayList<>();
         List<Player> tempPlayers = new ArrayList<>(game.getPlayers());
         tempPlayers.remove(active);
         
         ComboBox<Player> choosePlayer = new ComboBox<>(FXCollections.observableArrayList(tempPlayers));
         choosePlayer.getStyleClass().add("custom-combo");
         choosePlayer.setPromptText("Choose player");
-        playerComboBoxes.add(choosePlayer);
         return choosePlayer;  
     }
 
     /**
      * Buys a property.
-     * @param property
-     * @param player
+     * @param property the property to be bought.
+     * @param player the player that buys the property.
      */
     public void buyProperty(Property property, Player player){
         property.setOwner(player);
@@ -353,7 +351,7 @@ public class MonopolyController {
     
             boolean hasUnpawned = false;
             for (Property property : player.getProperties()) {
-                if (property.isPawned() == false) {
+                if (!property.isPawned()) {
                     hasUnpawned = true;
                     break;
                 }
@@ -372,7 +370,7 @@ public class MonopolyController {
             }
         }
 
-        if (activeCount == 1 && lastActive != null) {
+        if (activeCount == 1) {
             game.finish(lastActive);
         }
     }

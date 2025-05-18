@@ -12,7 +12,7 @@ public interface TileAction {
 
     /**
      * Performs an action on the given player.
-     * @param player the player who perfoms the action
+     * @param player the player who performs the action
      */
     void action(Player player, Game game);
 }
