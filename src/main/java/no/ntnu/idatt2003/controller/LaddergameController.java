@@ -12,7 +12,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -38,19 +37,23 @@ import no.ntnu.idatt2003.view.PopupView;
  * The controller class handling game actions.
  */
 public class LaddergameController {
-    
-    BorderPane laddergamePane = new BorderPane();
+
     GenericGameView genericGameView = new GenericGameView();
     PlayerFileReader playerFileReader;
     Board board;
 
     public static LaddergameView laddergameView;
+
+    /**
+     * Sets the laddergameView as view.
+     * @param view
+     */
     public static void setLadderGame(LaddergameView view){
         laddergameView = view;
     }
 
     /**
-     * This method creats a new game.
+     * This method creats a new laddergame.
      */
     public void newGame(){
         playerFileReader = new PlayerFileReader();
@@ -139,7 +142,6 @@ public class LaddergameController {
                         boardSizeBox.getItems().add(name);
                     } catch (IOException e1) {
                         PopupView.showInfoPopup("Can't create game","Error loading board: " + e1.getMessage());
-                        e1.printStackTrace();
                     }
                 }
             });
@@ -164,7 +166,6 @@ public class LaddergameController {
                 }
 
                 String selectedBoard = boardSizeBox.getValue();
-                System.out.println("Selected board: " + selectedBoard);
                 if (selectedBoard == null) {
                     board = null;
                 } else if(selectedBoard.equals("Small")|| selectedBoard.equals("Medium") || selectedBoard.equals("Chaos")){
@@ -178,7 +179,6 @@ public class LaddergameController {
                         board = boardFileReaderGson.readBoardFromFile("src/main/resources/boards/laddergame1.json");
                     } catch (IOException ex) {
                         PopupView.showInfoPopup("Can't create game","Error loading board: " + ex.getMessage());
-                        ex.printStackTrace();
                     }
                 } else if (selectedBoard != null) {
 
@@ -186,7 +186,6 @@ public class LaddergameController {
                         board = boardFileReaderGson.readBoardFromFile("data/boards/" + selectedBoard + ".json");
                     } catch (IOException e1) {
                         PopupView.showInfoPopup("Can't create game","Error loading board: " + e1.getMessage());
-                        e1.printStackTrace();
                     }
                 } 
             
@@ -220,26 +219,12 @@ public class LaddergameController {
     }
 
     /**
-     * This method shows the player list.
-     */
-    public void playerList(){
-
-        VBox playerListBox = new VBox();
-        List<Player> players = playerFileReader.readPlayers();
-
-        for (Player player : players) {
-            Label playerLabel = new Label(player.getPlayerName() + " - " + player.getPlayerNumber() + " - " + player.getBirthDate());
-            playerListBox.getChildren().add(playerLabel);
-        }
-    }
-
-    /**
      * This method throws the dice for the palyer
      * @param game the game
      * @param animationActive if an animation is active
      */
     public void throwDice(Game game, boolean animationActive) {
-        if(game.getGameStatus() == true && animationActive == false) {
+        if(game.getGameStatus() && !animationActive) {
                 Player player = game.getPlayers().get(game.getActivePlayer());
                 player.move(game);
                 genericGameView.showDice(player.getDicePaths());
@@ -266,7 +251,7 @@ public class LaddergameController {
 
         PauseTransition pause = new PauseTransition(Duration.millis(100));
 
-        if(game.getGameStatus() == true && animationActive == false) {
+        if(game.getGameStatus() && !animationActive) {
             Player player = game.getPlayers().get(game.getActivePlayer());
             player.move(game);
             genericGameView.showDice(player.getDicePaths());
@@ -281,7 +266,7 @@ public class LaddergameController {
             pause = new PauseTransition(Duration.millis(2000));
         }
 
-        
+
         pause.setOnFinished(e -> {
             simulateGame(currentTurn + 1, maxTurns, game, animationActive); 
         });
