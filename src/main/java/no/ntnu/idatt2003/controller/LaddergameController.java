@@ -134,7 +134,6 @@ public class LaddergameController {
                     String name = filename.replaceFirst("[.][^.]+$", ""); // fjerner .json
 
                     try {
-                        System.out.println(name);
                         Board boardCopy = boardFileReaderGson.readBoardFromFile(selectedFile.getAbsolutePath());
                         boardFileWriterGson.writeBoardToFile(Paths.get("data/boards/"+name+".json"), boardCopy);
                         boardSizeBox.getItems().add(name);

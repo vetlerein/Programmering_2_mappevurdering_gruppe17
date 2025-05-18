@@ -150,9 +150,11 @@ public class MonopolyController {
             for (Property property : player.getPropertyList()) {
                 
                 HBox propertyBox = new HBox();
+                StackPane propertyStack = new StackPane();
                 Button addButton = new Button("Add");
                 Button removeButton = new Button("Remove");
                 Label propertyLabel = new Label(property.getName());
+                propertyBox.setStyle("-fx-background-color:"+ property.getColor() +";");
 
                 addButton.setOnAction(e -> {
                     propertyBox.getChildren().setAll(removeButton, propertyLabel);
@@ -165,7 +167,8 @@ public class MonopolyController {
                 addButton.setId("tradeButton");
                 removeButton.setId("tradeButton");
                 
-                propertyBox.getChildren().addAll(addButton, propertyLabel);
+                propertyStack.getChildren().add(propertyLabel);
+                propertyBox.getChildren().addAll(addButton, propertyStack);
                 playerProperties.getChildren().add(propertyBox);
                 
             }  
@@ -195,10 +198,9 @@ public class MonopolyController {
     }
 
 
-    public ComboBox<Player> createPlayerDropdown(Game game){
+    public ComboBox<Player> createPlayerDropdown(Game game, Player active){
         List<ComboBox<Player>> playerComboBoxes = new ArrayList<>();
         List<Player> tempPlayers = new ArrayList<>(game.getPlayers());
-        Player active = game.getPlayers().get(game.getActivePlayer());
         tempPlayers.remove(active);
         
         ComboBox<Player> choosePlayer = new ComboBox<>(FXCollections.observableArrayList(tempPlayers));

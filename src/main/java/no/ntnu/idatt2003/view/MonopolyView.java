@@ -415,7 +415,7 @@ public class MonopolyView implements PositionChangeObserver{
         tradeButton.setOnAction(e -> {
             if(game.getGameStatus() == true) {
                 TradeView tradeView = new TradeView();
-                tradeView.showTradeView(game);
+                tradeView.showTradeView(game, activePlayer);
             }else {
                 PopupView.showInfoPopup("No active game", "You need to start a game before you can trade.");
             }
