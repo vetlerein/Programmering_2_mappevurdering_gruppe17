@@ -15,6 +15,11 @@ public class ViewMain extends Application{
         launch(args);
     }
 
+    /**
+     * This method is the main method that starts the application.
+     * @param window The main stage of the application.
+     * @throws Exception 
+     */
     @Override
     public void start(Stage window) throws Exception {
 
@@ -27,6 +32,5 @@ public class ViewMain extends Application{
         window.setTitle("Main menu");
         window.getIcons().add(new Image(getClass().getResourceAsStream("/playerPieces/pepperoni.png")));
         window.show();
-    
     }
 }

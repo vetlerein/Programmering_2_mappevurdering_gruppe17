@@ -15,6 +15,9 @@ import no.ntnu.idatt2003.controller.MonopolyController;
 import no.ntnu.idatt2003.controller.PlayerController;
 import no.ntnu.idatt2003.model.Game;
 
+/**
+ * The view class that handles the main menu of the whole application.
+ */
 public class MenuView {
 
      /**

@@ -15,6 +15,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import no.ntnu.idatt2003.model.Player;
 
+/**
+ * The class that handles the shared functions for the game views.
+ */
 public class GenericGameView {
     public static BorderPane mainLayout;
     /**

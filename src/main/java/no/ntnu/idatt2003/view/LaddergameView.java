@@ -32,6 +32,9 @@ import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.tile.LadderTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
+/**
+ * The class that handles the view of the laddergame.
+ */
 public class LaddergameView implements PositionChangeObserver{
     public BorderPane mainLayout = new BorderPane();
     public GenericGameView genericGameView = new GenericGameView();
@@ -42,7 +45,10 @@ public class LaddergameView implements PositionChangeObserver{
     private boolean animationActive = false;
     private LaddergameController laddergameController = new LaddergameController();
 
-    //Main layout
+    /**
+     * Creates the main layout of the game
+     * @return the main layout of the game
+     */
     public BorderPane mainLayout(){
         this.mainLayout.setId("mainLayout");
 
@@ -61,7 +67,7 @@ public class LaddergameView implements PositionChangeObserver{
                 currentStage.setScene(mainMenuScene);
                 currentStage.setTitle("Main Menu");
             } catch (IOException ex) {
-                ex.printStackTrace();
+                PopupView.showInfoPopup("Error!", "There was an error loading the main menu.");
             }
         });
         topMenu.getChildren().addAll(newGameButton, backToMenuButton);
@@ -111,7 +117,6 @@ public class LaddergameView implements PositionChangeObserver{
                 stackPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 GridPane.setHgrow(stackPane, Priority.ALWAYS);
                 GridPane.setVgrow(stackPane, Priority.ALWAYS);
-
 
                 if(i%2 == 0) {
                     if(j%2 == 0) {
@@ -186,6 +191,7 @@ public class LaddergameView implements PositionChangeObserver{
                 gameBoard.add(stackPane, j, i); 
             }
         }
+
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j <cols; j++) {
                 Tile tile = game.getBoard().getGameboard().get(game.getBoard().getLocation(j, i)-1);
@@ -274,6 +280,13 @@ public class LaddergameView implements PositionChangeObserver{
         mainLayout.setRight(rightMenu);
     }
     
+    /**
+     * Returns the tile at the specified coordinates in the grid
+     * @param grid the grid to search in
+     * @param col the column index
+     * @param row the row index
+     * @return the tile at the specified coordinates, or null if not found
+     */
     private StackPane getTileAt(GridPane grid, int col, int row) {
         for (Node node : grid.getChildren()) {
             if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
@@ -294,7 +307,6 @@ public class LaddergameView implements PositionChangeObserver{
     /**
      * Updates the position of the player on the board
      * @param player the player to update
-     * @param newPosition the new position of the player
      */
     @Override
     public void positionChanged(Player player) {
@@ -326,12 +338,17 @@ public class LaddergameView implements PositionChangeObserver{
         if (positionLabel != null) {
             positionLabel.setText(player.getPosition() + "");
         } else {
-            System.out.println("Position label not found for player " + player.getPlayerNumber());
+            PopupView.showInfoPopup("Error!", "Position label not found for player " + player.getPlayerNumber());
         }
 
         playerPaused(player);
     }
 
+    /**
+     * Updates the player box when a player is moved
+     * @param playerToSwitch
+     * @param playerToBeSwitched 
+     */
     public void playerSwitch (Player playerToSwitch, Player playerToBeSwitched) {
         URL swapUrl = getClass().getResource("/tiles/arrows.png");
         String playerSwitchText = playerToSwitch.getPlayerName() + " and " + playerToBeSwitched.getPlayerName() + " have switched places!";
@@ -340,6 +357,10 @@ public class LaddergameView implements PositionChangeObserver{
         showImageAndText(swapUrl, playerSwitchText);
     }
 
+    /**
+     * Updates the player box when a player is paused
+     * @param player the player to be paused
+     */
     public void playerPaused (Player player) {
         HBox pictureNameSplitter = (HBox) mainLayout.lookup("#playerBox" + player.getPlayerNumber());
         if(player.getPlayerPause() == false) {
@@ -360,6 +381,11 @@ public class LaddergameView implements PositionChangeObserver{
         }	
     }
 
+    /**
+     * Shows an image and text on the board for 2 seconds
+     * @param imageUrl the url of the image to show
+     * @param text the text to show
+     */
     public void showImageAndText(URL imageUrl, String text) {
         int cols = game.getBoard().getCols();
         int rows = game.getBoard().getRows();
