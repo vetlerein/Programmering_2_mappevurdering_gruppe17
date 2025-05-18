@@ -1,4 +1,4 @@
-package laddergameTest.dummyClasses;
+package laddergameTest;
 
 import static no.ntnu.idatt2003.model.Game.laddergameView;
 

@@ -7,6 +7,7 @@ import no.ntnu.idatt2003.model.Player;
 public class ChanceCardMove implements ChanceCard {
     private final int newPosition;
     private final String description;
+    public static boolean SKIP_DELAY_IN_TEST = false;
 
     public ChanceCardMove(int position, String description) {
         this.newPosition = position+1;
@@ -18,17 +19,31 @@ public class ChanceCardMove implements ChanceCard {
         return this.description;
     }
 
+    /**
+     * @return the new position of the player
+     */
+    public int getNewPosition() {
+        return newPosition;
+    }
+
     @Override
     public void effect(Player player) {
         PauseTransition pause = new PauseTransition(Duration.millis(1500));
-        
-        pause.setOnFinished(e -> {
+        if(SKIP_DELAY_IN_TEST) {
             if (newPosition < player.getPosition()) {
                 player.addPlayerBalance(2000);
             } 
             player.setPosition(newPosition);
-        });
-        pause.play();
+        } else {
+            pause.setOnFinished(e -> {
+                if (newPosition < player.getPosition()) {
+                    player.addPlayerBalance(2000);
+                } 
+                player.setPosition(newPosition);
+            });
+            pause.play();
+        }
+        
     }
 }
 
