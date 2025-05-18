@@ -95,10 +95,8 @@ public class PlayerController {
         popupStage.showAndWait(); 
     }
 
-
     /**
      * Convert LocalDate to java.util.Date.
-     *
      * @param localDate LocalDate-object to be converted.
      * @return The converted Date object.
      */

@@ -8,9 +8,12 @@ import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.chanceCards.ChanceCard;
 import no.ntnu.idatt2003.model.chanceCards.ChanceCardFactory;
 
+/**
+ * The ChanceCardTile class represents a tile on the game board that allows players to draw chance cards.
+ */
 public class ChanceCardTile extends Tile{
     private final ArrayList<ChanceCard> chanceCards;
-    private ChanceCard activChanceCard;
+    private ChanceCard activeChanceCard;
 
     /**
      * Constructor for the ChanceCardTile class.
@@ -30,11 +33,15 @@ public class ChanceCardTile extends Tile{
     public void action(Player player, Game game) {
         Random random = new Random();
         int randomIndex = random.nextInt(chanceCards.size());
-        activChanceCard = chanceCards.get(randomIndex);
+        activeChanceCard = chanceCards.get(randomIndex);
         chanceCards.get(randomIndex).effect(player);
     }
 
+    /**
+     * Returns the current displayed chance card.
+     * @return the active chance card
+     */
     public ChanceCard getActiveChanceCard() {
-        return this.activChanceCard;
+        return this.activeChanceCard;
     }
 }

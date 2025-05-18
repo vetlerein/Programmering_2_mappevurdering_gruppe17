@@ -2,7 +2,16 @@ package no.ntnu.idatt2003.model.chanceCards;
 
 import java.util.ArrayList;
 
+/**
+ * The ChanceCardFactory class is responsible for creating a deck of chance cards.
+ * It contains a static method to create and return an ArrayList of ChanceCard objects.
+ */
 public class ChanceCardFactory {
+
+    /**
+     * Creates a deck of chance cards.
+     * @return an ArrayList of ChanceCard objects
+     */
     public static ArrayList<ChanceCard> createDeck() {
         ArrayList<ChanceCard> chanceCards = new ArrayList<>();
         chanceCards.add(new ChanceCardJail());

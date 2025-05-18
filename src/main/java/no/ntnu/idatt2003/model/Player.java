@@ -19,7 +19,7 @@ public class Player {
     public boolean playerPause = false;
   
     private int balance = 10000;
-    private ArrayList<Property> properties = new ArrayList<Property>();
+    private final ArrayList<Property> properties = new ArrayList<Property>();
     private int jailStatus = 0;
     private boolean getOutOfJailCard = false;
 
@@ -58,7 +58,7 @@ public class Player {
 
     /**
      * sets the position of the player
-     * @param position
+     * @param positionIn
      */
     public void setPosition(int positionIn) {
         this.position = positionIn;
@@ -97,6 +97,10 @@ public class Player {
         }
     }
 
+    /**
+     * A method to get all properties
+     * @return Returns an ArrayList with all properties.
+     */
     public ArrayList<Property> getPropertyList() {
         return this.properties;
     }
@@ -133,7 +137,7 @@ public class Player {
      * Uses the get out of jail card if the player has one.
      */
     public void useJailCard() {
-        if(this.getOutOfJailCard == true) {
+        if(this.getOutOfJailCard) {
             this.jailStatus = 0;
             this.getOutOfJailCard = false;
         }
@@ -188,15 +192,14 @@ public class Player {
     }
 
     /**
-     * returns the players pause status
-     * @returns the players pause status
+     * @return the players pause status
      */
     public boolean getPlayerPause() {
         return this.playerPause;
     }
 
     /**
-     * returns the players jail status
+     * @return the players jail status
      */
     public int getJailStatus() {
         return this.jailStatus;
@@ -219,7 +222,7 @@ public class Player {
 
     /**
      * Checks if player is active.
-     * @return wether the player is active or not
+     * @return whether the player is active or not
      */
     public boolean getPlayerActive() {
         return this.playerActive;
@@ -285,19 +288,19 @@ public class Player {
      * Throws the dice and moves the player on the board, and does actions according on where it lands
      */
     public void move(Game game) {
-        if(playerPause == false && jailStatus == 0) {
+        if(!playerPause && jailStatus == 0) {
             int diceRoll = Dice.rollDice(2, this);
             int finalTile = game.getBoard().getGameboard().size();
             if (this.position + diceRoll <= finalTile) {
                 this.position += diceRoll;
             } else if ((this.position + diceRoll > finalTile) && game.getBoard().getGameboard().get(finalTile-1) instanceof FinishTile) {
                 this.position = finalTile - (diceRoll-(finalTile-this.position));
-            } else if ((this.position + diceRoll > finalTile) && game.getBoard().getGameboard().get(0) instanceof StartTile) {
+            } else if ((this.position + diceRoll > finalTile) && game.getBoard().getGameboard().getFirst() instanceof StartTile) {
                 this.position = (this.position + diceRoll) - finalTile;
             }
 
-            game.getBoard().getGameboard().get(this.position-1).action(this, game);   
-        } else if (playerPause == true) {
+            game.getBoard().getGameboard().get(this.position-1).action(this, game);
+        } else if (playerPause) {
             playerPause = false;
         }
         
@@ -307,6 +310,10 @@ public class Player {
         game.nextPlayer();
     }
 
+    /**
+     * ToString method.
+     * @return player name
+     */
     @Override
     public String toString() {
         return playerName;

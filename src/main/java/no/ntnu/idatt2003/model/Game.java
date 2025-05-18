@@ -7,7 +7,7 @@ import no.ntnu.idatt2003.view.LaddergameView;
 import no.ntnu.idatt2003.view.MonopolyView;
 
 /**
- * Controls the game.
+ * The class that makes the game object.
  */
 public class Game {
     public boolean gameActiveStatus;
@@ -18,8 +18,7 @@ public class Game {
 
     /**
      * Constructs a game with a given amount of players, board width, board height and players.
-     *
-     * @param board the active gameboard
+     * @param gameboard the active gameboard
      * @param players the active players in the game
      */
     public Game(ArrayList<Player> players, Board gameboard){
@@ -30,16 +29,28 @@ public class Game {
     }
 
     public static GenericGameView genericGameView;
+    /**
+     * Sets the view for the game.
+     * @param view the view to set
+     */
     public static void setView(GenericGameView view){
         genericGameView = view;
     }
 
     public static LaddergameView laddergameView;
+    /**
+     * Sets the view for the laddergame.
+     * @param view the view to set
+     */
     public static void setLadderView(LaddergameView view){
         laddergameView = view;
     }
 
     public static MonopolyView monopolyView;
+    /**
+     * Sets the view for the monopoly game.
+     * @param view the view to set
+     */
     public static void setMonopolyView(MonopolyView view){
         monopolyView = view;
     }
@@ -53,7 +64,6 @@ public class Game {
 
     /**
      * The game is finished.
-     *
      * @param player the winner of the game
      */
     public void finish(Player player){

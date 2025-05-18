@@ -9,7 +9,8 @@ import no.ntnu.idatt2003.model.Player;
 public class BackToStartTile extends Tile{
 
     /**
-     * @param location
+     * Constructor for the BackToStartTile class.
+     * @param location the location of the tile
      */
     public BackToStartTile(int location) {
         super(location);

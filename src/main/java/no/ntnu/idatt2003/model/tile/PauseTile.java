@@ -8,6 +8,10 @@ import no.ntnu.idatt2003.model.Player;
  */
 public class PauseTile extends Tile {
     
+    /**
+     * Constructor for the PauseTile class
+     * @param location the location of the tile
+     */
     public PauseTile(int location) {
         super(location);
 

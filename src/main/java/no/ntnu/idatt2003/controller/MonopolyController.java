@@ -29,12 +29,20 @@ import no.ntnu.idatt2003.model.fileManagement.playerFileManagement.PlayerFileRea
 import no.ntnu.idatt2003.view.MonopolyView;
 import no.ntnu.idatt2003.view.PopupView;
 
+/**
+ * Controller class for the Monopoly game.
+ * This class handles the game logic and interactions with the view.
+ */
 public class MonopolyController {
 
     PlayerFileReader playerFileReader = new PlayerFileReader();
-    Board board;
 
     public static MonopolyView monopolyView;
+
+    /**
+     * Sets the monopolyView.
+     * @param monopolyView
+     */
     public static void setMonopolyView(MonopolyView monopolyView) {
         MonopolyController.monopolyView = monopolyView;
     }
@@ -104,7 +112,6 @@ public class MonopolyController {
                     }
                 }
 
-                
                 Board board = BoardGameFactory.createMonopolyBoard();
             
                 if(selectedPlayers.isEmpty()){
@@ -113,10 +120,7 @@ public class MonopolyController {
                     PopupView.showInfoPopup("Can't create game","You need more than 1 player to start the game.");
                 }else{
                     Game game = new Game(selectedPlayers, board);
-                    game.start(); 
-                    System.out.println("Game started with players: " + selectedPlayers);
-                    System.out.println("Selected board: " + board.getName());
-                    System.out.println("Game: " + game.getPlayers().toString());
+                    game.start();
 
                     monopolyView.setGameBoard(game);
                     popupStage.close();
@@ -136,6 +140,12 @@ public class MonopolyController {
         }
     }
 
+    /**
+     * Creates a VBox containing the properties of a player.
+     * @param player the player whose properties are to be displayed
+     * @param tradeList the list of properties to be traded
+     * @return Returns a VBox containing the properties of the player
+     */
     public VBox getPlayerPropertiesBox(Player player, ArrayList<Property> tradeList) {
         
         VBox playerProperties = new VBox();
@@ -176,6 +186,15 @@ public class MonopolyController {
         }
     }
 
+    /**
+     * Executes a trade between two players.
+     * @param p1 the first player
+     * @param p2 the second player
+     * @param p1Properties the properties of the first player
+     * @param p2Properties the properties of the second player
+     * @param p1Money the money of the first player
+     * @param p2Money the money of the second player
+     */
     public void executeTrade(Player p1, Player p2, ArrayList<Property> p1Properties, ArrayList<Property> p2Properties, int p1Money, int p2Money) {
 
         for (Property property : p1Properties) {
@@ -197,29 +216,37 @@ public class MonopolyController {
         p2Properties.clear();
     }
 
-
+    /**
+     * Creates a dropdown menu for selecting players.
+     * @param game the game instance
+     * @param active the active player
+     * @return a ComboBox for selecting players
+     */
     public ComboBox<Player> createPlayerDropdown(Game game, Player active){
-        List<ComboBox<Player>> playerComboBoxes = new ArrayList<>();
         List<Player> tempPlayers = new ArrayList<>(game.getPlayers());
         tempPlayers.remove(active);
         
         ComboBox<Player> choosePlayer = new ComboBox<>(FXCollections.observableArrayList(tempPlayers));
         choosePlayer.getStyleClass().add("custom-combo");
         choosePlayer.setPromptText("Choose player");
-        playerComboBoxes.add(choosePlayer);
         return choosePlayer;  
     }
 
-    public void playerList(){
-        VBox playerListBox = new VBox();
-        List<Player> players = playerFileReader.readPlayers();
-
-        for (Player player : players) {
-            Label playerLabel = new Label(player.getPlayerName() + " - " + player.getPlayerNumber() + " - " + player.getBirthDate());
-            playerListBox.getChildren().add(playerLabel);
-        }
+    /**
+     * Buys a property.
+     * @param property the property to be bought.
+     * @param player the player that buys the property.
+     */
+    public void buyProperty(Property property, Player player){
+        property.setOwner(player);
+        player.addProperty(property);
+        player.addPlayerBalance(-1*property.getPrice());    
     }
 
+    /**
+     * Executes a property house purchase.
+     * @param property the property to be purchase a house for
+     */
     public void buyPropertyHouse(Property property) {
 
         if (property.getOwner().getBalance()<property.getHouseCost()) {
@@ -230,44 +257,73 @@ public class MonopolyController {
         }
     }
 
+    /**
+     * Executes a property sale.
+     * @param property the property to be sold
+     */
     public void sellPropertyHouse(Property property) {
         property.setPropertyLevel(property.getPropertyLevel()-1);
         property.getOwner().addPlayerBalance(property.getHouseCost()/2);
     }
 
+    /**
+     * Pawns a property.
+     * @param property the property to be pawned.
+     * Gives the player 1/2 of property price.
+     */
     public void pawnProperty(Property property) {
         property.setPawned();
         property.getOwner().addPlayerBalance(property.getPrice()/2);
     }
 
+    /**
+     * Unpawns a property.
+     * @param property the property to be unpawned.
+     * Gives the player 1/2 of property price.
+     */
     public void rePurchaseProperty(Property property) {
         property.rePurchase();
         property.getOwner().addPlayerBalance(-1*property.getPrice());
     }
 
+    /**
+     * Moves the player and shows the dice paths.
+     * @param game the game instance
+     * @param player the player to move
+     */
     public void throwDice(Game game, Player player) {
         player.move(game);
         genericGameView.showDice(player.getDicePaths());
     }
 
-    public void buyProperty(Property property, Player player){
-        property.setOwner(player);
-        player.addProperty(property);
-        player.addPlayerBalance(-1*property.getPrice());
-        System.out.println("Property bought: " + property.getOwner());
-    }
-
+    /**
+     * Makes a player use a jail card.
+     * @param player the player to use the jail card
+     * @param game the game instance
+     * Skips to the next player after using the card.
+     */
     public void useJailCard(Player player, Game game) {
         player.useJailCard();
         game.nextPlayer();
     }
 
+    /**
+     * Makes a player pay to bail jail.
+     * @param player the player to pay
+     * @param game the game instance
+     */
     public void payForJail(Player player, Game game) {
         player.addPlayerBalance(-2000);
         player.setJailStatus(0);
         game.nextPlayer();
     }
 
+    /**
+     * Rolls the dice for a player in jail.
+     * @param player the player to roll the dice
+     * @param game the game instance
+     * @param diceThrows the number of times the player has rolled the dice
+     */
     public void throwJailDice(Player player, Game game, int diceThrows) {
         Dice.rollDice(2, player);
         URL[]dicePaths = player.getDicePaths();
@@ -295,7 +351,7 @@ public class MonopolyController {
     
             boolean hasUnpawned = false;
             for (Property property : player.getProperties()) {
-                if (property.isPawned() == false) {
+                if (!property.isPawned()) {
                     hasUnpawned = true;
                     break;
                 }
@@ -314,7 +370,7 @@ public class MonopolyController {
             }
         }
 
-        if (activeCount == 1 && lastActive != null) {
+        if (activeCount == 1) {
             game.finish(lastActive);
         }
     }

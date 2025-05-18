@@ -3,10 +3,13 @@ package no.ntnu.idatt2003.model.tile;
 import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 
+/**
+ * The JailTile on the monopoly board.
+ */
 public class JailTile extends Tile{
 
     /**
-     * constructor for the JailTile class
+     * Constructor for the JailTile class
      * @param location
      */
     public JailTile(int location) {
