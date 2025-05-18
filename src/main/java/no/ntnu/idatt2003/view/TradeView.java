@@ -40,7 +40,7 @@ public class TradeView {
      * 
      * @param game The game object that contains the players and their properties.
      */
-    public void showTradeView(Game game){
+    public void showTradeView(Game game, Player activePlayer) {
         //Setting up the stage
         tradeStage.initModality(Modality.APPLICATION_MODAL);
         tradeStage.setTitle("New Game");
@@ -60,9 +60,7 @@ public class TradeView {
         activePlayerMoneyVBox.getChildren().addAll(new Label("Offer money to the trade:"), activePlayerMoneyField);
         chosenPlayerMoneyVBox.getChildren().addAll(new Label("Offer money to the trade:"), chosenPlayerMoneyField);
 
-
-        Player activePlayer = game.getPlayers().get(game.activePlayer);
-        ComboBox<Player> playerDropdown = monopolyController.createPlayerDropdown(game);
+        ComboBox<Player> playerDropdown = monopolyController.createPlayerDropdown(game, activePlayer);
         playerDropdown.setPromptText("Choose a player to trade with");
         playerDropdown.setOnAction(e -> {
             chosenPlayer = playerDropdown.getValue();

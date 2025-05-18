@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -20,6 +21,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import no.ntnu.idatt2003.model.Board;
 import no.ntnu.idatt2003.model.BoardGameFactory;
 import no.ntnu.idatt2003.model.Game;
@@ -28,6 +30,7 @@ import no.ntnu.idatt2003.model.fileManagement.boardFiles.BoardFileReaderGson;
 import no.ntnu.idatt2003.model.fileManagement.boardFiles.BoardFileWriterGson;
 import no.ntnu.idatt2003.model.fileManagement.boardFiles.BoardLoader;
 import no.ntnu.idatt2003.model.fileManagement.playerFileManagement.PlayerFileReader;
+import no.ntnu.idatt2003.view.GenericGameView;
 import no.ntnu.idatt2003.view.LaddergameView;
 import no.ntnu.idatt2003.view.PopupView;
 
@@ -37,6 +40,7 @@ import no.ntnu.idatt2003.view.PopupView;
 public class LaddergameController {
     
     BorderPane laddergamePane = new BorderPane();
+    GenericGameView genericGameView = new GenericGameView();
     PlayerFileReader playerFileReader;
     Board board;
 
@@ -130,7 +134,6 @@ public class LaddergameController {
                     String name = filename.replaceFirst("[.][^.]+$", ""); // fjerner .json
 
                     try {
-                        System.out.println(name);
                         Board boardCopy = boardFileReaderGson.readBoardFromFile(selectedFile.getAbsolutePath());
                         boardFileWriterGson.writeBoardToFile(Paths.get("data/boards/"+name+".json"), boardCopy);
                         boardSizeBox.getItems().add(name);
@@ -177,7 +180,6 @@ public class LaddergameController {
                         PopupView.showInfoPopup("Can't create game","Error loading board: " + ex.getMessage());
                         ex.printStackTrace();
                     }
-                    System.out.println("Selected board: " + selectedBoard);
                 } else if (selectedBoard != null) {
 
                     try {
@@ -197,10 +199,6 @@ public class LaddergameController {
                 }else{
                     Game game = new Game(selectedPlayers, board);
                     game.start(); 
-                    System.out.println("Game started with players: " + selectedPlayers);
-                    System.out.println("Selected board: " + selectedBoard);
-                    System.out.println("Game: " + game.getPlayers().toString());
-
                     laddergameView.setGameBoard(game);
                     popupStage.close();
                 }
@@ -221,6 +219,9 @@ public class LaddergameController {
         }
     }
 
+    /**
+     * This method shows the player list.
+     */
     public void playerList(){
 
         VBox playerListBox = new VBox();
@@ -230,5 +231,60 @@ public class LaddergameController {
             Label playerLabel = new Label(player.getPlayerName() + " - " + player.getPlayerNumber() + " - " + player.getBirthDate());
             playerListBox.getChildren().add(playerLabel);
         }
+    }
+
+    /**
+     * This method throws the dice for the palyer
+     * @param game the game
+     * @param animationActive if an animation is active
+     */
+    public void throwDice(Game game, boolean animationActive) {
+        if(game.getGameStatus() == true && animationActive == false) {
+                Player player = game.getPlayers().get(game.getActivePlayer());
+                player.move(game);
+                genericGameView.showDice(player.getDicePaths());
+                if(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == true){
+                    while(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == true) {
+                        game.getPlayers().get(game.getActivePlayer()).move(game);
+                        game.nextPlayer();
+                    }
+                }
+            }
+    }
+
+    /**
+     * This method simulates the game.
+     * @param currentTurn the current turn
+     * @param maxTurns the maximum number of turns
+     * @param game the game
+     * @param animationActive if an animation is active
+     */
+    public void simulateGame(int currentTurn, int maxTurns, Game game, boolean animationActive) {
+        if (currentTurn > maxTurns || !game.getGameStatus()) {
+            return;
+        }
+
+        PauseTransition pause = new PauseTransition(Duration.millis(100));
+
+        if(game.getGameStatus() == true && animationActive == false) {
+            Player player = game.getPlayers().get(game.getActivePlayer());
+            player.move(game);
+            genericGameView.showDice(player.getDicePaths());
+            if(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == false){
+                while(game.getPlayers().get(game.getActivePlayer()).getPlayerPause() == true) {
+                    game.getPlayers().get(game.getActivePlayer()).move(game);
+                    game.nextPlayer();
+                }
+            }
+
+        } else {
+            pause = new PauseTransition(Duration.millis(2000));
+        }
+
+        
+        pause.setOnFinished(e -> {
+            simulateGame(currentTurn + 1, maxTurns, game, animationActive); 
+        });
+        pause.play();
     }
 }

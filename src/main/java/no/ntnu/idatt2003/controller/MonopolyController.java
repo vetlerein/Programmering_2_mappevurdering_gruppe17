@@ -1,11 +1,11 @@
 package no.ntnu.idatt2003.controller;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -21,7 +20,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import no.ntnu.idatt2003.model.Board;
 import no.ntnu.idatt2003.model.BoardGameFactory;
+import no.ntnu.idatt2003.model.Dice;
 import no.ntnu.idatt2003.model.Game;
+import static no.ntnu.idatt2003.model.Game.genericGameView;
 import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.Property;
 import no.ntnu.idatt2003.model.fileManagement.playerFileManagement.PlayerFileReader;
@@ -149,9 +150,11 @@ public class MonopolyController {
             for (Property property : player.getPropertyList()) {
                 
                 HBox propertyBox = new HBox();
+                StackPane propertyStack = new StackPane();
                 Button addButton = new Button("Add");
                 Button removeButton = new Button("Remove");
                 Label propertyLabel = new Label(property.getName());
+                propertyBox.setStyle("-fx-background-color:"+ property.getColor() +";");
 
                 addButton.setOnAction(e -> {
                     propertyBox.getChildren().setAll(removeButton, propertyLabel);
@@ -164,7 +167,8 @@ public class MonopolyController {
                 addButton.setId("tradeButton");
                 removeButton.setId("tradeButton");
                 
-                propertyBox.getChildren().addAll(addButton, propertyLabel);
+                propertyStack.getChildren().add(propertyLabel);
+                propertyBox.getChildren().addAll(addButton, propertyStack);
                 playerProperties.getChildren().add(propertyBox);
                 
             }  
@@ -194,10 +198,9 @@ public class MonopolyController {
     }
 
 
-    public ComboBox<Player> createPlayerDropdown(Game game){
+    public ComboBox<Player> createPlayerDropdown(Game game, Player active){
         List<ComboBox<Player>> playerComboBoxes = new ArrayList<>();
         List<Player> tempPlayers = new ArrayList<>(game.getPlayers());
-        Player active = game.getPlayers().get(game.getActivePlayer());
         tempPlayers.remove(active);
         
         ComboBox<Player> choosePlayer = new ComboBox<>(FXCollections.observableArrayList(tempPlayers));
@@ -217,18 +220,102 @@ public class MonopolyController {
         }
     }
 
-    public void buyPropertyHouse(Player player, Property property) {
+    public void buyPropertyHouse(Property property) {
 
-        if (player.getBalance()<property.getHouseCost()) {
+        if (property.getOwner().getBalance()<property.getHouseCost()) {
             PopupView.showInfoPopup("Can't buy house!", "You don't have enought money to buy a house.");
         } else {
             property.setPropertyLevel(property.getPropertyLevel()+1);
-            player.setBalance(player.getBalance()-property.getHouseCost());
+            property.getOwner().addPlayerBalance(-1*property.getHouseCost());
         }
     }
 
-    public void sellPropertyHouse(Player player, Property property) {
+    public void sellPropertyHouse(Property property) {
         property.setPropertyLevel(property.getPropertyLevel()-1);
-        player.setBalance(player.getBalance() + property.getHouseCost()/2);
+        property.getOwner().addPlayerBalance(property.getHouseCost()/2);
+    }
+
+    public void pawnProperty(Property property) {
+        property.setPawned();
+        property.getOwner().addPlayerBalance(property.getPrice()/2);
+    }
+
+    public void rePurchaseProperty(Property property) {
+        property.rePurchase();
+        property.getOwner().addPlayerBalance(-1*property.getPrice());
+    }
+
+    public void throwDice(Game game, Player player) {
+        player.move(game);
+        genericGameView.showDice(player.getDicePaths());
+    }
+
+    public void buyProperty(Property property, Player player){
+        property.setOwner(player);
+        player.addProperty(property);
+        player.addPlayerBalance(-1*property.getPrice());
+        System.out.println("Property bought: " + property.getOwner());
+    }
+
+    public void useJailCard(Player player, Game game) {
+        player.useJailCard();
+        game.nextPlayer();
+    }
+
+    public void payForJail(Player player, Game game) {
+        player.addPlayerBalance(-2000);
+        player.setJailStatus(0);
+        game.nextPlayer();
+    }
+
+    public void throwJailDice(Player player, Game game, int diceThrows) {
+        Dice.rollDice(2, player);
+        URL[]dicePaths = player.getDicePaths();
+        genericGameView.showDice(player.getDicePaths());
+        diceThrows ++; 
+        if(dicePaths[0].equals(dicePaths[1])){
+            player.setJailStatus(0);
+            game.nextPlayer();
+        }else if(diceThrows == 3) {
+            player.turnInJail();
+            game.nextPlayer();
+        }
+    }
+
+    /**
+     * Checks if a player has won the game.
+     * @param game the game instance
+     */
+    public void checkForWinner(Game game) {
+        for (Player player : game.getPlayers()) {
+            if (player.getBalance() <= 0) {
+                player.setPlayerActive(false);
+                continue;
+            }
+    
+            boolean hasUnpawned = false;
+            for (Property property : player.getProperties()) {
+                if (property.isPawned() == false) {
+                    hasUnpawned = true;
+                    break;
+                }
+            }
+            if (!hasUnpawned) {
+                player.setPlayerActive(false);
+            }
+        }
+    
+        Player lastActive = null;
+        int activeCount = 0;
+        for (Player player : game.getPlayers()) {
+            if (player.getPlayerActive()) {
+                activeCount++;
+                lastActive = player; 
+            }
+        }
+
+        if (activeCount == 1 && lastActive != null) {
+            game.finish(lastActive);
+        }
     }
 }

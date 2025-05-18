@@ -30,14 +30,9 @@ public class PlayerSwapTile extends Tile {
         if (playerToSwap == null) { 
             return;
         }
-        
-        System.out.println(player.getPlayerName() + ": " + player.getPosition() + " " + playerToSwap.getPlayerName() + ": "+ playerToSwap.getPosition());
         int newPosition = playerToSwap.getPosition();
         playerToSwap.setPosition(player.getPosition());
         player.setPosition(newPosition);
         game.getLaddergameView().playerSwitch(player, playerToSwap);
-        System.out.println(player.getPlayerName() + ": " + player.getPosition() + " " + playerToSwap.getPlayerName() + ": " + playerToSwap.getPosition());
-        
-        
     }
 }
