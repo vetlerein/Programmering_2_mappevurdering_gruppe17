@@ -79,7 +79,7 @@ public class LaddergameView implements PositionChangeObserver{
         //Adding everything to the final window
         mainLayout.setTop(topMenu);
         mainLayout.setRight(rightMenu);
-        genericGameView.setMainLayout(mainLayout);
+        GenericGameView.setMainLayout(mainLayout);
         return mainLayout;
     }
 
