@@ -1,5 +1,8 @@
 package no.ntnu.idatt2003.model;
 
+/**
+ * The Property class represents a property on the game board.
+ */
 public class Property {
     private String name;
     private int location;
@@ -12,6 +15,14 @@ public class Property {
     private String colorCode;
     private boolean isPawned;
 
+    /**
+     * Constructor for the Property class.
+     * @param name the name of the property
+     * @param location the location of the property on the board
+     * @param streetNumber the street number of the property
+     * @param price the price of the property
+     * @param baseRent the base rent of the property
+     */
     public Property (String name, int location, int streetNumber, int price, int baseRent){
         this.name = name;
         this.location = location;
@@ -202,7 +213,6 @@ public class Property {
     public void setPropertyLevel(int propertyLevel) {
         this.propertyLevel = propertyLevel;
     }
-
 
     /**
      * Returns the current property level of the property.

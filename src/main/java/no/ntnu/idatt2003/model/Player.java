@@ -307,6 +307,10 @@ public class Player {
         game.nextPlayer();
     }
 
+    /**
+     * ToString method.
+     * @return player name
+     */
     @Override
     public String toString() {
         return playerName;

@@ -3,6 +3,9 @@ package no.ntnu.idatt2003.model.tile;
 import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 
+/**
+ * The GoToJailTile class represents a tile on the game board that sends players to jail.
+ */
 public class GoToJailTile extends Tile{
 
     /**

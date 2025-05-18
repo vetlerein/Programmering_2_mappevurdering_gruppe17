@@ -37,6 +37,11 @@ public class Tile implements TileAction {
         this.location = location;
     }
 
+    /**
+     * Performs an action when a player lands on the tile.
+     * @param player the player who landed on the tile
+     * @param game   the game instance
+     */
     @Override
     public void action (Player player, Game game){
         // No action needed 
