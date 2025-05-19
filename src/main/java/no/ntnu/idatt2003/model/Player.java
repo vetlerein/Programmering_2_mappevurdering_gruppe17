@@ -294,6 +294,9 @@ public class Player {
                 this.position = finalTile - (diceRoll-(finalTile-this.position));
             } else if ((this.position + diceRoll > finalTile) && game.getBoard().getGameboard().get(0) instanceof StartTile) {
                 this.position = (this.position + diceRoll) - finalTile;
+                if (this.position != 0) {
+                    game.getBoard().getGameboard().get(0).action(this, game);
+                }
             }
 
             game.getBoard().getGameboard().get(this.position-1).action(this, game);   
