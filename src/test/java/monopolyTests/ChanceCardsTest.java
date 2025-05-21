@@ -2,7 +2,6 @@ package monopolyTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,9 +19,6 @@ public class ChanceCardsTest {
   private Player player2;
   private Game game;
 
-  /**
-   * Sets up the test environment by creating a game and a player.
-   */
   @BeforeEach
   void setUp() {
     game = (Game) TestSetup.createMonoplygameSetUp().get("game");
@@ -30,9 +26,6 @@ public class ChanceCardsTest {
     player2 = (Player) TestSetup.createMonoplygameSetUp().get("player2");
   }
 
-  /**
-   * Checks that the player is on the correct position when landing on a specific ChanceCardTile.
-   */
   @Test
   void checkThatGetsChanceCard() {
     player3.setPosition(5);

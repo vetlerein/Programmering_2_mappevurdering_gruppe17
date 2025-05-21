@@ -40,18 +40,50 @@ import no.ntnu.idatt2003.model.tile.JailTile;
 import no.ntnu.idatt2003.model.tile.PropertyTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
+/**
+ * This class is the view for the Monopoly game. It handles the layout and display of the game board,
+ */
 public class MonopolyView implements PositionChangeObserver {
 
+  /**
+   * The generic game view.
+   */
   public GenericGameView genericGameView = new GenericGameView();
+  /**
+   * The game instance.
+   */
   private Game game;
+  /**
+   * The size of the player pieces.
+   */
   private final int playerSize = 25;
+  /**
+   * The pivot point for rotating the player pieces.
+   */
   private final int pivotX = playerSize / 2;
+  /**
+   * The pivot point for rotating the player pieces.
+   */
   private final int pivotY = playerSize;
 
+  /**
+   * The Monopoly controller.
+   */
   MonopolyController monopolyController = new MonopolyController();
+  /**
+   * The main layout borderpane.
+   */
   public BorderPane mainLayout = new BorderPane();
+  /**
+   * The main pane for the game board.
+   */
   StackPane mainPane;
 
+  /**
+   * Creates the main layout for the Monopoly game view.
+   *
+   * @return the main layout
+   */
   public BorderPane mainLayout() {
     mainLayout.setId("mainLayout");
 
@@ -90,6 +122,11 @@ public class MonopolyView implements PositionChangeObserver {
     return mainLayout;
   }
 
+  /**
+   * Sets the game board for the view.
+   *
+   * @param game the game to set
+   */
   public void setGameBoard(Game game) {
     this.game = game;
     GridPane gameBoard = new GridPane();
@@ -192,6 +229,11 @@ public class MonopolyView implements PositionChangeObserver {
     showPlayerCards(game.getPlayers().get(0));
   }
 
+  /**
+   * The method that is called when a position is changed.
+   *
+   * @param player the player that changed position
+   */
   @Override
   public void positionChanged(Player player) {
     showPlayerCards(player);
@@ -250,6 +292,14 @@ public class MonopolyView implements PositionChangeObserver {
     monopolyController.checkForWinner(game);
   }
 
+  /**
+   * Gets the tile at the specified coordinates in the grid.
+   *
+   * @param grid the grid to search
+   * @param col  the column index
+   * @param row  the row index
+   * @return the tile at the specified coordinates, or null if not found
+   */
   private StackPane getTileAt(GridPane grid, int col, int row) {
     for (Node node : grid.getChildren()) {
       if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
@@ -259,6 +309,11 @@ public class MonopolyView implements PositionChangeObserver {
     return null;
   }
 
+  /**
+   * Shows the property cards of the specified player.
+   *
+   * @param player the player whose cards to show
+   */
   public void showPlayerCards(Player player) {
     HBox cardBox = new HBox();
 
@@ -276,6 +331,12 @@ public class MonopolyView implements PositionChangeObserver {
     mainLayout.setBottom(scroll);
   }
 
+  /**
+   * Gets the property card for the specified property.
+   *
+   * @param property the property to get the card for
+   * @return the property card
+   */
   private VBox getPropertyCard(Property property) {
     Player activePlayer = game.getPlayers().get(game.getActivePlayer());
     VBox card = new VBox(5);
@@ -402,6 +463,9 @@ public class MonopolyView implements PositionChangeObserver {
 
   Player activePlayer;
 
+  /**
+   * Updates the sidebar with the players and their information.
+   */
   private void updateSideBar() {
     VBox rightMenu = new VBox();
     rightMenu.setId("rightMenu");
@@ -468,6 +532,11 @@ public class MonopolyView implements PositionChangeObserver {
     mainLayout.setRight(rightMenu);
   }
 
+  /**
+   * Shows the chance card in the middle of the board.
+   *
+   * @param chanceCard the chance card to show
+   */
   private void showChanceCard(ChanceCard chanceCard) {
     GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
 
@@ -494,6 +563,11 @@ public class MonopolyView implements PositionChangeObserver {
     chanceCardPane.toFront();
   }
 
+  /**
+   * Shows the property card in the middle of the board.
+   *
+   * @param property the property to show
+   */
   private void showProperty(Property property) {
     GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
     clearMiddleCard();
@@ -531,6 +605,9 @@ public class MonopolyView implements PositionChangeObserver {
     propertyPane.toFront();
   }
 
+  /**
+   * Clears the middle card from the board.
+   */
   private void clearMiddleCard() {
     GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
     if (board != null) {
@@ -540,6 +617,11 @@ public class MonopolyView implements PositionChangeObserver {
     }
   }
 
+  /**
+   * Shows the text when a player goes to jail.
+   *
+   * @param player the player who went to jail
+   */
   private void inJailText(Player player) {
     GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
     clearMiddleCard();
@@ -559,6 +641,11 @@ public class MonopolyView implements PositionChangeObserver {
     stackPane.toFront();
   }
 
+  /**
+   * Shows the options for a player in jail.
+   *
+   * @param player the player who is in jail
+   */
   private void inJailOptions(Player player) {
     GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
     clearMiddleCard();

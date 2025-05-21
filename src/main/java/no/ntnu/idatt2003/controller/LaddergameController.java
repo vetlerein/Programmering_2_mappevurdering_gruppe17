@@ -39,13 +39,33 @@ import no.ntnu.idatt2003.view.PopupView;
  */
 public class LaddergameController {
 
+  /**
+   * The main layout of the game.
+   */
   BorderPane laddergamePane = new BorderPane();
+  /**
+   * The generic game view.
+   */
   GenericGameView genericGameView = new GenericGameView();
+  /**
+   * The player file reader.
+   */
   PlayerFileReader playerFileReader;
+  /**
+   * The board of the game.
+   */
   Board board;
 
+  /**
+   * The ladder game view.
+   */
   public static LaddergameView laddergameView;
 
+  /**
+   * This method sets the generic game view.
+   *
+   * @param view the generic game view
+   */
   public static void setLadderGame(LaddergameView view) {
     laddergameView = view;
   }

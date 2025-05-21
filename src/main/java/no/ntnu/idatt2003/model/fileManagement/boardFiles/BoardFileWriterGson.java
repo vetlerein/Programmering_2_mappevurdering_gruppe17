@@ -12,6 +12,9 @@ import no.ntnu.idatt2003.model.Board;
 import no.ntnu.idatt2003.model.tile.LadderTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
+/**
+ * This class is responsible for writing a board object to a JSON file using Gson.
+ */
 public class BoardFileWriterGson implements BoardFileWriter {
 
   /**
@@ -19,12 +22,11 @@ public class BoardFileWriterGson implements BoardFileWriter {
    *
    * @param path  The path of where to save it.
    * @param board The board object to be written to the file.
-   * @throws IOException
+   * @throws IOException an exception that may occur during file writing
    */
  
   @Override
   public void writeBoardToFile(Path path, Board board) throws IOException {
-    //https://www.baeldung.com/gson-save-file#:~:text=We'll%20use%20the%20toJson,convert%20and%20store%20Java%20objects.
     Gson gson = new Gson();
     try (FileWriter fileWriter = new FileWriter(path.toString())) {
       JsonObject boardJsonObject = new JsonObject();

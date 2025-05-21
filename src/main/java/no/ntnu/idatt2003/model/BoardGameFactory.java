@@ -1,6 +1,5 @@
 package no.ntnu.idatt2003.model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import no.ntnu.idatt2003.model.tile.ChanceCardTile;
@@ -14,6 +13,9 @@ import no.ntnu.idatt2003.model.tile.PropertyTile;
 import no.ntnu.idatt2003.model.tile.StartTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
+/**
+ * This class is used to create different types of boards for the game.
+ */
 public class BoardGameFactory {
 
   /**
@@ -55,7 +57,6 @@ public class BoardGameFactory {
    * Create a medium board with 10 rows and 10 columns.
    *
    * @return writes the full board to file
-   * @throws IOException put in when writing to file
    */
   public static Board createMediumBoard() {
     int rows = 10;
@@ -166,6 +167,11 @@ public class BoardGameFactory {
     return new Board(gameboard, name, description, rows, cols);
   }
 
+  /**
+   * Create a monopoly board with 11 rows and 11 columns.
+   *
+   * @return the full board
+   */
   public static Board createMonopolyBoard() {
     int length = 11;
     int numberOfTiles = 40;

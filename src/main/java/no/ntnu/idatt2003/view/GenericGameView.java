@@ -15,8 +15,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import no.ntnu.idatt2003.model.Player;
 
+/**
+ * a shared class for the parts of the view that are used by both games
+ */
 public class GenericGameView {
 
+  /**
+   * The main layout of the game
+   */
   public static BorderPane mainLayout;
 
   /**
@@ -61,7 +67,7 @@ public class GenericGameView {
   /**
    * Method for when a player wins the game
    *
-   * @param player
+   * @param player the player that won the game
    */
   public void playerWon(Player player) {
     Pane centerPane = (Pane) mainLayout.getCenter();
@@ -137,7 +143,7 @@ public class GenericGameView {
   /**
    * Sets the main layout for the view
    *
-   * @param layout
+   * @param layout the main layout of the game
    */
   public static void setMainLayout(BorderPane layout) {
     mainLayout = layout;

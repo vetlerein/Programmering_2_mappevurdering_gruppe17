@@ -3,6 +3,9 @@ package no.ntnu.idatt2003.model.tile;
 import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 
+/**
+ * Makes the player go to jail when they land on this tile.
+ */
 public class GoToJailTile extends Tile {
 
   /**

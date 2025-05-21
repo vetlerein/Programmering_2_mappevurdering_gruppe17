@@ -1,7 +1,6 @@
 package monopolyTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,9 +15,6 @@ public class PropertyTileTests {
   private Player player2;
   private Game game;
 
-  /**
-   * Sets up the test environment by creating a game and a player.
-   */
   @BeforeEach
   void setUp() {
     game = (Game) TestSetup.createMonoplygameSetUp().get("game");
@@ -26,9 +22,6 @@ public class PropertyTileTests {
     player2 = (Player) TestSetup.createMonoplygameSetUp().get("player2");
   }
 
-  /**
-   * Checks that the player is on the correct position when landing on a specific PropertyTile.
-   */
   @Test
   void shouldBeInMolde() {
     PropertyTile tile = (PropertyTile) game.getBoard().getGameboard().get(player3.getPosition());
@@ -38,9 +31,6 @@ public class PropertyTileTests {
     assertEquals(expectedName, actualName, "The property name should be Molde.");
   }
 
-  /**
-   * Checks that the player is in the correct position when landing on a specific PropertyTile.
-   */
   @Test
   void shouldBeInTrondheim() {
     PropertyTile tile = (PropertyTile) game.getBoard().getGameboard().get(player2.getPosition());
@@ -50,9 +40,6 @@ public class PropertyTileTests {
     assertEquals(expectedName, actualName, "The property name should be Drammen.");
   }
 
-  /**
-   * Checks that the player pays the apropriate rent.
-   */
   @Test
   void shouldPayBaseRent() {
     PropertyTile tile = (PropertyTile) game.getBoard().getGameboard().get(player2.getPosition());
@@ -66,9 +53,6 @@ public class PropertyTileTests {
     assertEquals(excpecedBalance, actualBalance, "The player should have paid rent.");
   }
 
-  /**
-   * Checks that the player pays the apropriate rent with a house on the property now.
-   */
   @Test
   void shouldPayRentWithHouse() {
     PropertyTile tile = (PropertyTile) game.getBoard().getGameboard().get(player2.getPosition());

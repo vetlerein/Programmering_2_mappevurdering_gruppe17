@@ -15,6 +15,7 @@ import no.ntnu.idatt2003.model.Player;
 public class PlayerFileWriter {
 
   /**
+   * Writes player information to a CSV file.
    * @param player Input: a player object.
    */
   public void writeToFile(Player player) {

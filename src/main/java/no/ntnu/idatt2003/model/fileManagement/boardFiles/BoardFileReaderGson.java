@@ -33,7 +33,7 @@ public class BoardFileReaderGson implements BoardFileReader {
    *
    * @param jsonPath The input variable. Input the path to the Json-file.
    * @return Returns a board object.
-   * @throws IOException
+   * @throws IOException an exception that may occur during file reading
    */
   @Override
   public Board readBoardFromFile(String jsonPath) throws IOException {

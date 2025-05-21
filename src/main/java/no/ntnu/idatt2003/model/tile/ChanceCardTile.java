@@ -8,9 +8,18 @@ import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.chanceCards.ChanceCard;
 import no.ntnu.idatt2003.model.chanceCards.ChanceCardFactory;
 
+/**
+ * This tile makes the player draw a chance card when they land on it.
+ */
 public class ChanceCardTile extends Tile {
 
+  /**
+   * The list of chance cards available in the game.
+   */
   private final ArrayList<ChanceCard> chanceCards;
+  /**
+   * The active chance card that was drawn.
+   */
   private ChanceCard activChanceCard;
 
   /**
@@ -37,6 +46,11 @@ public class ChanceCardTile extends Tile {
     chanceCards.get(randomIndex).effect(player);
   }
 
+  /**
+   * Returns the active chance card.
+   *
+   * @return the active chance card
+   */
   public ChanceCard getActiveChanceCard() {
     return this.activChanceCard;
   }

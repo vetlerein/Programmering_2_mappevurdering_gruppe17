@@ -3,7 +3,6 @@ package monopolyTests;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,9 +20,6 @@ public class MonopolyControllerTest {
   private Game game;
   private MonopolyController controller;
 
-  /**
-   * Sets up the test environment by creating a game and 3 players.
-   */
   @BeforeEach
   void setUp() {
     game = (Game) TestSetup.createMonoplygameSetUp().get("game");

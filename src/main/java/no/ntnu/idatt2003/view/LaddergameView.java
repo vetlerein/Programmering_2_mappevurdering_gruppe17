@@ -32,18 +32,49 @@ import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.tile.LadderTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
+/**
+ * This class is responsible for displaying the game board and the players in the Laddergame.
+ */
 public class LaddergameView implements PositionChangeObserver {
-
+  /**
+   * The main layout of the game.
+   */
   public BorderPane mainLayout = new BorderPane();
+  /**
+   * The generic game view.
+   */
   public GenericGameView genericGameView = new GenericGameView();
+  /**
+   * The game instance.
+   */
   private Game game;
+  /**
+   * The size of the player pieces.
+   */
   private final int playerSize = 25;
+  /**
+   * The pivot point for rotating the player pieces.
+   */
   private final int pivotX = playerSize / 2;
+  /**
+   * The y value for rotating the pieces.
+   */
   private final int pivotY = playerSize;
+
+  /**
+   * Boolean for if the animation is active.
+   */
   private boolean animationActive = false;
+  /**
+   * The controller for the game.
+   */
   private LaddergameController laddergameController = new LaddergameController();
 
-  //Main layout
+  /**
+   * Creates the main layout of the game.
+   * 
+   * @return the main layout of the game
+   */
   public BorderPane mainLayout() {
     this.mainLayout.setId("mainLayout");
 
@@ -84,7 +115,6 @@ public class LaddergameView implements PositionChangeObserver {
    * Shows the physical board
    *
    * @param game the active game
-   * @return borderpane with the board
    */
   public void setGameBoard(Game game) {
     this.game = game;
@@ -281,6 +311,14 @@ public class LaddergameView implements PositionChangeObserver {
     mainLayout.setRight(rightMenu);
   }
 
+  /**
+   * Returns the tile at the specified coordinates
+   *
+   * @param grid the gridpane to search in
+   * @param col  the column index
+   * @param row  the row index
+   * @return the tile at the specified coordinates
+   */
   private StackPane getTileAt(GridPane grid, int col, int row) {
     for (Node node : grid.getChildren()) {
       if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
@@ -302,8 +340,7 @@ public class LaddergameView implements PositionChangeObserver {
   /**
    * Updates the position of the player on the board
    *
-   * @param player      the player to update
-   * @param newPosition the new position of the player
+   * @param player the player to update
    */
   @Override
   public void positionChanged(Player player) {
@@ -342,6 +379,12 @@ public class LaddergameView implements PositionChangeObserver {
     playerPaused(player);
   }
 
+  /**
+   * The method that is called when a player switches places with another player
+   *
+   * @param playerToSwitch      the player that is switching
+   * @param playerToBeSwitched the player that is being switched with
+   */
   public void playerSwitch(Player playerToSwitch, Player playerToBeSwitched) {
     URL swapUrl = getClass().getResource("/tiles/arrows.png");
     String playerSwitchText =
@@ -352,6 +395,11 @@ public class LaddergameView implements PositionChangeObserver {
     showImageAndText(swapUrl, playerSwitchText);
   }
 
+  /**
+   * The method that is called when a player is paused
+   *
+   * @param player the player that is paused
+   */
   public void playerPaused(Player player) {
     HBox pictureNameSplitter = (HBox) mainLayout.lookup("#playerBox" + player.getPlayerNumber());
     if (player.getPlayerPause() == false) {
@@ -373,15 +421,21 @@ public class LaddergameView implements PositionChangeObserver {
     }
   }
 
+  /**
+   * Shows an image and text on the board for 2 seconds
+   *
+   * @param imageUrl the url of the image to show
+   * @param text     the text to show
+   */
   public void showImageAndText(URL imageUrl, String text) {
     int cols = game.getBoard().getCols();
     int rows = game.getBoard().getRows();
     ImageView imageView = new ImageView(imageUrl.toExternalForm());
-    imageView.setFitWidth(500);
-    imageView.setFitHeight(500);
+    imageView.setFitWidth(360);
+    imageView.setFitHeight(360);
     Text textNode = new Text(text);
     textNode.setStyle(
-        "-fx-font-size: 60px; -fx-text-fill: white; -fx-text-stroke: black; -fx-stroke-width: 3px;");
+        "-fx-font-size: 40px; -fx-text-fill: white; -fx-text-stroke: black; -fx-stroke-width: 3px;");
     VBox showBox = new VBox(20, imageView, textNode);
     StackPane stackPane = new StackPane();
     stackPane.getChildren().add(showBox);

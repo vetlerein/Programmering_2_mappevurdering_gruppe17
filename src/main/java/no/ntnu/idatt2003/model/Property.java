@@ -1,5 +1,8 @@
 package no.ntnu.idatt2003.model;
 
+/*
+ * This class represents a property in the game. It contains information about the property
+ */
 public class Property {
 
   private final String name;

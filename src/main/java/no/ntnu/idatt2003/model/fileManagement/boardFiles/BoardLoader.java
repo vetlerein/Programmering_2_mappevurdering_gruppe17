@@ -6,9 +6,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * This class is responsible for loading a board file using a file chooser dialog.
+ */
 public class BoardLoader {
 
   /**
+   * Opens a file chooser dialog to select a board file.
    * @return Returns the selected file from the file chooser dialog.
    */
   public File loadBoard() {

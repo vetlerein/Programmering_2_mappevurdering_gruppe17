@@ -4,9 +4,15 @@ import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.Property;
 
+/**
+ * The PropertyTile class represents a tile on the game board that is associated with a property.
+ */
 public class PropertyTile extends Tile {
 
-  private Property property;
+  /**
+   * The property associated with this tile.
+   */
+  private final Property property;
 
   /**
    * Constructor for the PropertyTile class.
@@ -35,6 +41,7 @@ public class PropertyTile extends Tile {
   }
 
   /**
+   * Gets the property associated with this tile.
    * @return the property associated with the tile
    */
   public Property getProperty() {

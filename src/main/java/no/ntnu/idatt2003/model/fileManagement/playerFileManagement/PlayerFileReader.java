@@ -18,6 +18,7 @@ import no.ntnu.idatt2003.model.Player;
 public class PlayerFileReader {
 
   /**
+   * Reads player information from a CSV file.
    * @return the method returns an ArrayList with Player objects within.
    */
   public ArrayList<Player> readPlayers() {
@@ -29,7 +30,6 @@ public class PlayerFileReader {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     try (CSVReader csvReader = new CSVReader(new FileReader("data/players.csv"))) {
-      //https://www.geeksforgeeks.org/reading-csv-file-java-using-opencsv/
       String[] nextRecord;
 
       try {

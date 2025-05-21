@@ -13,20 +13,59 @@ import no.ntnu.idatt2003.view.PositionChangeObserver;
  */
 public class Player {
 
+  /**
+   * The position of the player on the board.
+   */
   public int position;
+  /**
+   * The name of the player.
+   */
   public String playerName;
+  /**
+   * The number of the player.
+   */
   public int playerNumber;
+  /**
+   * The birthdate of the player.
+   */
   private final Date birthDate;
+  /**
+   * boolean for if the player is active
+   */
   public boolean playerActive;
+  /**
+   * boolean for if the player is paused.
+   */
   public boolean playerPause = false;
 
+  /**
+   * The total balance of the player.
+   */
   private int balance = 10000;
+  /**
+   * The list of properties owned by the player.
+   */
   private ArrayList<Property> properties = new ArrayList<Property>();
+  /**
+   * The jail status of the player.
+   */
   private int jailStatus = 0;
+  /**
+   * Boolean for if the payer has a get out of jail free card.
+   */
   private boolean getOutOfJailCard = false;
 
+  /**
+   * The observer for the player.
+   */
   private PositionChangeObserver observer;
+  /**
+   * The paths to the dice images.
+   */
   public URL[] dicePaths;
+  /**
+   * The picture of the player.
+   */
   private URL picture;
 
   /**
@@ -45,6 +84,8 @@ public class Player {
 
   /**
    * Actives the player for the game.
+   * 
+   * @param active the active status of the player
    */
   public void setPlayerActive(Boolean active) {
     this.playerActive = active;
@@ -62,7 +103,7 @@ public class Player {
   /**
    * sets the position of the player
    *
-   * @param position
+   * @param positionIn the new position of the player
    */
   public void setPosition(int positionIn) {
     this.position = positionIn;
@@ -103,6 +144,11 @@ public class Player {
     }
   }
 
+  /**
+   * returns the players property list
+   *
+   * @return the players property list
+   */
   public ArrayList<Property> getPropertyList() {
     return this.properties;
   }
@@ -201,7 +247,7 @@ public class Player {
   /**
    * returns the players pause status
    *
-   * @returns the players pause status
+   * @return the players pause status
    */
   public boolean getPlayerPause() {
     return this.playerPause;
@@ -209,6 +255,8 @@ public class Player {
 
   /**
    * returns the players jail status
+   * 
+   * @return the players jail status
    */
   public int getJailStatus() {
     return this.jailStatus;
@@ -216,6 +264,8 @@ public class Player {
 
   /**
    * Sets the dice paths for the player.
+   * 
+   * @param dicePaths the paths to the dice images
    */
   public void setDicePaths(URL[] dicePaths) {
     this.dicePaths = dicePaths;
@@ -305,6 +355,8 @@ public class Player {
   /**
    * Throws the dice and moves the player on the board, and does actions according on where it
    * lands
+   * 
+   * @param game the game instance
    */
   public void move(Game game) {
     if (playerPause == false && jailStatus == 0) {
@@ -334,6 +386,11 @@ public class Player {
     game.nextPlayer();
   }
 
+  /**
+   * to string method for the player class
+   *
+   * @return player name
+   */
   @Override
   public String toString() {
     return playerName;

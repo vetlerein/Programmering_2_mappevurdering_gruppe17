@@ -11,12 +11,7 @@ import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 
 public class TestSetup {
-
-  /**
-   * Creates a setup for the ladder game with three players and a small board.
-   *
-   * @return A map containing the game and players.
-   */
+  
   public static Map<String, Object> createLaddergameSetUp() {
     Map<String, Object> setup = new HashMap<>();
 

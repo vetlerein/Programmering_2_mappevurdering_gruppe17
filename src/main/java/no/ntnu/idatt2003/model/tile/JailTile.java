@@ -3,12 +3,16 @@ package no.ntnu.idatt2003.model.tile;
 import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 
+/**
+ * This class represents the JailTile in the game. 
+ * and has different actions depending on if the player is in jail or just visiting.
+ */
 public class JailTile extends Tile {
 
   /**
    * constructor for the JailTile class
    *
-   * @param location
+   * @param location the location of the tile
    */
   public JailTile(int location) {
     super(location);

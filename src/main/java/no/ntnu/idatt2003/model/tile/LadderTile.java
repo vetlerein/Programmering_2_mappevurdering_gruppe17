@@ -8,11 +8,15 @@ import no.ntnu.idatt2003.model.Player;
  */
 public class LadderTile extends Tile {
 
+  /**
+   * The location where the player will travel to when they land on this tile.
+   */
   private int travelLocation;
 
   /**
    * Constructs a LadderTile with the specified location, color, and travel location.
    *
+   * @param location the location of the tile
    * @param travelLocation the travel location of the tile
    */
   public LadderTile(int location, int travelLocation) {

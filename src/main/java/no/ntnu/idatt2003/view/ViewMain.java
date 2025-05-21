@@ -1,6 +1,7 @@
 package no.ntnu.idatt2003.view;
 
 import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -12,10 +13,22 @@ import javafx.stage.Stage;
  */
 public class ViewMain extends Application {
 
+  /**
+   * The main method that launches the JavaFX application.
+   *
+   * @param args command line arguments
+   * @throws IOException if an I/O error occurs
+   */
   public static void main(String[] args) throws IOException {
     launch(args);
   }
 
+  /**
+   * Starts the JavaFX application.
+   *
+   * @param window the primary stage for this application
+   * @throws Exception if an error occurs
+   */
   @Override
   public void start(Stage window) throws Exception {
 
