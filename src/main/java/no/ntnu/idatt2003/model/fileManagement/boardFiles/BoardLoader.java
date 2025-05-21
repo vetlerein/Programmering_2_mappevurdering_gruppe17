@@ -28,8 +28,7 @@ public class BoardLoader {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Open Board File");
 
-    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)",
-        "*.json");
+    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)","*.json");
     fileChooser.getExtensionFilters().add(extFilter);
 
     return fileChooser.showOpenDialog(popupStage);
