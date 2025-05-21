@@ -1,6 +1,4 @@
-package laddergameTest;
-
-import static no.ntnu.idatt2003.model.Game.laddergameView;
+package laddergameTest.dummyClasses;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,6 +34,9 @@ public class TestSetup {
 
         Board smallboard = BoardGameFactory.createSmallBoard();
         Game game = new Game(players, smallboard);
+        Game.setLadderView(new DummyLaddergameView());
+        DummyGenericGameView dummyView = new DummyGenericGameView();
+        Game.setView(dummyView);
 
         setup.put("game", game);
         setup.put("player1", player1);

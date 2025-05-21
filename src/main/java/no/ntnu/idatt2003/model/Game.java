@@ -41,28 +41,6 @@ public class Game {
     genericGameView = view;
   }
 
-    /**
-     * The game is finished.
-     *
-     * @param player the winner of the game
-     */
-    public void finish(Player player){
-        gameActiveStatus = false;
-        if(genericGameView != null){
-            genericGameView.playerWon(player);
-        }
-    }
-
-    /**
-     * Starts the game.
-     */
-    public void start(){
-        players.sort((a, b) -> b.getBirthDate().compareTo(a.getBirthDate()));
-        for (Player player : players) {
-            player.setPlayerActive(true);
-        }
-    }
-
   public static LaddergameView laddergameView;
 
   /**
