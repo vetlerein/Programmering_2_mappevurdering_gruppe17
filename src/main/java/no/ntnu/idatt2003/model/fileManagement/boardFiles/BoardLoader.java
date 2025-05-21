@@ -6,16 +6,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-/**
- * This class is responsible for uploading a board from a file. It uses a file chooser dialog to
- * select the file.
- */
 public class BoardLoader {
 
   /**
-   * This method opens a file chooser dialog to select a board file.
-   *
-   * @return The selected file.
+   * @return Returns the selected file from the file chooser dialog.
    */
   public File loadBoard() {
 
@@ -34,6 +28,7 @@ public class BoardLoader {
     fileChooser.getExtensionFilters().add(extFilter);
 
     File selectedFile = fileChooser.showOpenDialog(popupStage);
+
     return selectedFile;
   }
 }

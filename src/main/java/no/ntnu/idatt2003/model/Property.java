@@ -1,8 +1,5 @@
 package no.ntnu.idatt2003.model;
 
-/**
- * The Property class represents a property on the game board.
- */
 public class Property {
 
   private final String name;
@@ -99,6 +96,7 @@ public class Property {
   public void buyHouse() {
     if (this.propertyLevel < 5 && this.owner.getBalance() > this.houseCost) {
       this.propertyLevel++;
+      this.owner.addPlayerBalance(-this.houseCost);
     }
   }
 
@@ -145,6 +143,15 @@ public class Property {
    */
   public int getPrice() {
     return this.price;
+  }
+
+  /**
+   * Returns the base rent of the property.
+   *
+   * @return baseRent the base rent of the property
+   */
+  public int getBaseRent() {
+    return this.baseRent;
   }
 
   /**
@@ -213,6 +220,7 @@ public class Property {
   public void setPropertyLevel(int propertyLevel) {
     this.propertyLevel = propertyLevel;
   }
+
 
   /**
    * Returns the current property level of the property.

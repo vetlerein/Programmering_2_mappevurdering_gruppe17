@@ -4,12 +4,9 @@ import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.Property;
 
-/**
- * The PropertyTile class represents a tile on the game board that is a property.
- */
 public class PropertyTile extends Tile {
 
-  private final Property property;
+  private Property property;
 
   /**
    * Constructor for the PropertyTile class.
@@ -31,7 +28,7 @@ public class PropertyTile extends Tile {
   @Override
   public void action(Player player, Game game) {
     if (this.property.getOwner() != null && this.property.getOwner() != player
-        && !this.property.isPawned()) {
+        && this.property.isPawned() == false) {
       player.addPlayerBalance(-1 * this.property.getRent());
       this.property.getOwner().addPlayerBalance(this.property.getRent());
     }

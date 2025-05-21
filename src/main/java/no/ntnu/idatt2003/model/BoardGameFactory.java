@@ -1,5 +1,6 @@
 package no.ntnu.idatt2003.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import no.ntnu.idatt2003.model.tile.ChanceCardTile;
@@ -13,16 +14,12 @@ import no.ntnu.idatt2003.model.tile.PropertyTile;
 import no.ntnu.idatt2003.model.tile.StartTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
-/**
- * This class creates different boards for the game. It creates a small, medium, and large board
- * with different tiles.
- */
 public class BoardGameFactory {
 
   /**
    * Create a small board with 7 rows and 7 columns.
    *
-   * @return the small laddergame board
+   * @return the full board
    */
   public static Board createSmallBoard() {
     int rows = 7;
@@ -53,10 +50,12 @@ public class BoardGameFactory {
     return new Board(gameboard, name, description, rows, cols);
   }
 
+
   /**
    * Create a medium board with 10 rows and 10 columns.
    *
-   * @return the medium laddergame board
+   * @return writes the full board to file
+   * @throws IOException put in when writing to file
    */
   public static Board createMediumBoard() {
     int rows = 10;
@@ -96,7 +95,7 @@ public class BoardGameFactory {
   /**
    * Create a large board with 20 rows and 20 columns and randomized tiles.
    *
-   * @return the chaos laddergame board
+   * @return the full board
    */
   public static Board createChaosBoard() {
     int rows = 20;
@@ -167,11 +166,6 @@ public class BoardGameFactory {
     return new Board(gameboard, name, description, rows, cols);
   }
 
-  /**
-   * Create a monopoly board.
-   *
-   * @return the monopoly board
-   */
   public static Board createMonopolyBoard() {
     int length = 11;
     int numberOfTiles = 40;
@@ -224,6 +218,7 @@ public class BoardGameFactory {
       gameboard.set(property.getLocation() - 1, new PropertyTile(property.getLocation(), property));
     }
 
+    //Add the rest of the tiles
     gameboard.set(0, new StartTile(1));
     gameboard.set(3, new ChanceCardTile(4));
     gameboard.set(5, new ChanceCardTile(6));
@@ -245,5 +240,6 @@ public class BoardGameFactory {
     gameboard.set(38, new ChanceCardTile(39));
 
     return new Board(gameboard, "Monopoly", "A monopoly board", length, length);
+
   }
 }

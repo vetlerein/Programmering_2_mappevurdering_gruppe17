@@ -15,9 +15,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import no.ntnu.idatt2003.model.Player;
 
-/**
- * The class that handles the shared functions for the game views.
- */
 public class GenericGameView {
 
   public static BorderPane mainLayout;
@@ -119,10 +116,12 @@ public class GenericGameView {
     AnimationTimer timer = new AnimationTimer() {
       @Override
       public void handle(long now) {
-        for (ImageView view : pizzas) {
+        for (int i = 0; i < pizzas.size(); i++) {
+          ImageView view = pizzas.get(i);
+
           double newY = view.getLayoutY() + fallSpeed;
           if (newY > layoutHeight) {
-            newY = 0;
+            newY = -size + 50;
             view.setLayoutX(random.nextDouble() * layoutWidth);
             view.setRotate(random.nextDouble() * 360);
           }

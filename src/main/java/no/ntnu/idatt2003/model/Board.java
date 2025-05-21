@@ -91,13 +91,6 @@ public class Board {
     return coordinates;
   }
 
-  /**
-   * Calculates the coordinates based on the position and a given number of rows and columns.
-   *
-   * @param location the location of the tile to get coordinates for.
-   * @return the coordinates of the tile as an array of integers, where the first element is the
-   * x-coordinate and the second element is the y-coordinate.
-   */
   public int[] getCoordinatesMonopoly(int location) {
     int[] coordinates = new int[2];
     if (location >= 1 && location <= 11) {
@@ -114,6 +107,16 @@ public class Board {
       coordinates[0] = (location - 41) * -1;
     }
     return coordinates;
+  }
+
+  public int getLocationMonopoly(int x, int y) {
+    int location = 0;
+    if (x == 0) {
+      location = 11 - y;
+    } else if (y == 0) {
+      location = x + 11;
+    }
+    return location;
   }
 
   /**

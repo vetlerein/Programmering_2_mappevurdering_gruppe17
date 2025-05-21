@@ -3,9 +3,6 @@ package no.ntnu.idatt2003.view;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-/**
- * The PopupView class is responsible for displaying popups in the application.
- */
 public class PopupView {
 
   /**

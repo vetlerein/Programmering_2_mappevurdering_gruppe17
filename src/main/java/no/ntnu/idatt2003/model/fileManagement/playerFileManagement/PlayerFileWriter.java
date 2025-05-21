@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import com.opencsv.CSVWriter;
 
 import no.ntnu.idatt2003.model.Player;
-import no.ntnu.idatt2003.view.PopupView;
 
 /**
  * This class writes player information to a CSV file.
@@ -33,7 +32,7 @@ public class PlayerFileWriter {
       String[] playerData = {player.getPlayerName(), playerNumber, birthDate};
       writer.writeNext(playerData);
     } catch (IOException e) {
-      PopupView.showInfoPopup(" Error writing to file!", e.getMessage());
+      e.printStackTrace();
     }
   }
 }

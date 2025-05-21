@@ -17,11 +17,11 @@ import no.ntnu.idatt2003.model.tile.LadderTile;
 import no.ntnu.idatt2003.model.tile.PauseTile;
 import no.ntnu.idatt2003.model.tile.PlayerSwapTile;
 import no.ntnu.idatt2003.model.tile.Tile;
-import no.ntnu.idatt2003.view.PopupView;
 
 //How to read
 //BoardFileReaderGson boardReader = new BoardFileReaderGson();
 //Board board = boardReader.readBoardFromFile("src/main/resources/boards/laddergame1.json");
+
 
 /**
  * This class reads jsonfiles
@@ -33,20 +33,17 @@ public class BoardFileReaderGson implements BoardFileReader {
    *
    * @param jsonPath The input variable. Input the path to the Json-file.
    * @return Returns a board object.
-   * @throws IOException           If the file is not found or if there is an error reading the
-   *                               file.
-   * @throws JsonSyntaxException   If the json file is not in the correct format.
-   * @throws IllegalStateException If the json file is not in the correct format.
+   * @throws IOException
    */
   @Override
   public Board readBoardFromFile(String jsonPath) throws IOException {
     try (
         FileReader fileReader = new FileReader(jsonPath);
         JsonReader reader = new JsonReader(fileReader);) {
-
+ 
       JsonElement element = JsonParser.parseReader(reader);
       JsonObject boardJson = element.getAsJsonObject();
-
+      //Extracts the board array from the json
       JsonArray board = boardJson.getAsJsonArray("board");
       String description = boardJson.get("description").getAsString();
       String name = boardJson.get("name").getAsString();
@@ -87,7 +84,7 @@ public class BoardFileReaderGson implements BoardFileReader {
             break;
 
           default:
-            PopupView.showInfoPopup("Error loading tile!", "Unknown tile type: " + tileType + ".");
+            System.err.println("Unknown tile type: " + tileType);
             // Handle unknown tile type if necessary
             break;
         }
@@ -96,7 +93,7 @@ public class BoardFileReaderGson implements BoardFileReader {
       return new Board(gameboard, name, description, rows, cols);
 
     } catch (IOException e) {
-      PopupView.showInfoPopup("Error loading board!", "Error reading JSON-file: " + e.getMessage());
+      System.err.println("Error reading JSON-file: " + e.getMessage());
       throw e;
     } catch (JsonSyntaxException | IllegalStateException e) {
       throw new IOException("Error in JSON-structure: " + jsonPath, e);

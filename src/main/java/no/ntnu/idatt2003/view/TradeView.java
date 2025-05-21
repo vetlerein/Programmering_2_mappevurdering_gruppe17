@@ -21,9 +21,6 @@ import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.Property;
 
-/**
- * The class that handles the trade view in the monopoly game.
- */
 public class TradeView {
 
   Stage tradeStage = new Stage();

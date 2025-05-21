@@ -12,10 +12,6 @@ import no.ntnu.idatt2003.model.Board;
 import no.ntnu.idatt2003.model.tile.LadderTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
-/**
- * This class writes a board object to a json file. It uses the Gson library to convert the board
- * object to a json string and write it to a file.
- */
 public class BoardFileWriterGson implements BoardFileWriter {
 
   /**
@@ -25,8 +21,10 @@ public class BoardFileWriterGson implements BoardFileWriter {
    * @param board The board object to be written to the file.
    * @throws IOException
    */
+ 
   @Override
   public void writeBoardToFile(Path path, Board board) throws IOException {
+    //https://www.baeldung.com/gson-save-file#:~:text=We'll%20use%20the%20toJson,convert%20and%20store%20Java%20objects.
     Gson gson = new Gson();
     try (FileWriter fileWriter = new FileWriter(path.toString())) {
       JsonObject boardJsonObject = new JsonObject();

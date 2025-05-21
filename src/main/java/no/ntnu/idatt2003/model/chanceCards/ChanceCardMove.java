@@ -4,14 +4,11 @@ import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import no.ntnu.idatt2003.model.Player;
 
-/**
- * ChanceCardMove class represents a chance card that moves the player to a new position on the
- * board.
- */
 public class ChanceCardMove implements ChanceCard {
 
   private final int newPosition;
   private final String description;
+  public static boolean SKIP_DELAY_IN_TEST = false;
 
   /**
    * Constructor for ChanceCardMove.
@@ -33,6 +30,13 @@ public class ChanceCardMove implements ChanceCard {
   }
 
   /**
+   * @return the new position of the player
+   */
+  public int getNewPosition() {
+    return newPosition;
+  }
+
+   /**
    * The effect method is called when a player draws a chance card.
    *
    * @param player the player who drew the chance card, and who will be moved
@@ -40,14 +44,21 @@ public class ChanceCardMove implements ChanceCard {
   @Override
   public void effect(Player player) {
     PauseTransition pause = new PauseTransition(Duration.millis(1500));
-
-    pause.setOnFinished(e -> {
+    if (SKIP_DELAY_IN_TEST) {
       if (newPosition < player.getPosition()) {
         player.addPlayerBalance(2000);
       }
       player.setPosition(newPosition);
-    });
-    pause.play();
+    } else {
+      pause.setOnFinished(e -> {
+        if (newPosition < player.getPosition()) {
+          player.addPlayerBalance(2000);
+        }
+        player.setPosition(newPosition);
+      });
+      pause.play();
+    }
+
   }
 }
 

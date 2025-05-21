@@ -10,11 +10,6 @@ import no.ntnu.idatt2003.model.Player;
  */
 public class PlayerSwapTile extends Tile {
 
-  /**
-   * Constructor for the PlayerSwapTile class
-   *
-   * @param location the location of the tile
-   */
   public PlayerSwapTile(int location) {
     super(location);
 
@@ -38,6 +33,8 @@ public class PlayerSwapTile extends Tile {
     int newPosition = playerToSwap.getPosition();
     playerToSwap.setPosition(player.getPosition());
     player.setPosition(newPosition);
-    game.getLaddergameView().playerSwitch(player, playerToSwap);
+    if (game.getLaddergameView() != null) {
+      game.getLaddergameView().playerSwitch(player, playerToSwap);
+    }
   }
 }

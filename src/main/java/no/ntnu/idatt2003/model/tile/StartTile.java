@@ -3,9 +3,6 @@ package no.ntnu.idatt2003.model.tile;
 import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 
-/**
- * The StartTile class represents the starting tile on the game board.
- */
 public class StartTile extends Tile {
 
   /**
