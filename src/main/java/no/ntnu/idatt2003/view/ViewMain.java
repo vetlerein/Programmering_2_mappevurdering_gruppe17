@@ -1,7 +1,5 @@
 package no.ntnu.idatt2003.view;
 
-import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -17,9 +15,8 @@ public class ViewMain extends Application {
    * The main method that launches the JavaFX application.
    *
    * @param args command line arguments
-   * @throws IOException if an I/O error occurs
    */
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) {
     launch(args);
   }
 
@@ -42,6 +39,5 @@ public class ViewMain extends Application {
     window.setTitle("Main menu");
     window.getIcons().add(new Image(getClass().getResourceAsStream("/playerPieces/pepperoni.png")));
     window.show();
-
   }
 }

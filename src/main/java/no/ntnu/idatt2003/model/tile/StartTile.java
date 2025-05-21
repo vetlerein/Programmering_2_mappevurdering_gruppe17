@@ -19,7 +19,7 @@ public class StartTile extends Tile {
   }
 
   /**
-   * Adds the start bonus the the player who passes.
+   * Adds the start bonus the player who passes.
    *
    * @param player the player who landed on the tile
    * @param game   the game instance
@@ -28,5 +28,4 @@ public class StartTile extends Tile {
   public void action(Player player, Game game) {
     player.addPlayerBalance(2000);
   }
-
 }

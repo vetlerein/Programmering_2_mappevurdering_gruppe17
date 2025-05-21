@@ -7,7 +7,7 @@ public class invalidBirthdayException extends Exception {
 
   /**
    * Exception for invalid birthday.
-   * 
+   *
    * @param message the message to be displayed
    */
   public invalidBirthdayException(String message) {

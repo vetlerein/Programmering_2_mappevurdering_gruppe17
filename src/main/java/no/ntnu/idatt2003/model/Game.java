@@ -10,7 +10,7 @@ import no.ntnu.idatt2003.view.MonopolyView;
  * This class represents a game and includes the players and the board.
  */
 public class Game {
-
+ 
   /**
    * Boolean for game status.
    */
@@ -35,7 +35,7 @@ public class Game {
   /**
    * Constructs a game with a given amount of players, board width, board height and players.
    *
-   * @param players the active players in the game
+   * @param players   the active players in the game
    * @param gameboard the active gameboard
    */
   public Game(ArrayList<Player> players, Board gameboard) {
@@ -89,7 +89,7 @@ public class Game {
 
   /**
    * Returns the laddergameview.
-   * 
+   *
    * @return the laddergameview
    */
   public LaddergameView getLaddergameView() {

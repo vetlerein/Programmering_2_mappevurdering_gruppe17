@@ -11,7 +11,7 @@ import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 
 public class TestSetup {
-  
+
   public static Map<String, Object> createLaddergameSetUp() {
     Map<String, Object> setup = new HashMap<>();
 

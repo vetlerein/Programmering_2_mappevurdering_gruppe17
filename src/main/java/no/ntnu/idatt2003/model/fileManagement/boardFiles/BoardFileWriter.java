@@ -9,7 +9,7 @@ import no.ntnu.idatt2003.model.Board;
  * The interface for writing json files
  */
 public interface BoardFileWriter {
-
+ 
   /**
    * The method that writes the board to Json file.
    *

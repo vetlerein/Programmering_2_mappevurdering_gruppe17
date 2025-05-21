@@ -17,22 +17,27 @@ public class Player {
    * The position of the player on the board.
    */
   public int position;
+
   /**
    * The name of the player.
    */
   public String playerName;
+
   /**
    * The number of the player.
    */
   public int playerNumber;
+
   /**
    * The birthdate of the player.
    */
   private final Date birthDate;
+
   /**
    * boolean for if the player is active
    */
   public boolean playerActive;
+
   /**
    * boolean for if the player is paused.
    */
@@ -42,14 +47,17 @@ public class Player {
    * The total balance of the player.
    */
   private int balance = 10000;
+
   /**
    * The list of properties owned by the player.
    */
-  private ArrayList<Property> properties = new ArrayList<Property>();
+  private final ArrayList<Property> properties = new ArrayList<>();
+
   /**
    * The jail status of the player.
    */
   private int jailStatus = 0;
+
   /**
    * Boolean for if the payer has a get out of jail free card.
    */
@@ -59,10 +67,12 @@ public class Player {
    * The observer for the player.
    */
   private PositionChangeObserver observer;
+
   /**
    * The paths to the dice images.
    */
   public URL[] dicePaths;
+
   /**
    * The picture of the player.
    */
@@ -84,7 +94,7 @@ public class Player {
 
   /**
    * Actives the player for the game.
-   * 
+   *
    * @param active the active status of the player
    */
   public void setPlayerActive(Boolean active) {
@@ -132,7 +142,7 @@ public class Player {
   }
 
   /**
-   * adds the inputed property to the players property list
+   * adds the inputted property to the players property list
    *
    * @param property the property to add to the players property list
    */
@@ -186,7 +196,7 @@ public class Player {
    * Uses the get out of jail card if the player has one.
    */
   public void useJailCard() {
-    if (this.getOutOfJailCard == true) {
+    if (this.getOutOfJailCard) {
       this.jailStatus = 0;
       this.getOutOfJailCard = false;
     }
@@ -224,7 +234,7 @@ public class Player {
   }
 
   /**
-   * adds the the amount to the players balance
+   * adds the amount to the players balance
    *
    * @param amount the amount of money to add to the players balance
    */
@@ -255,7 +265,7 @@ public class Player {
 
   /**
    * returns the players jail status
-   * 
+   *
    * @return the players jail status
    */
   public int getJailStatus() {
@@ -264,7 +274,7 @@ public class Player {
 
   /**
    * Sets the dice paths for the player.
-   * 
+   *
    * @param dicePaths the paths to the dice images
    */
   public void setDicePaths(URL[] dicePaths) {
@@ -355,11 +365,11 @@ public class Player {
   /**
    * Throws the dice and moves the player on the board, and does actions according on where it
    * lands
-   * 
+   *
    * @param game the game instance
    */
   public void move(Game game) {
-    if (playerPause == false && jailStatus == 0) {
+    if (!playerPause && jailStatus == 0) {
       int diceRoll = Dice.rollDice(2, this);
       int finalTile = game.getBoard().getGameboard().size();
       if (this.position + diceRoll <= finalTile) {
@@ -368,15 +378,15 @@ public class Player {
           .get(finalTile - 1) instanceof FinishTile) {
         this.position = finalTile - (diceRoll - (finalTile - this.position));
       } else if ((this.position + diceRoll > finalTile) && game.getBoard().getGameboard()
-          .get(0) instanceof StartTile) {
+          .getFirst() instanceof StartTile) {
         this.position = (this.position + diceRoll) - finalTile;
         if (this.position != 0) {
-          game.getBoard().getGameboard().get(0).action(this, game);
+          game.getBoard().getGameboard().getFirst().action(this, game);
         }
       }
 
       game.getBoard().getGameboard().get(this.position - 1).action(this, game);
-    } else if (playerPause == true) {
+    } else if (playerPause) {
       playerPause = false;
     }
 

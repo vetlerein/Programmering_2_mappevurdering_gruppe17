@@ -14,10 +14,12 @@ public class ChanceCardMove implements ChanceCard {
    * The new position to move the player to.
    */
   private final int newPosition;
+
   /**
    * The description of the chance card.
    */
   private final String description;
+
   /**
    * A boolean to skip the delay in tests.
    */
@@ -36,7 +38,7 @@ public class ChanceCardMove implements ChanceCard {
 
   /**
    * toString method returns the description of the chance card.
-   * 
+   *
    * @return the description of the chance card
    */
   @Override
@@ -46,13 +48,14 @@ public class ChanceCardMove implements ChanceCard {
 
   /**
    * returns the position to move to.
+   *
    * @return the new position of the player
    */
   public int getNewPosition() {
     return newPosition;
   }
 
-   /**
+  /**
    * The effect method is called when a player draws a chance card.
    *
    * @param player the player who drew the chance card, and who will be moved

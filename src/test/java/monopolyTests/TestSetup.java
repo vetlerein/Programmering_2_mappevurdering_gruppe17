@@ -22,7 +22,7 @@ public class TestSetup {
     player2.setPosition(2);
     Player player3 = new Player("player3", 3, new Date());
     player3.setPosition(39);
-
+ 
     ArrayList<Player> players = new ArrayList<>();
     players.add(player1);
     players.add(player2);

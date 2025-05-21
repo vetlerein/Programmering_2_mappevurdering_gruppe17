@@ -197,7 +197,7 @@ public class BoardGameFactory {
     properties[9] = new Property("Narvik", 17, 4, 1800, 175);
     properties[10] = new Property("Haugesund", 18, 4, 1800, 175);
     properties[11] = new Property("Kristiansund", 20, 4, 2000, 200);
-
+ 
     //third side
     properties[12] = new Property("Lillestrøm", 22, 5, 2400, 225);
     properties[13] = new Property("Fredrikstad", 23, 5, 2400, 225);

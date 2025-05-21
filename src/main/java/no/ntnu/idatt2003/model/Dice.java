@@ -4,29 +4,24 @@ import java.net.URL;
 import java.util.Random;
 
 /**
- * Represents a dice in the game.
+ * Represents a die in the game.
  */
 public class Dice {
- 
+
   /**
-   * Rolls a dice a given amout of times.
+   * Rolls a die a given amount of times.
    *
    * @param diceAmount the amount of times to roll the dice
    * @param player     the player who rolled the dice
    * @return the sum of the dice rolls
    */
   public static int rollDice(int diceAmount, Player player) {
-    /**
-     * the value of the dice
-     */
+     
     int diceValue;
-    /**
-     * the paths to the dice images
-     */
     URL[] dicePaths = new URL[diceAmount];
 
     if (diceAmount < 1) {
-      throw new IllegalArgumentException("Dice needs to be thrown atleast once");
+      throw new IllegalArgumentException("Dice needs to be thrown at least once");
     }
 
     Random random = new Random();

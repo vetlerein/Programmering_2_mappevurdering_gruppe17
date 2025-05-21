@@ -18,7 +18,7 @@ public class PauseTile extends Tile {
   }
 
   /**
-   * Pauses the inputed player
+   * Pauses the inputted player
    *
    * @param player the player to pause
    */

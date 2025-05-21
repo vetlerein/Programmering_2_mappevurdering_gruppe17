@@ -8,7 +8,7 @@ import no.ntnu.idatt2003.model.Board;
  * The interface for reading json files
  */
 public interface BoardFileReader {
-
+ 
   /**
    * The method that reads the Json file.
    *

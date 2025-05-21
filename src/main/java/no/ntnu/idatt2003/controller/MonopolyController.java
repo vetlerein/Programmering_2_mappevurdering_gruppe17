@@ -22,7 +22,9 @@ import no.ntnu.idatt2003.model.Board;
 import no.ntnu.idatt2003.model.BoardGameFactory;
 import no.ntnu.idatt2003.model.Dice;
 import no.ntnu.idatt2003.model.Game;
+
 import static no.ntnu.idatt2003.model.Game.genericGameView;
+
 import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.Property;
 import no.ntnu.idatt2003.model.fileManagement.playerFileManagement.PlayerFileReader;
@@ -30,8 +32,8 @@ import no.ntnu.idatt2003.view.MonopolyView;
 import no.ntnu.idatt2003.view.PopupView;
 
 /**
- * The controller class for the Monopoly game.
- * This class handles the game logic and player interactions.
+ * The controller class for the Monopoly game. This class handles the game logic and player
+ * interactions.
  */
 public class MonopolyController {
 
@@ -39,10 +41,6 @@ public class MonopolyController {
    * The player file reader.
    */
   PlayerFileReader playerFileReader = new PlayerFileReader();
-  /**
-   * The active board.
-   */
-  Board board;
 
   /**
    * The monopoly view.
@@ -59,7 +57,7 @@ public class MonopolyController {
   }
 
   /**
-   * This method creats a new game.
+   * This method creates a new game.
    */
   public void newGame() {
     playerFileReader = new PlayerFileReader();
@@ -91,7 +89,6 @@ public class MonopolyController {
         StackPane pictureContainer = new StackPane(imageView);
         ComboBox<Player> choosePlayer = new ComboBox<>(FXCollections.observableArrayList(players));
         choosePlayer.getStyleClass().add("custom-combo");
-        ;
 
         choosePlayer.setPromptText("Choose player");
         choosePlayer.setOnAction(e -> {
@@ -138,9 +135,6 @@ public class MonopolyController {
         } else {
           Game game = new Game(selectedPlayers, board);
           game.start();
-          System.out.println("Game started with players: " + selectedPlayers);
-          System.out.println("Selected board: " + board.getName());
-          System.out.println("Game: " + game.getPlayers().toString());
 
           monopolyView.setGameBoard(game);
           popupStage.close();
@@ -211,12 +205,13 @@ public class MonopolyController {
 
   /**
    * Executes a trade between two players.
-   * @param p1 player 1
-   * @param p2 player 2
+   *
+   * @param p1           player 1
+   * @param p2           player 2
    * @param p1Properties player 1 properties
    * @param p2Properties player 2 properties
-   * @param p1Money player 1 money
-   * @param p2Money player 2 money
+   * @param p1Money      player 1 money
+   * @param p2Money      player 2 money
    */
   public void executeTrade(Player p1, Player p2, ArrayList<Property> p1Properties,
       ArrayList<Property> p2Properties, int p1Money, int p2Money) {
@@ -247,34 +242,18 @@ public class MonopolyController {
    * @return a ComboBox with the players
    */
   public ComboBox<Player> createPlayerDropdown(Game game, Player active) {
-    List<ComboBox<Player>> playerComboBoxes = new ArrayList<>();
     List<Player> tempPlayers = new ArrayList<>(game.getPlayers());
     tempPlayers.remove(active);
 
     ComboBox<Player> choosePlayer = new ComboBox<>(FXCollections.observableArrayList(tempPlayers));
     choosePlayer.getStyleClass().add("custom-combo");
     choosePlayer.setPromptText("Choose player");
-    playerComboBoxes.add(choosePlayer);
     return choosePlayer;
   }
 
   /**
-   * Creates a VBox with the players in the game.
-   */
-  public void playerList() {
-    VBox playerListBox = new VBox();
-    List<Player> players = playerFileReader.readPlayers();
-
-    for (Player player : players) {
-      Label playerLabel = new Label(
-          player.getPlayerName() + " - " + player.getPlayerNumber() + " - "
-              + player.getBirthDate());
-      playerListBox.getChildren().add(playerLabel);
-    }
-  }
-
-  /**
    * buys a house on a property.
+   *
    * @param property the property to buy a house on
    */
   public void buyPropertyHouse(Property property) {
@@ -288,6 +267,7 @@ public class MonopolyController {
 
   /**
    * sells a house on a property.
+   *
    * @param property the property to sell a house on
    */
   public void sellPropertyHouse(Property property) {
@@ -297,6 +277,7 @@ public class MonopolyController {
 
   /**
    * pawns a property.
+   *
    * @param property the property to pawn
    */
   public void pawnProperty(Property property) {
@@ -306,6 +287,7 @@ public class MonopolyController {
 
   /**
    * Repurchase a property.
+   *
    * @param property the property to repurchase
    */
   public void rePurchaseProperty(Property property) {
@@ -334,7 +316,6 @@ public class MonopolyController {
     property.setOwner(player);
     player.addProperty(property);
     player.addPlayerBalance(-1 * property.getPrice());
-    System.out.println("Property bought: " + property.getOwner());
   }
 
   /**
@@ -363,9 +344,9 @@ public class MonopolyController {
   /**
    * Throws the dice for a player in jail.
    *
-   * @param player      the player who is in jail
-   * @param game        the game instance
-   * @param diceThrows  the number of times the player has thrown the dice
+   * @param player     the player who is in jail
+   * @param game       the game instance
+   * @param diceThrows the number of times the player has thrown the dice
    */
   public void throwJailDice(Player player, Game game, int diceThrows) {
     Dice.rollDice(2, player);
@@ -397,7 +378,7 @@ public class MonopolyController {
 
       boolean hasUnpawned = false;
       for (Property property : player.getProperties()) {
-        if (property.isPawned() == false) {
+        if (!property.isPawned()) {
           hasUnpawned = true;
           player.setPlayerActive(true);
           break;
@@ -416,7 +397,7 @@ public class MonopolyController {
         lastActive = player;
       }
     }
-    if (activeCount == 1 && lastActive != null) {
+    if (activeCount == 1) {
       game.finish(lastActive);
     }
   }

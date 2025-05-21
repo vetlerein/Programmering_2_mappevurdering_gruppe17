@@ -24,7 +24,6 @@ public class BoardFileWriterGson implements BoardFileWriter {
    * @param board The board object to be written to the file.
    * @throws IOException an exception that may occur during file writing
    */
- 
   @Override
   public void writeBoardToFile(Path path, Board board) throws IOException {
     Gson gson = new Gson();
@@ -36,13 +35,12 @@ public class BoardFileWriterGson implements BoardFileWriter {
         JsonObject tileJsonObject = new JsonObject();
         tileJsonObject.addProperty("tileType", tile.getClass().getSimpleName());
         tileJsonObject.addProperty("location", tile.getLocation());
-        if (tile instanceof LadderTile) {
-          LadderTile ladderTile = (LadderTile) tile;
+        if (tile instanceof LadderTile ladderTile) {
           tileJsonObject.addProperty("travellocation", ladderTile.getTravelLocation());
         }
         boardJsonArray.add(tileJsonObject);
       }
-
+ 
       boardJsonObject.addProperty("name", board.getName());
       boardJsonObject.addProperty("description", board.getDescription());
       boardJsonObject.addProperty("rows", board.getRows());

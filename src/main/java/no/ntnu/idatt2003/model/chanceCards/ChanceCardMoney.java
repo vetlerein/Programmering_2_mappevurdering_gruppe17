@@ -3,8 +3,8 @@ package no.ntnu.idatt2003.model.chanceCards;
 import no.ntnu.idatt2003.model.Player;
 
 /**
- * ChanceCardMoney class represents a chance card that affects the player's balance.
- * It can either add or subtract money from the player's balance.
+ * ChanceCardMoney class represents a chance card that affects the player's balance. It can either
+ * add or subtract money from the player's balance.
  */
 public class ChanceCardMoney implements ChanceCard {
 
@@ -35,11 +35,11 @@ public class ChanceCardMoney implements ChanceCard {
    */
   @Override
   public String toString() {
-      if (amount > 0) {
-          return description + ", you recive " + amount + " $";
-      } else {
-          return description + ", you pay " + amount * -1 + " $";
-      }
+    if (amount > 0) {
+      return description + ", you receive " + amount + " $";
+    } else {
+      return description + ", you pay " + amount * -1 + " $";
+    }
   }
 
   /**

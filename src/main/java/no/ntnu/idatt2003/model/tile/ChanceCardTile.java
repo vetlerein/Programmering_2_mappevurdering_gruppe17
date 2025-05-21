@@ -17,11 +17,12 @@ public class ChanceCardTile extends Tile {
    * The list of chance cards available in the game.
    */
   private final ArrayList<ChanceCard> chanceCards;
+
   /**
    * The active chance card that was drawn.
    */
   private ChanceCard activChanceCard;
-
+ 
   /**
    * Constructor for the ChanceCardTile class.
    *

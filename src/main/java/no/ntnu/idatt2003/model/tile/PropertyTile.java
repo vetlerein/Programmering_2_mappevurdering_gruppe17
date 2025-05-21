@@ -34,7 +34,7 @@ public class PropertyTile extends Tile {
   @Override
   public void action(Player player, Game game) {
     if (this.property.getOwner() != null && this.property.getOwner() != player
-        && this.property.isPawned() == false) {
+        && !this.property.isPawned()) {
       player.addPlayerBalance(-1 * this.property.getRent());
       this.property.getOwner().addPlayerBalance(this.property.getRent());
     }
@@ -42,6 +42,7 @@ public class PropertyTile extends Tile {
 
   /**
    * Gets the property associated with this tile.
+   *
    * @return the property associated with the tile
    */
   public Property getProperty() {

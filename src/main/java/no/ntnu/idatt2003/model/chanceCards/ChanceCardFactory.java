@@ -7,11 +7,11 @@ import java.util.ArrayList;
  */
 public class ChanceCardFactory {
 
-    /**
-     * Creates a deck of chance cards.
-     *
-     * @return an ArrayList of ChanceCard objects
-     */
+  /**
+   * Creates a deck of chance cards.
+   *
+   * @return an ArrayList of ChanceCard objects
+   */
   public static ArrayList<ChanceCard> createDeck() {
     ArrayList<ChanceCard> chanceCards = new ArrayList<>();
     chanceCards.add(new ChanceCardJail());

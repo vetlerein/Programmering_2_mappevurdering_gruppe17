@@ -17,14 +17,14 @@ import no.ntnu.idatt2003.model.tile.LadderTile;
 import no.ntnu.idatt2003.model.tile.PauseTile;
 import no.ntnu.idatt2003.model.tile.PlayerSwapTile;
 import no.ntnu.idatt2003.model.tile.Tile;
+import no.ntnu.idatt2003.view.PopupView;
 
 //How to read
-//BoardFileReaderGson boardReader = new BoardFileReaderGson();
 //Board board = boardReader.readBoardFromFile("src/main/resources/boards/laddergame1.json");
 
 
 /**
- * This class reads jsonfiles
+ * This class reads jsonfile
  */
 public class BoardFileReaderGson implements BoardFileReader {
 
@@ -39,8 +39,8 @@ public class BoardFileReaderGson implements BoardFileReader {
   public Board readBoardFromFile(String jsonPath) throws IOException {
     try (
         FileReader fileReader = new FileReader(jsonPath);
-        JsonReader reader = new JsonReader(fileReader);) {
- 
+        JsonReader reader = new JsonReader(fileReader)) {
+
       JsonElement element = JsonParser.parseReader(reader);
       JsonObject boardJson = element.getAsJsonObject();
       //Extracts the board array from the json
@@ -58,25 +58,20 @@ public class BoardFileReaderGson implements BoardFileReader {
 
         switch (tileType) {
           case "Tile":
-
             gameboard.add(new Tile(location));
             break;
 
           case "LadderTile":
-
             int travelLocation = jsonElement.getAsJsonObject().get("travellocation").getAsInt();
             gameboard.add(new LadderTile(location, travelLocation));
             break;
 
           case "PauseTile":
-
             gameboard.add(new PauseTile(location));
             break;
 
           case "PlayerSwapTile":
-
             gameboard.add(new PlayerSwapTile(location));
-
             break;
 
           case "FinishTile":
@@ -84,8 +79,8 @@ public class BoardFileReaderGson implements BoardFileReader {
             break;
 
           default:
-            System.err.println("Unknown tile type: " + tileType);
-            // Handle unknown tile type if necessary
+            PopupView.showInfoPopup("Error!",
+                "An unknown tile error occured while loading the game: " + tileType);
             break;
         }
       }
@@ -93,9 +88,11 @@ public class BoardFileReaderGson implements BoardFileReader {
       return new Board(gameboard, name, description, rows, cols);
 
     } catch (IOException e) {
-      System.err.println("Error reading JSON-file: " + e.getMessage());
+      PopupView.showInfoPopup("Error reading JSON-file!", e.getMessage());
       throw e;
     } catch (JsonSyntaxException | IllegalStateException e) {
+      PopupView.showInfoPopup("Error reading JSON-file!",
+          "Error in JSON-structure: " + e.getMessage());
       throw new IOException("Error in JSON-structure: " + jsonPath, e);
     }
   }

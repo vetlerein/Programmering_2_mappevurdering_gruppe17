@@ -16,7 +16,7 @@ public class GoToJailTile extends Tile {
   public GoToJailTile(int location) {
     super(location);
   }
-
+ 
   /**
    * Sends the player to jail
    *

@@ -16,14 +16,14 @@ import no.ntnu.idatt2003.controller.PlayerController;
 import no.ntnu.idatt2003.model.Game;
 
 /**
- * This class is responsible for creating the main menu of the application.
- * It provides options to start different games and manage players.
+ * This class is responsible for creating the main menu of the application. It provides options to
+ * start different games and manage players.
  */
 public class MenuView {
 
   /**
    * Creates the main menu layout for the application.
-   * 
+   *
    * @param stage main stage of the application
    * @return Returns the menu layout
    * @throws IOException an exception that may be thrown
@@ -84,11 +84,7 @@ public class MenuView {
 
     Button exitButton = new Button("Exit");
     exitButton.setId("exitButton");
-    exitButton.setOnAction(e -> {
-
-      System.exit(0);
-
-    });
+    exitButton.setOnAction(e -> System.exit(0));
 
     Label welcome = new Label("Welcome!");
     Label description = new Label("Choose a game to play:");
