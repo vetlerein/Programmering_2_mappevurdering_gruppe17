@@ -1,8 +1,8 @@
 package laddergameTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,9 +27,6 @@ public class PlayerSwapTest {
     player3 = (Player) setup.get("player3");
   }
 
-  /**
-   * Checks that the player swaps with the player furthest ahead.
-   */
   @Test
   void testPlayerSwap() {
     PlayerSwapTile swapTile = new PlayerSwapTile(0);
@@ -40,10 +37,6 @@ public class PlayerSwapTest {
     assertEquals(1, player3.getPosition(), "player3 should have swapped with player1.");
   }
 
-  /**
-   * Checks that the player swaps with the furthest other player, while being the furthest player
-   * themselves.
-   */
   @Test
   void testPlayerSwapsWithFurthestPlayer() {
 

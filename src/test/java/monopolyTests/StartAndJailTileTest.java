@@ -15,9 +15,6 @@ public class StartAndJailTileTest {
   private Player player1;
   private Game game;
 
-  /**
-   * Sets up the test environment by creating a game and a player.
-   */
   @BeforeEach
   void setUp() {
     game = (Game) TestSetup.createMonoplygameSetUp().get("game");

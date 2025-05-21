@@ -40,18 +40,42 @@ import no.ntnu.idatt2003.model.tile.JailTile;
 import no.ntnu.idatt2003.model.tile.PropertyTile;
 import no.ntnu.idatt2003.model.tile.Tile;
 
+/**
+ * This class is the view for the Monopoly game. It handles the layout and display of the game
+ * board,
+ */
 public class MonopolyView implements PositionChangeObserver {
 
-  public GenericGameView genericGameView = new GenericGameView();
+  /**
+   * The game instance.
+   */
   private Game game;
-  private final int playerSize = 25;
-  private final int pivotX = playerSize / 2;
-  private final int pivotY = playerSize;
 
+  /**
+   * The size of the player pieces.
+   */
+  private final int playerSize = 25;
+
+  /**
+   * The Monopoly controller.
+   */
   MonopolyController monopolyController = new MonopolyController();
+
+  /**
+   * The main layout borderpane.
+   */
   public BorderPane mainLayout = new BorderPane();
+
+  /**
+   * The main pane for the game board.
+   */
   StackPane mainPane;
 
+  /**
+   * Creates the main layout for the Monopoly game view.
+   *
+   * @return the main layout
+   */
   public BorderPane mainLayout() {
     mainLayout.setId("mainLayout");
 
@@ -74,7 +98,7 @@ public class MonopolyView implements PositionChangeObserver {
         currentStage.setScene(mainMenuScene);
         currentStage.setTitle("Main Menu");
       } catch (IOException ex) {
-        ex.printStackTrace();
+        PopupView.showInfoPopup("Error loading style sheet!", ex.getMessage());
       }
     });
     topMenu.getChildren().addAll(newGameButton, backToMenuButton);
@@ -90,6 +114,11 @@ public class MonopolyView implements PositionChangeObserver {
     return mainLayout;
   }
 
+  /**
+   * Sets the game board for the view.
+   *
+   * @param game the game to set
+   */
   public void setGameBoard(Game game) {
     this.game = game;
     GridPane gameBoard = new GridPane();
@@ -176,7 +205,8 @@ public class MonopolyView implements PositionChangeObserver {
       playerImage.setFitWidth(playerSize);
       playerImage.setFitHeight(playerSize);
       //rotate by the bottom middle of the image
-      Rotate rotate = new Rotate(72 * index, pivotX, pivotY);
+      int pivotX = playerSize / 2;
+      Rotate rotate = new Rotate(72 * index, pivotX, playerSize);
       playerImage.getTransforms().add(rotate);
       playerImage.setTranslateY(-10);
       index++;
@@ -189,9 +219,14 @@ public class MonopolyView implements PositionChangeObserver {
     gameBoard.setGridLinesVisible(false);
     gameBoard.setId("gameBoardFinal");
     updateSideBar();
-    showPlayerCards(game.getPlayers().get(0));
+    showPlayerCards(game.getPlayers().getFirst());
   }
 
+  /**
+   * The method that is called when a position is changed.
+   *
+   * @param player the player that changed position
+   */
   @Override
   public void positionChanged(Player player) {
     showPlayerCards(player);
@@ -202,7 +237,7 @@ public class MonopolyView implements PositionChangeObserver {
     Node node = mainLayout.lookup("#" + id);
     Rotate rotate = null;
     if (node != null) {
-      rotate = (Rotate) node.getTransforms().get(0);
+      rotate = (Rotate) node.getTransforms().getFirst();
       ((Pane) node.getParent()).getChildren().remove(node);
     }
     ImageView playerImage = new ImageView(player.getPicture().toExternalForm());
@@ -214,14 +249,11 @@ public class MonopolyView implements PositionChangeObserver {
     stackPane.getChildren().add(playerImage);
 
     Tile tile = game.getBoard().getGameboard().get(player.getPosition() - 1);
-    if (tile instanceof ChanceCardTile chanceCard) {
-      showChanceCard(chanceCard.getActiveChanceCard());
-    } else if (tile instanceof PropertyTile propertyTile) {
-      showProperty(propertyTile.getProperty());
-    } else if (tile instanceof JailTile && player.getJailStatus() == 1) {
-      inJailText(player);
-    } else {
-      clearMiddleCard();
+    switch (tile) {
+      case ChanceCardTile chanceCard -> showChanceCard(chanceCard.getActiveChanceCard());
+      case PropertyTile propertyTile -> showProperty(propertyTile.getProperty());
+      case JailTile ignored when player.getJailStatus() == 1 -> inJailText(player);
+      case null, default -> clearMiddleCard();
     }
 
     Label positionLabel = (Label) mainLayout.lookup("#position" + player.getPlayerNumber());
@@ -243,13 +275,21 @@ public class MonopolyView implements PositionChangeObserver {
             "-fx-background-color: none; -fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
       }
     }
-
+ 
     diceThrows = 0;
     Label balanceLabel = (Label) mainLayout.lookup("#balance" + player.getPlayerNumber());
     balanceLabel.setText(player.getBalance() + " kr");
     monopolyController.checkForWinner(game);
   }
 
+  /**
+   * Gets the tile at the specified coordinates in the grid.
+   *
+   * @param grid the grid to search
+   * @param col  the column index
+   * @param row  the row index
+   * @return the tile at the specified coordinates, or null if not found
+   */
   private StackPane getTileAt(GridPane grid, int col, int row) {
     for (Node node : grid.getChildren()) {
       if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
@@ -259,6 +299,11 @@ public class MonopolyView implements PositionChangeObserver {
     return null;
   }
 
+  /**
+   * Shows the property cards of the specified player.
+   *
+   * @param player the player whose cards to show
+   */
   public void showPlayerCards(Player player) {
     HBox cardBox = new HBox();
 
@@ -276,6 +321,12 @@ public class MonopolyView implements PositionChangeObserver {
     mainLayout.setBottom(scroll);
   }
 
+  /**
+   * Gets the property card for the specified property.
+   *
+   * @param property the property to get the card for
+   * @return the property card
+   */
   private VBox getPropertyCard(Property property) {
     Player activePlayer = game.getPlayers().get(game.getActivePlayer());
     VBox card = new VBox(5);
@@ -295,7 +346,7 @@ public class MonopolyView implements PositionChangeObserver {
     rect.setFill(Color.valueOf(property.getColor()));
     nameHolder.getChildren().addAll(rect, name);
 
-    if (property.isPawned() == false) {
+    if (!property.isPawned()) {
       card.setStyle(
           "-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2px; -fx-border-style: solid;");
 
@@ -306,7 +357,7 @@ public class MonopolyView implements PositionChangeObserver {
         Label rentText = new Label("Rent with " + i + " houses");
         rentText.setMinWidth(100);
         rentGrid.add(rentText, 0, i);
-        Label rentAmount = new Label(String.valueOf(property.getRent() * (i + 1)) + " kr");
+        Label rentAmount = new Label((property.getRent() * (i + 1)) + " kr");
         rentAmount.setMinWidth(40);
         rentGrid.add(rentAmount, 1, i);
         GridPane.setMargin(rentText, new Insets(5));
@@ -317,7 +368,7 @@ public class MonopolyView implements PositionChangeObserver {
       Label rentText = new Label("Rent with a hotel");
       rentText.setMinWidth(60);
       rentGrid.add(rentText, 0, 4);
-      Label rentAmount = new Label(String.valueOf(property.getRent() * 6) + " kr");
+      Label rentAmount = new Label((property.getRent() * 6) + " kr");
       rentAmount.setMinWidth(20);
       rentGrid.add(rentAmount, 1, 4);
       rentGrid.setGridLinesVisible(true);
@@ -330,10 +381,8 @@ public class MonopolyView implements PositionChangeObserver {
       int currentPropertyLevel = property.getPropertyLevel();
 
       for (Node node : rentGrid.getChildren()) {
-        Integer col = GridPane.getColumnIndex(node);
         Integer row = GridPane.getRowIndex(node);
 
-        col = (col == null) ? 0 : col;
         row = (row == null) ? 0 : row;
 
         if (row == currentPropertyLevel) {
@@ -359,27 +408,21 @@ public class MonopolyView implements PositionChangeObserver {
       card.getChildren().addAll(nameHolder, rentGrid, houseCostText, propertyBuyPrice);
 
       if (property.getOwner() == activePlayer) {
-        pawnButton.setOnAction(e -> {
-          monopolyController.pawnProperty(property);
-        });
+        pawnButton.setOnAction(e -> monopolyController.pawnProperty(property));
         if (property.getPropertyLevel() < 5) {
 
-          buyHouseButton.setOnAction(e -> {
-            monopolyController.buyPropertyHouse(property);
-          });
+          buyHouseButton.setOnAction(e -> monopolyController.buyPropertyHouse(property));
           houseButtons.getChildren().add(buyHouseButton);
         }
         if (property.getPropertyLevel() > 0) {
-          sellHouseButton.setOnAction(e -> {
-            monopolyController.sellPropertyHouse(property);
-          });
+          sellHouseButton.setOnAction(e -> monopolyController.sellPropertyHouse(property));
           houseButtons.getChildren().add(sellHouseButton);
         }
         card.getChildren().addAll(centerPawnButton, centerHouseButtons);
       }
       return card;
 
-    } else if (property.isPawned() == true) {
+    } else if (property.isPawned()) {
 
       Button rePurchaseButton = new Button("Re-purchase property");
       rePurchaseButton.setOnAction(e -> {
@@ -399,9 +442,11 @@ public class MonopolyView implements PositionChangeObserver {
   }
 
   int diceThrows = 0;
-
   Player activePlayer;
 
+  /**
+   * Updates the sidebar with the players and their information.
+   */
   private void updateSideBar() {
     VBox rightMenu = new VBox();
     rightMenu.setId("rightMenu");
@@ -409,7 +454,7 @@ public class MonopolyView implements PositionChangeObserver {
 
     throwDice.setOnAction(e -> {
       activePlayer = game.getPlayers().get(game.getActivePlayer());
-      if (game.getGameStatus() == true && activePlayer.getJailStatus() == 0) {
+      if (game.getGameStatus() && activePlayer.getJailStatus() == 0) {
         monopolyController.throwDice(game, activePlayer);
       } else if (activePlayer.getJailStatus() >= 1) {
         inJailOptions(activePlayer);
@@ -418,7 +463,7 @@ public class MonopolyView implements PositionChangeObserver {
 
     Button tradeButton = new Button("Trade");
     tradeButton.setOnAction(e -> {
-      if (game.getGameStatus() == true) {
+      if (game.getGameStatus()) {
         TradeView tradeView = new TradeView();
         tradeView.showTradeView(game, activePlayer);
       } else {
@@ -468,6 +513,11 @@ public class MonopolyView implements PositionChangeObserver {
     mainLayout.setRight(rightMenu);
   }
 
+  /**
+   * Shows the chance card in the middle of the board.
+   *
+   * @param chanceCard the chance card to show
+   */
   private void showChanceCard(ChanceCard chanceCard) {
     GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
 
@@ -494,6 +544,11 @@ public class MonopolyView implements PositionChangeObserver {
     chanceCardPane.toFront();
   }
 
+  /**
+   * Shows the property card in the middle of the board.
+   *
+   * @param property the property to show
+   */
   private void showProperty(Property property) {
     GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
     clearMiddleCard();
@@ -531,6 +586,9 @@ public class MonopolyView implements PositionChangeObserver {
     propertyPane.toFront();
   }
 
+  /**
+   * Clears the middle card from the board.
+   */
   private void clearMiddleCard() {
     GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
     if (board != null) {
@@ -540,6 +598,11 @@ public class MonopolyView implements PositionChangeObserver {
     }
   }
 
+  /**
+   * Shows the text when a player goes to jail.
+   *
+   * @param player the player who went to jail
+   */
   private void inJailText(Player player) {
     GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
     clearMiddleCard();
@@ -559,6 +622,11 @@ public class MonopolyView implements PositionChangeObserver {
     stackPane.toFront();
   }
 
+  /**
+   * Shows the options for a player in jail.
+   *
+   * @param player the player who is in jail
+   */
   private void inJailOptions(Player player) {
     GridPane board = (GridPane) mainLayout.lookup("#gameBoardFinal");
     clearMiddleCard();
@@ -570,17 +638,13 @@ public class MonopolyView implements PositionChangeObserver {
     VBox optionBox = new VBox(10);
     if (player.getJailCard()) {
       Button freeCardButton = new Button("Use get out of jail free card");
-      freeCardButton.setOnAction(e -> {
-        monopolyController.useJailCard(player, game);
-      });
+      freeCardButton.setOnAction(e -> monopolyController.useJailCard(player, game));
       optionBox.getChildren().add(freeCardButton);
     }
 
     if (player.getBalance() >= 2000) {
       Button payButton = new Button("Pay to get out of jail");
-      payButton.setOnAction(e -> {
-        monopolyController.payForJail(player, game);
-      });
+      payButton.setOnAction(e -> monopolyController.payForJail(player, game));
       optionBox.getChildren().add(payButton);
     }
 

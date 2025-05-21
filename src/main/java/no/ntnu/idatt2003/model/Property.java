@@ -1,10 +1,12 @@
 package no.ntnu.idatt2003.model;
 
+/*
+ * This class represents a property in the game. It contains information about the property
+ */
 public class Property {
 
   private final String name;
   private final int location;
-  private final int streetNumber;
   private final int price;
   private final int baseRent;
   private int houseCost;
@@ -25,7 +27,6 @@ public class Property {
   public Property(String name, int location, int streetNumber, int price, int baseRent) {
     this.name = name;
     this.location = location;
-    this.streetNumber = streetNumber;
     this.price = price;
     this.baseRent = baseRent;
     this.propertyLevel = 0;
@@ -77,19 +78,6 @@ public class Property {
   }
 
   /**
-   * Buys the property for the player if they have enough money.
-   *
-   * @param player the player who is trying to buy the property
-   */
-  public void buyProperty(Player player) {
-    if (player.getBalance() > this.price) {
-      player.addProperty(this);
-      player.setBalance(player.getBalance() - this.price);
-      this.owner = player;
-    }
-  }
-
-  /**
    * Buys a house for the property if the player has enough money and the property level is less
    * than 5.
    */
@@ -128,30 +116,12 @@ public class Property {
   }
 
   /**
-   * Returns the street number of the property.
-   *
-   * @return streetNumber the street number of the property
-   */
-  public int getStreetNumber() {
-    return this.streetNumber;
-  }
-
-  /**
    * Returns the price of the property.
    *
    * @return price the price of the property
    */
   public int getPrice() {
     return this.price;
-  }
-
-  /**
-   * Returns the base rent of the property.
-   *
-   * @return baseRent the base rent of the property
-   */
-  public int getBaseRent() {
-    return this.baseRent;
   }
 
   /**

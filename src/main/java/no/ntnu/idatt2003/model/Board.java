@@ -9,10 +9,29 @@ import no.ntnu.idatt2003.model.tile.Tile;
  */
 public class Board {
 
+  /**
+   * The ArrayList of tiles that is the board.
+   */
   private final ArrayList<Tile> gameboard;
+
+  /**
+   * The name of the board.
+   */
   private final String name;
+
+  /**
+   * The description of the board.
+   */
   private final String description;
+
+  /**
+   * The number of rows on the board.
+   */
   private final int rows;
+
+  /**
+   * The number of columns on the board.
+   */
   private final int cols;
 
   /**
@@ -33,6 +52,8 @@ public class Board {
   }
 
   /**
+   * returns the gameboard.
+   *
    * @return Returns an ArrayList of the tiles within the board.
    */
   public ArrayList<Tile> getGameboard() {
@@ -40,6 +61,8 @@ public class Board {
   }
 
   /**
+   * returns the name of the board.
+   *
    * @return returns the board name.
    */
   public String getName() {
@@ -47,6 +70,8 @@ public class Board {
   }
 
   /**
+   * getter for the description of the board.
+   *
    * @return returns the board description.
    */
   public String getDescription() {
@@ -54,6 +79,8 @@ public class Board {
   }
 
   /**
+   * getter for the number of rows on the board.
+   *
    * @return returns the amount of rows on the board.
    */
   public int getRows() {
@@ -61,6 +88,8 @@ public class Board {
   }
 
   /**
+   * getter for the number of columns on the board.
+   *
    * @return returns the amount of columns on the board.
    */
   public int getCols() {
@@ -91,6 +120,12 @@ public class Board {
     return coordinates;
   }
 
+  /**
+   * Calculates the coordiantes based on the location for the monopoly board.
+   *
+   * @param location the location of the tile to get coordinates for.
+   * @return the location based on inputed coordinates.
+   */
   public int[] getCoordinatesMonopoly(int location) {
     int[] coordinates = new int[2];
     if (location >= 1 && location <= 11) {
@@ -109,16 +144,6 @@ public class Board {
     return coordinates;
   }
 
-  public int getLocationMonopoly(int x, int y) {
-    int location = 0;
-    if (x == 0) {
-      location = 11 - y;
-    } else if (y == 0) {
-      location = x + 11;
-    }
-    return location;
-  }
-
   /**
    * Calculates the coordinates based on the position and a given number of rows and columns.
    *
@@ -127,7 +152,7 @@ public class Board {
    * @return the location based on inputed coordinates.
    */
   public int getLocation(int x, int y) {
-    int location = 0;
+    int location;
     int bottomRow = rows - 1 - y;
 
     //Checks if the next row is going right to left or left to right
@@ -141,5 +166,4 @@ public class Board {
 
     return location;
   }
-
 }

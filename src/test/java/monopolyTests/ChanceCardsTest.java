@@ -1,6 +1,7 @@
 package monopolyTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,9 +21,6 @@ public class ChanceCardsTest {
   private Player player2;
   private Game game;
 
-  /**
-   * Sets up the test environment by creating a game and a player.
-   */
   @BeforeEach
   void setUp() {
     game = (Game) TestSetup.createMonoplygameSetUp().get("game");
@@ -30,16 +28,13 @@ public class ChanceCardsTest {
     player2 = (Player) TestSetup.createMonoplygameSetUp().get("player2");
   }
 
-  /**
-   * Checks that the player is on the correct position when landing on a specific ChanceCardTile.
-   */
   @Test
   void checkThatGetsChanceCard() {
     player3.setPosition(5);
     ChanceCardTile tile = (ChanceCardTile) game.getBoard().getGameboard()
         .get(player3.getPosition());
     tile.action(player3, game);
-    assertTrue(tile.getActiveChanceCard() != null, "Player should have received a chance card.");
+    assertNotNull(tile.getActiveChanceCard(), "Player should have received a chance card.");
   }
 
   @Test
@@ -60,8 +55,7 @@ public class ChanceCardsTest {
         assertTrue(balanceBefore != player2.getBalance(),
             "Player should have received or lost money.");
         balanceBefore = player2.getBalance();
-      } else if (card instanceof ChanceCardMove) {
-        ChanceCardMove moveCard = (ChanceCardMove) card;
+      } else if (card instanceof ChanceCardMove moveCard) {
         if (moveCard.getNewPosition() == positionBefore) {
           assertEquals(positionBefore, moveCard.getNewPosition());
         } else {

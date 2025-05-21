@@ -21,9 +21,6 @@ public class MonopolyControllerTest {
   private Game game;
   private MonopolyController controller;
 
-  /**
-   * Sets up the test environment by creating a game and 3 players.
-   */
   @BeforeEach
   void setUp() {
     game = (Game) TestSetup.createMonoplygameSetUp().get("game");

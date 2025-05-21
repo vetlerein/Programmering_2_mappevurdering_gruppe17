@@ -21,17 +21,11 @@ public class DiceTest {
     player = (Player) setup.get("player1");
   }
 
-  /**
-   * Checks that the method throws an excpetion when given 0 as input
-   */
   @Test
   public void throwDiceZeroTimes() {
     assertThrows(IllegalArgumentException.class, () -> Dice.rollDice(0, player));
   }
 
-  /**
-   * Checks that the dice returns only valid values
-   */
   @Test
   public void diceReturnsValidNumber() {
     for (int i = 0; i < 100; i++) {
@@ -40,9 +34,6 @@ public class DiceTest {
     }
   }
 
-  /**
-   * Checks that the dice give atleast one of each value on 100 throws
-   */
   @Test
   public void diceIncludesAllNumbers() {
     ArrayList<Integer> diceRolls = new ArrayList<>();

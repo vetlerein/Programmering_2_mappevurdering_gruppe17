@@ -7,20 +7,36 @@ import no.ntnu.idatt2003.view.LaddergameView;
 import no.ntnu.idatt2003.view.MonopolyView;
 
 /**
- * Controls the game.
+ * This class represents a game and includes the players and the board.
  */
 public class Game {
-
+ 
+  /**
+   * Boolean for game status.
+   */
   public boolean gameActiveStatus;
+  /**
+   * The amount of players in the game.
+   */
   public int playerAmount;
+  /**
+   * The index of the active player.
+   */
   public int activePlayer;
+  /**
+   * List of the players in the game.
+   */
   public ArrayList<Player> players;
+  /**
+   * The game board.
+   */
   public Board board;
 
   /**
    * Constructs a game with a given amount of players, board width, board height and players.
    *
-   * @param players the active players in the game
+   * @param players   the active players in the game
+   * @param gameboard the active gameboard
    */
   public Game(ArrayList<Player> players, Board gameboard) {
     gameActiveStatus = true;
@@ -29,26 +45,52 @@ public class Game {
     board = gameboard;
   }
 
+  /**
+   * the generic game view for the game
+   */
   public static GenericGameView genericGameView;
 
+  /**
+   * Sets the generic game view for the game
+   *
+   * @param view the generic game view
+   */
   public static void setView(GenericGameView view) {
     genericGameView = view;
   }
 
+  /**
+   * the laddergameview for the game
+   */
   public static LaddergameView laddergameView;
 
+  /**
+   * Sets the laddergameview for the game
+   *
+   * @param view the laddergameview
+   */
   public static void setLadderView(LaddergameView view) {
     laddergameView = view;
   }
 
+  /**
+   * the monopolyview for the game
+   */
   public static MonopolyView monopolyView;
 
+  /**
+   * Sets the monopolyview for the game
+   *
+   * @param view the monopolyview
+   */
   public static void setMonopolyView(MonopolyView view) {
     monopolyView = view;
   }
 
   /**
    * Returns the laddergameview.
+   *
+   * @return the laddergameview
    */
   public LaddergameView getLaddergameView() {
     return laddergameView;

@@ -14,18 +14,12 @@ public class LadderTileTest {
   private Player player;
   private Game game;
 
-  /**
-   * Sets up the test environment by creating a game and a player.
-   */
   @BeforeEach
   void setUp() {
     game = (Game) TestSetup.createLaddergameSetUp().get("game");
     player = (Player) TestSetup.createLaddergameSetUp().get("player1");
   }
 
-  /**
-   * Checks that the player moves to the travel location of the ladder tile.
-   */
   @Test
   void testLadderTile() {
 

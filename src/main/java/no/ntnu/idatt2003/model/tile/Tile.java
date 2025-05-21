@@ -8,6 +8,9 @@ import no.ntnu.idatt2003.model.Player;
  */
 public class Tile implements TileAction {
 
+  /**
+   * The location of the tile.
+   */
   public int location;
 
   /**

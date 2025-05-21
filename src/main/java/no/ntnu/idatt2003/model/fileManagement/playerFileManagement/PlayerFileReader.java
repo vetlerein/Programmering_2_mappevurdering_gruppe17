@@ -11,6 +11,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
 import no.ntnu.idatt2003.model.Player;
+import no.ntnu.idatt2003.view.PopupView;
 
 /**
  * This class reads player information from a CSV file.
@@ -18,6 +19,8 @@ import no.ntnu.idatt2003.model.Player;
 public class PlayerFileReader {
 
   /**
+   * Reads player information from a CSV file.
+   *
    * @return the method returns an ArrayList with Player objects within.
    */
   public ArrayList<Player> readPlayers() {
@@ -29,7 +32,6 @@ public class PlayerFileReader {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     try (CSVReader csvReader = new CSVReader(new FileReader("data/players.csv"))) {
-      //https://www.geeksforgeeks.org/reading-csv-file-java-using-opencsv/
       String[] nextRecord;
 
       try {
@@ -40,11 +42,10 @@ public class PlayerFileReader {
           players.add(new Player(name, number, birthDate));
         }
       } catch (CsvValidationException | NumberFormatException | IOException | ParseException e) {
-        e.printStackTrace();
+        PopupView.showInfoPopup("Error reading players from file!", e.getMessage());
       }
-
     } catch (IOException e) {
-      e.printStackTrace();
+      PopupView.showInfoPopup("Error reading players from file!", e.getMessage());
     }
     return players;
   }

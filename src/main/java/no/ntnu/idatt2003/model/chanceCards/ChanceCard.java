@@ -2,6 +2,9 @@ package no.ntnu.idatt2003.model.chanceCards;
 
 import no.ntnu.idatt2003.model.Player;
 
+/**
+ * This interface represents a chance card in the game.
+ */
 public interface ChanceCard {
 
   /**

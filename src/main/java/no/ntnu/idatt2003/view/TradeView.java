@@ -21,6 +21,10 @@ import no.ntnu.idatt2003.model.Game;
 import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.Property;
 
+/**
+ * This class represents the trade view in the Monopoly game. It allows players to trade properties
+ * and money with each other.
+ */
 public class TradeView {
 
   Stage tradeStage = new Stage();
@@ -38,7 +42,8 @@ public class TradeView {
   /**
    * The method shows the trade view.
    *
-   * @param game The game object that contains the players and their properties.
+   * @param game         The game object that contains the players and their properties.
+   * @param activePlayer The player who is currently taking their turn.
    */
   public void showTradeView(Game game, Player activePlayer) {
     //Setting up the stage
@@ -126,9 +131,7 @@ public class TradeView {
     });
 
     Button cancelTrade = new Button("Cancel trade");
-    cancelTrade.setOnAction(e -> {
-      tradeStage.close();
-    });
+    cancelTrade.setOnAction(e -> tradeStage.close());
     bottomButtons.getChildren().addAll(acceptTrade, cancelTrade);
     bottomButtons.setAlignment(Pos.CENTER);
 

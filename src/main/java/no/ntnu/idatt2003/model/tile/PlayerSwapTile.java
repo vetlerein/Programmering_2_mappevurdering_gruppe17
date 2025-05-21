@@ -10,6 +10,11 @@ import no.ntnu.idatt2003.model.Player;
  */
 public class PlayerSwapTile extends Tile {
 
+  /**
+   * Constructor for the PlayerSwapTile class.
+   *
+   * @param location the location of the tile
+   */
   public PlayerSwapTile(int location) {
     super(location);
 
