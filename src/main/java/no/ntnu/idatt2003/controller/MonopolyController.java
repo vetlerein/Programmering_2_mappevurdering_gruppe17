@@ -97,6 +97,122 @@ public class MonopolyController {
           }
         });
 
+            VBox chooseIconsLayout = new VBox(10, chooseIcons);
+            chooseIconsLayout.setPadding(new Insets(20));
+            StackPane centerStartButton = new StackPane();
+            centerStartButton.setPadding(new Insets(20));
+            ArrayList<Player> selectedPlayers = new ArrayList<>();
+            
+            Button startButton = new Button("Start Game");
+            startButton.setOnAction(e ->{
+                for (ComboBox<Player> comboBox : playerComboBoxes) {
+                    Player selectedPlayer = comboBox.getValue();
+                    if (selectedPlayer != null) {
+                        selectedPlayer.setPicture(getClass().getResource("/playerPieces/" + pictureName.get(playerComboBoxes.indexOf(comboBox))));
+                        selectedPlayers.add(selectedPlayer);
+                    }
+                }
+
+                
+                Board board = BoardGameFactory.createMonopolyBoard();
+            
+                if(selectedPlayers.isEmpty()){
+                    PopupView.showInfoPopup("Can't create game","Please select players first.");
+                }else if (selectedPlayers.size() == 1) {
+                    PopupView.showInfoPopup("Can't create game","You need more than 1 player to start the game.");
+                }else{
+                    Game game = new Game(selectedPlayers, board);
+                    game.start(); 
+                    System.out.println("Game started with players: " + selectedPlayers);
+                    System.out.println("Selected board: " + board.getName());
+                    System.out.println("Game: " + game.getPlayers().toString());
+
+                    monopolyView.setGameBoard(game);
+                    popupStage.close();
+                }
+            });
+
+            centerStartButton.getChildren().add(startButton);
+
+            BorderPane mainLayout = new BorderPane();
+            mainLayout.setTop(chooseIconsLayout);
+            mainLayout.setBottom(centerStartButton); 
+            mainLayout.getStylesheets().add(getClass().getResource("/Style/NewGame.css").toExternalForm());         
+
+            popupStage.setScene(new Scene(mainLayout));
+            popupStage.getIcons().add(new Image(getClass().getResourceAsStream("/playerPieces/pineapple.png")));
+            popupStage.showAndWait(); 
+        }
+    }
+
+    public VBox getPlayerPropertiesBox(Player player, ArrayList<Property> tradeList) {
+        
+        VBox playerProperties = new VBox();
+        playerProperties.setSpacing(5);
+
+        if (player.getPropertyList().isEmpty()) {
+            Label noPropertiesLabel = new Label("You have no properties to trade. ");
+            playerProperties.getChildren().add(noPropertiesLabel);
+            return  playerProperties;
+        } else {
+            
+            for (Property property : player.getPropertyList()) {
+                
+                HBox propertyBox = new HBox();
+                StackPane propertyStack = new StackPane();
+                Button addButton = new Button("Add");
+                Button removeButton = new Button("Remove");
+                Label propertyLabel = new Label(property.getName());
+                propertyBox.setStyle("-fx-background-color:"+ property.getColor() +";");
+
+                addButton.setOnAction(e -> {
+                    propertyBox.getChildren().setAll(removeButton, propertyLabel);
+                    tradeList.add(property);
+                });
+                removeButton.setOnAction(e2 -> {
+                    propertyBox.getChildren().setAll(addButton, propertyLabel);
+                    tradeList.remove(property);
+                });
+                addButton.setId("tradeButton");
+                removeButton.setId("tradeButton");
+                
+                propertyStack.getChildren().add(propertyLabel);
+                propertyBox.getChildren().addAll(addButton, propertyStack);
+                playerProperties.getChildren().add(propertyBox);
+                
+            }  
+            return playerProperties;
+        }
+    }
+
+    public void executeTrade(Player p1, Player p2, ArrayList<Property> p1Properties, ArrayList<Property> p2Properties, int p1Money, int p2Money) {
+        List<Property> propertiesFromP1 = new ArrayList<>(p1Properties);
+        List<Property> propertiesFromP2 = new ArrayList<>(p2Properties);
+        for (Property property : propertiesFromP1) {
+            p1.removeProperty(property);
+            p2.addProperty(property);
+        }
+        for (Property property : propertiesFromP2) {
+            p2.removeProperty(property);
+            p1.addProperty(property);
+        }
+
+        p1.setBalance(p1.getBalance() - p1Money);
+        p2.setBalance(p2.getBalance() + p1Money);
+    
+        p2.setBalance(p2.getBalance() - p2Money);
+        p1.setBalance(p1.getBalance() + p2Money);
+    }
+
+
+    public ComboBox<Player> createPlayerDropdown(Game game, Player active){
+        List<ComboBox<Player>> playerComboBoxes = new ArrayList<>();
+        List<Player> tempPlayers = new ArrayList<>(game.getPlayers());
+        tempPlayers.remove(active);
+        
+        ComboBox<Player> choosePlayer = new ComboBox<>(FXCollections.observableArrayList(tempPlayers));
+        choosePlayer.getStyleClass().add("custom-combo");
+        choosePlayer.setPromptText("Choose player");
         playerComboBoxes.add(choosePlayer);
 
         pictureMenuSplitter.getChildren().addAll(pictureContainer, choosePlayer);
@@ -269,8 +385,7 @@ public class MonopolyController {
     if (property.getOwner().getBalance() < property.getHouseCost()) {
       PopupView.showInfoPopup("Can't buy house!", "You don't have enought money to buy a house.");
     } else {
-      property.setPropertyLevel(property.getPropertyLevel() + 1);
-      property.getOwner().addPlayerBalance(-1 * property.getHouseCost());
+      property.buyHouse();
     }
   }
 
@@ -383,17 +498,43 @@ public class MonopolyController {
       }
     }
 
-    Player lastActive = null;
-    int activeCount = 0;
-    for (Player player : game.getPlayers()) {
-      if (player.getPlayerActive()) {
-        activeCount++;
-        lastActive = player;
-      }
-    }
-
-    if (activeCount == 1) {
-      game.finish(lastActive);
+    /**
+     * Checks if a player has won the game.
+     * @param game the game instance
+     */
+    public void checkForWinner(Game game) {
+        for (Player player : game.getPlayers()) {
+            if (player.getBalance() <= 0) {
+                player.setPlayerActive(false);
+            } else {
+                player.setPlayerActive(true);
+                break;
+            }
+    
+            boolean hasUnpawned = false;
+            for (Property property : player.getProperties()) {
+                if (property.isPawned() == false) {
+                    hasUnpawned = true;
+                    player.setPlayerActive(true);
+                    break;
+                }
+            }
+            if (!hasUnpawned) {
+                player.setPlayerActive(false);
+            } 
+        }
+    
+        Player lastActive = null;
+        int activeCount = 0;
+        for (Player player : game.getPlayers()) {
+            if (player.getPlayerActive()) {
+                activeCount++;
+                lastActive = player; 
+            }
+        }
+        if (activeCount == 1 && lastActive != null) {
+            game.finish(lastActive);
+        }
     }
   }
 }

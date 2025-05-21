@@ -4,6 +4,100 @@ package no.ntnu.idatt2003.model;
  * The Property class represents a property on the game board.
  */
 public class Property {
+    private String name;
+    private int location;
+    private int streetNumber;
+    private int price;
+    private int baseRent;
+    private int houseCost;
+    private int propertyLevel;
+    private Player owner = null;
+    private String colorCode;
+    private boolean isPawned;
+
+    public Property (String name, int location, int streetNumber, int price, int baseRent){
+        this.name = name;
+        this.location = location;
+        this.streetNumber = streetNumber;
+        this.price = price;
+        this.baseRent = baseRent;
+        this.propertyLevel = 0;
+        this.isPawned = false;
+
+        switch(streetNumber) {
+            case 1:
+                this.colorCode = "#664825";
+                this.houseCost = 500;
+                break;
+            case 2:
+                this.colorCode = "#42ddeb";
+                this.houseCost = 600;
+                break;
+            case 3:
+                this.colorCode = "#d108b0";
+                this.houseCost = 750;
+                break;
+            case 4:
+                this.colorCode = "#eb9e05";
+                this.houseCost = 900;
+                break;
+            case 5:
+                this.colorCode = "#e3df09";
+                this.houseCost = 1100;
+                break;
+            case 6:
+                this.colorCode = "#e01d1d";
+                this.houseCost = 1300;
+                break;
+            case 7:
+                this.colorCode = "#459608";
+                this.houseCost = 1600;
+                break;
+            case 8:
+                this.colorCode = "#142375";
+                this.houseCost = 2000;
+                break;
+        }
+    }
+
+    /**
+     * Sets the owner of the property in case of a trade.
+     * @param owner the new owner of the property
+     */
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+
+    /**
+     * Buys the property for the player if they have enough money.
+     * @param player the player who is trying to buy the property
+     */
+    public void buyProperty(Player player){
+        if (player.getBalance() > this.price) {
+            player.addProperty(this);
+            player.setBalance(player.getBalance() - this.price);
+            this.owner = player;
+        }
+    }
+
+    /**
+     * Buys a house for the property if the player has enough money and the property level is less than 5.
+     */
+    public void buyHouse(){
+        if(this.propertyLevel < 5 && this.owner.getBalance() > this.houseCost) {
+            this.propertyLevel++;
+            this.owner.addPlayerBalance(-this.houseCost);
+        }
+    }
+
+    /**
+     * Returns the name of the property.
+     * @return name the name of the property
+     */
+    public String getName() {
+        return this.name;
+    }
+
 
   private final String name;
   private final int location;

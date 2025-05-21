@@ -192,6 +192,128 @@ public class Player {
     if (observer != null) {
       observer.positionChanged(this);
     }
+    
+    /**
+     * returns the players pause status
+     * @returns the players pause status
+     */
+    public boolean getPlayerPause() {
+        return this.playerPause;
+    }
+
+    /**
+     * returns the players jail status
+     */
+    public int getJailStatus() {
+        return this.jailStatus;
+    }
+
+    /**
+     * Sets the dice paths for the player.
+     */
+    public void setDicePaths(URL[] dicePaths) {
+        this.dicePaths = dicePaths;
+    }
+
+    /**
+     * Returns the dice paths for the player.
+     * @return dice paths
+     */
+    public URL[] getDicePaths() {
+        return this.dicePaths;
+    }
+
+    /**
+     * Checks if player is active.
+     * @return wether the player is active or not
+     */
+    public boolean getPlayerActive() {
+        return this.playerActive;
+    }
+
+    /**
+     * Returns the current position of the player on the board.
+     * @return player position
+     */
+    public int getPosition() {
+        return this.position;
+    }
+
+    /**
+     * Returns the properties of the player.
+     * @return player properties
+     */
+    public ArrayList<Property> getProperties() {
+        return this.properties;
+    }
+
+    /**
+     * Returns the name of the player.
+     * @return player name  
+     */
+    public String getPlayerName() {
+        return this.playerName;
+    }
+
+    /**
+     * Returns the birthdate of the player.
+     * @return player birthdate
+     */
+    public Date getBirthDate(){
+        return this.birthDate;
+    }
+
+    /**
+     * Returns the number of the player.
+     * @return player number
+     */
+    public int getPlayerNumber() {
+        return this.playerNumber;
+    }
+
+    /**
+     * Returns the picture of the player.
+     * @return player picture
+     */
+    public URL getPicture() {
+        return picture;
+    }
+
+    /**
+     * Sets the picture of the player.
+     * @param picture the picture of the player
+     */
+    public void setPicture(URL picture) {
+        this.picture = picture;
+    }
+
+    /**
+     * Throws the dice and moves the player on the board, and does actions according on where it lands
+     */
+    public void move(Game game) {
+        if(playerPause == false && jailStatus == 0) {
+            int diceRoll = Dice.rollDice(2, this);
+            int finalTile = game.getBoard().getGameboard().size();
+            if (this.position + diceRoll <= finalTile) {
+                this.position += diceRoll;
+            } else if ((this.position + diceRoll > finalTile) && game.getBoard().getGameboard().get(finalTile-1) instanceof FinishTile) {
+                this.position = finalTile - (diceRoll-(finalTile-this.position));
+            } else if ((this.position + diceRoll > finalTile) && game.getBoard().getGameboard().get(0) instanceof StartTile) {
+                this.position = (this.position + diceRoll) - finalTile;
+                if (this.position != 0) {
+                    game.getBoard().getGameboard().get(0).action(this, game);
+                }
+            }
+
+            game.getBoard().getGameboard().get(this.position-1).action(this, game);   
+        } else if (playerPause == true) {
+            playerPause = false;
+        }
+        
+        if (observer != null) {
+            observer.positionChanged(this);
+        }
+        game.nextPlayer();
   }
 
   /**
