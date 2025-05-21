@@ -1,69 +1,66 @@
-#mainLayout {
-  -fx-background-color: rgb(255, 255, 255);
-  -fx-text-fill: black;
+#mainLayout{
+    -fx-background-color: rgb(255, 255, 255);
+    -fx-text-fill: black;
+}
+#topMenu{
+    -fx-background-color: rgb(184, 176, 176);
+    -fx-text-fill: black;
+    -fx-min-height: 40px;
+    -fx-padding: 30px;
+    -fx-spacing: 20px;
 }
 
-#topMenu {
-  -fx-background-color: rgb(184, 176, 176);
-  -fx-text-fill: black;
-  -fx-min-height: 40px;
-  -fx-padding: 30px;
-  -fx-spacing: 20px;
+.button{
+    -fx-background-color: rgb(147, 147, 147);
+    -fx-text-fill: black;
+    -fx-min-width: 100px;
+    -fx-min-height: 30px;
+    -fx-padding: 10px;
+    -fx-spacing: 20px;
+    -fx-radius: 40px;
+}
+.button:hover{
+    -fx-background-color: rgb(123, 123, 123);
+    -fx-text-fill: black;
+    -fx-min-width: 100px;
+    -fx-min-height: 30px;
+    -fx-padding: 10px;
+    -fx-spacing: 20px;
+    -fx-radius: 40px;
 }
 
-.button {
-  -fx-background-color: rgb(147, 147, 147);
-  -fx-text-fill: black;
-  -fx-min-width: 100px;
-  -fx-min-height: 30px;
-  -fx-padding: 10px;
-  -fx-spacing: 20px;
-  -fx-radius: 40px;
-}
-
-.button:hover {
-  -fx-background-color: rgb(123, 123, 123);
-  -fx-text-fill: black;
-  -fx-min-width: 100px;
-  -fx-min-height: 30px;
-  -fx-padding: 10px;
-  -fx-spacing: 20px;
-  -fx-radius: 40px;
-}
-
-#gameBoard {
-  -fx-background-color: white;
-  -fx-text-fill: black;
-  -fx-min-height: 300px;
-  -fx-min-width: 300px;
+#gameBoard{
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-min-height: 300px;
+    -fx-min-width: 300px;
 
 }
 
-#rightMenu {
-  -fx-background-color: rgb(202, 191, 191);
-  -fx-text-fill: black;
-  -fx-min-width: 200px;
-  -fx-max-width: 250px;
-  -fx-padding: 40px;
-  -fx-spacing: 20px;
+#rightMenu{
+    -fx-background-color: rgb(202, 191, 191);
+    -fx-text-fill: black;
+    -fx-min-width: 200px;
+    -fx-max-width: 250px;
+    -fx-padding: 40px;
+    -fx-spacing: 20px;
 }
-
-#bottomBox {
-  -fx-background-color: rgb(105, 91, 91);
-  -fx-text-fill: black;
-  -fx-min-height: 50px;
-  -fx-padding: 20px;
-  -fx-spacing: 20px;
+#bottomBox{
+    -fx-background-color: rgb(105, 91, 91);
+    -fx-text-fill: black;
+    -fx-min-height: 50px ;
+    -fx-padding: 20px;
+    -fx-spacing: 20px;
 }
 
 #winnerText {
-  -fx-fill: white;
-  -fx-stroke: black;
-  -fx-stroke-width: 2;
-  -fx-font-size: 60px;
+    -fx-fill: white;
+    -fx-stroke: black;      
+    -fx-stroke-width: 2;     
+    -fx-font-size: 60px;
 }
 
-#indexLabel {
-  -fx-text-fill: black;
-  -fx-font-size: 11.2px;
+#indexLabel{
+    -fx-text-fill: black;  
+    -fx-font-size: 11.2px;
 }

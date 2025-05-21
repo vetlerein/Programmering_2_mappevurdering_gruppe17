@@ -1,89 +1,83 @@
-.button {
-  -fx-background-color: rgb(147, 147, 147);
-  -fx-text-fill: black;
-  -fx-font-family: "Arial";
-  -fx-font-size: 14px;
-  -fx-min-width: 100px;
-  -fx-min-height: 30px;
-  -fx-radius: 40px;
-  -fx-padding: 10px;
-  -fx-spacing: 20px;
+.button{
+    -fx-background-color: rgb(147, 147, 147); 
+    -fx-text-fill: black; 
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-min-width: 100px;
+    -fx-min-height: 30px;
+    -fx-radius: 40px;
+    -fx-padding: 10px;
+    -fx-spacing: 20px;
 }
 
-.button:hover {
-  -fx-background-color: rgb(123, 123, 123);
-  -fx-text-fill: black;
-  -fx-min-width: 100px;
-  -fx-min-height: 30px;
-  -fx-padding: 10px;
-  -fx-spacing: 20px;
-  -fx-radius: 40px;
+.button:hover{
+    -fx-background-color: rgb(123, 123, 123);
+    -fx-text-fill: black;
+    -fx-min-width: 100px;
+    -fx-min-height: 30px;
+    -fx-padding: 10px;
+    -fx-spacing: 20px;
+    -fx-radius: 40px;
 }
 
 .custom-combo {
-  -fx-background-color: rgb(147, 147, 147);
-  -fx-border-radius: 10px;
-  -fx-background-radius: 10px;
-  -fx-font-family: "Arial";
-  -fx-font-size: 14px;
-  -fx-text-fill: black;
-  -fx-border-color: transparent;
-  -fx-padding: 5px;
+    -fx-background-color: rgb(147, 147, 147); 
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-text-fill: black; 
+    -fx-border-color: transparent;
+    -fx-padding: 5px; 
 }
-
 .custom-combo:hover {
-  -fx-background-color: rgb(123, 123, 123);
-  -fx-border-color: rgb(123, 123, 123);
+    -fx-background-color: rgb(123, 123, 123); 
+    -fx-border-color: rgb(123, 123, 123); 
 }
-
 .custom-combo .arrow-button {
-  -fx-background-color: rgb(147, 147, 147);
-  -fx-background-radius: 10px;
-  -fx-border-color: transparent;
+    -fx-background-color: rgb(147, 147, 147);
+    -fx-background-radius: 10px;
+    -fx-border-color: transparent;
 }
-
 .custom-combo .list-cell {
-  -fx-text-fill: black;
-  -fx-background-color: rgb(147, 147, 147);
-  -fx-font-family: "Arial";
-  -fx-padding: 8 12;
+    -fx-text-fill: black; 
+    -fx-background-color: rgb(147, 147, 147); 
+    -fx-font-family: "Arial";
+    -fx-padding: 8 12;
 }
-
 .custom-combo .list-cell:hover {
-  -fx-background-color: rgb(123, 123, 123);
-  -fx-text-fill: black;
+    -fx-background-color: rgb(123, 123, 123); 
+    -fx-text-fill: black; 
 }
-
-#tradeMenu {
-  -fx-background-color: rgb(202, 191, 191);
-  -fx-background-radius: 10px;
-  -fx-text-fill: black;
-  -fx-min-width: 160px;
-  -fx-max-width: 400px;
-  -fx-padding: 15px;
-  -fx-spacing: 25px;
+#tradeMenu{
+    -fx-background-color: rgb(202, 191, 191); 
+    -fx-background-radius: 10px;
+    -fx-text-fill: black; 
+    -fx-min-width: 160px; 
+    -fx-max-width: 400px; 
+    -fx-padding: 15px; 
+    -fx-spacing: 25px; 
 }
 
 #background {
-  -fx-background-color: linear-gradient(to bottom, #73e7d2, #ACB6E5);
+    -fx-background-color: linear-gradient(to bottom, #73e7d2, #ACB6E5);
 }
 
-#tradeButton {
-  -fx-background-color: rgb(147, 147, 147);
-  -fx-text-fill: black;
-  -fx-min-width: 50px;
-  -fx-min-height: 20px;
-  -fx-padding: 10px;
-  -fx-spacing: 20px;
-  -fx-radius: 20px;
+#tradeButton{
+    -fx-background-color: rgb(147, 147, 147);
+    -fx-text-fill: black;
+    -fx-min-width: 50px;
+    -fx-min-height: 20px;
+    -fx-padding: 10px;
+    -fx-spacing: 20px;
+    -fx-radius: 20px;
 }
-
-#tradeButton:hover {
-  -fx-background-color: rgb(123, 123, 123);
-  -fx-text-fill: black;
-  -fx-min-width: 50px;
-  -fx-min-height: 20px;
-  -fx-padding: 10px;
-  -fx-spacing: 20px;
-  -fx-radius: 20px;
+#tradeButton:hover{
+    -fx-background-color: rgb(123, 123, 123);
+    -fx-text-fill: black;
+    -fx-min-width: 50px;
+    -fx-min-height: 20px;
+    -fx-padding: 10px;
+    -fx-spacing: 20px;
+    -fx-radius: 20px;
 }

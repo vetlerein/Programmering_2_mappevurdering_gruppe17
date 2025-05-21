@@ -1,51 +1,48 @@
-#rightMenu {
-  -fx-background-color: rgb(202, 191, 191);
-  -fx-text-fill: black;
-  -fx-min-width: 100px;
+#rightMenu{
+    -fx-background-color: rgb(202, 191, 191);
+    -fx-text-fill: black;
+    -fx-min-width: 100px;
 }
-
-#bottomBox {
-  -fx-background-color: rgb(105, 91, 91);
-  -fx-text-fill: black;
-  -fx-min-height: 50px;
-  -fx-padding: 20px;
-  -fx-spacing: 20px;
+#bottomBox{
+    -fx-background-color: rgb(105, 91, 91);
+    -fx-text-fill: black;
+    -fx-min-height: 50px ;
+    -fx-padding: 20px;
+    -fx-spacing: 20px;
 }
-
-.button {
-  -fx-background-color: rgb(147, 147, 147);
-  -fx-text-fill: black;
-  -fx-min-width: 100px;
-  -fx-min-height: 30px;
-  -fx-padding: 10px;
-  -fx-spacing: 20px;
-  -fx-radius: 40px;
+.button{
+    -fx-background-color: rgb(147, 147, 147);
+    -fx-text-fill: black;
+    -fx-min-width: 100px;
+    -fx-min-height: 30px;
+    -fx-padding: 10px;
+    -fx-spacing: 20px;
+    -fx-radius: 40px;
 }
-
-.button:hover {
-  -fx-background-color: rgb(123, 123, 123);
-  -fx-text-fill: black;
-  -fx-min-width: 100px;
-  -fx-min-height: 30px;
-  -fx-padding: 10px;
-  -fx-spacing: 20px;
-  -fx-radius: 40px;
+.button:hover{
+    -fx-background-color: rgb(123, 123, 123);
+    -fx-text-fill: black;
+    -fx-min-width: 100px;
+    -fx-min-height: 30px;
+    -fx-padding: 10px;
+    -fx-spacing: 20px;
+    -fx-radius: 40px;
 }
 
 #background {
-  -fx-background-color: linear-gradient(to bottom, #73e7d2, #ACB6E5);
+    -fx-background-color: linear-gradient(to bottom, #73e7d2, #ACB6E5);
 }
 
 #allButtons {
-  -fx-alignment: center;
-  -fx-spacing: 20;
-  -fx-background-color: rgb(127, 166, 158);
-  -fx-max-height: 300px;
-  -fx-max-width: 250px;
-  -fx-background-radius: 20px;
+    -fx-alignment: center;
+    -fx-spacing: 20;
+    -fx-background-color: rgb(127, 166, 158);
+    -fx-max-height: 300px;
+    -fx-max-width: 250px;
+    -fx-background-radius: 20px;
 }
 
 #splitButtons {
-  -fx-alignment: center;
-  -fx-spacing: 20;
+    -fx-alignment: center;
+    -fx-spacing: 20;
 }

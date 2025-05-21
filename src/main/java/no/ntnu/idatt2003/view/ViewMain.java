@@ -10,30 +10,23 @@ import javafx.stage.Stage;
 /**
  * This is the launch method for the program and the main GUI class.
  */
-public class ViewMain extends Application {
+public class ViewMain extends Application{
+    public static void main(String[] args) throws IOException {
+        launch(args);
+    }
 
-  public static void main(String[] args) throws IOException {
-    launch(args);
-  }
+    @Override
+    public void start(Stage window) throws Exception {
 
-  /**
-   * This method is the main method that starts the application.
-   *
-   * @param window The main stage of the application.
-   * @throws Exception
-   */
-  @Override
-  public void start(Stage window) throws Exception {
-
-    MenuView menuView = new MenuView();
-    BorderPane mainLayout = menuView.mainMenu(window);
-
-    Scene startScene = new Scene(mainLayout, 800, 600);
-    startScene.getStylesheets()
-        .add(getClass().getResource("/Style/Launcherwindow.css").toExternalForm());
-    window.setScene(startScene);
-    window.setTitle("Main menu");
-    window.getIcons().add(new Image(getClass().getResourceAsStream("/playerPieces/pepperoni.png")));
-    window.show();
-  }
+        MenuView menuView = new MenuView();
+        BorderPane mainLayout = menuView.mainMenu(window);
+        
+        Scene startScene = new Scene(mainLayout, 800, 600);
+        startScene.getStylesheets().add(getClass().getResource("/Style/Launcherwindow.css").toExternalForm());
+        window.setScene(startScene);
+        window.setTitle("Main menu");
+        window.getIcons().add(new Image(getClass().getResourceAsStream("/playerPieces/pepperoni.png")));
+        window.show();
+    
+    }
 }

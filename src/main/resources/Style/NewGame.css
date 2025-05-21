@@ -1,55 +1,50 @@
-.button {
-  -fx-background-color: rgb(147, 147, 147);
-  -fx-text-fill: black;
-  -fx-font-family: "Arial";
-  -fx-font-size: 14px;
-  -fx-min-width: 100px;
-  -fx-min-height: 30px;
-  -fx-radius: 40px;
-  -fx-padding: 10px;
-  -fx-spacing: 20px;
+.button{
+    -fx-background-color: rgb(147, 147, 147); 
+    -fx-text-fill: black; 
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-min-width: 100px;
+    -fx-min-height: 30px;
+    -fx-radius: 40px;
+    -fx-padding: 10px;
+    -fx-spacing: 20px;
 }
-
-.button:hover {
-  -fx-background-color: rgb(123, 123, 123);
-  -fx-text-fill: black;
-  -fx-min-width: 100px;
-  -fx-min-height: 30px;
-  -fx-padding: 10px;
-  -fx-spacing: 20px;
-  -fx-radius: 40px;
+.button:hover{
+    -fx-background-color: rgb(123, 123, 123);
+    -fx-text-fill: black;
+    -fx-min-width: 100px;
+    -fx-min-height: 30px;
+    -fx-padding: 10px;
+    -fx-spacing: 20px;
+    -fx-radius: 40px;
 }
 
 .custom-combo {
-  -fx-background-color: rgb(147, 147, 147);
-  -fx-border-radius: 10px;
-  -fx-background-radius: 10px;
-  -fx-font-family: "Arial";
-  -fx-font-size: 14px;
-  -fx-text-fill: black;
-  -fx-border-color: transparent;
-  -fx-padding: 5px;
+    -fx-background-color: rgb(147, 147, 147); 
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-text-fill: black; 
+    -fx-border-color: transparent;
+    -fx-padding: 5px; 
 }
-
 .custom-combo:hover {
-  -fx-background-color: rgb(123, 123, 123);
-  -fx-border-color: rgb(123, 123, 123);
+    -fx-background-color: rgb(123, 123, 123); 
+    -fx-border-color: rgb(123, 123, 123); 
 }
-
 .custom-combo .arrow-button {
-  -fx-background-color: rgb(147, 147, 147);
-  -fx-background-radius: 10px;
-  -fx-border-color: transparent;
+    -fx-background-color: rgb(147, 147, 147);
+    -fx-background-radius: 10px;
+    -fx-border-color: transparent;
 }
-
 .custom-combo .list-cell {
-  -fx-text-fill: black;
-  -fx-background-color: rgb(147, 147, 147);
-  -fx-font-family: "Arial";
-  -fx-padding: 8 12;
+    -fx-text-fill: black; 
+    -fx-background-color: rgb(147, 147, 147); 
+    -fx-font-family: "Arial";
+    -fx-padding: 8 12;
 }
-
 .custom-combo .list-cell:hover {
-  -fx-background-color: rgb(123, 123, 123);
-  -fx-text-fill: black;
+    -fx-background-color: rgb(123, 123, 123); 
+    -fx-text-fill: black; 
 }

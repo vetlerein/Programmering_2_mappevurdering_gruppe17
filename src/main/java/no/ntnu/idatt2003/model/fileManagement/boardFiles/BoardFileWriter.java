@@ -9,6 +9,5 @@ import no.ntnu.idatt2003.model.Board;
  * The interface for writing json files
  */
 public interface BoardFileWriter {
-
-  void writeBoardToFile(Path path, Board board) throws IOException;
+    void writeBoardToFile(Path path, Board board) throws IOException;
 }
