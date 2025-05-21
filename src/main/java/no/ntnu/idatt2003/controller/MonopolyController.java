@@ -22,71 +22,80 @@ import no.ntnu.idatt2003.model.Board;
 import no.ntnu.idatt2003.model.BoardGameFactory;
 import no.ntnu.idatt2003.model.Dice;
 import no.ntnu.idatt2003.model.Game;
+
 import static no.ntnu.idatt2003.model.Game.genericGameView;
+
 import no.ntnu.idatt2003.model.Player;
 import no.ntnu.idatt2003.model.Property;
 import no.ntnu.idatt2003.model.fileManagement.playerFileManagement.PlayerFileReader;
 import no.ntnu.idatt2003.view.MonopolyView;
 import no.ntnu.idatt2003.view.PopupView;
 
+/**
+ * Controller class for the Monopoly game. This class handles the game logic and interactions with
+ * the view.
+ */
 public class MonopolyController {
 
-    PlayerFileReader playerFileReader = new PlayerFileReader();
-    Board board;
+  PlayerFileReader playerFileReader = new PlayerFileReader();
 
-    public static MonopolyView monopolyView;
-    public static void setMonopolyView(MonopolyView monopolyView) {
-        MonopolyController.monopolyView = monopolyView;
-    }
+  public static MonopolyView monopolyView;
 
-    /**
-     * This method creats a new game.
-     */
-    public void newGame(){
-        playerFileReader = new PlayerFileReader();
-        if (playerFileReader.readPlayers().isEmpty()) {
-            PopupView.showInfoPopup("Can't create game","To create a new game, you need to add players first.");
-        }else{
-            Stage popupStage = new Stage();
-            popupStage.initModality(Modality.APPLICATION_MODAL);
-            popupStage.setTitle("New Game");
-            popupStage.setMinWidth(210);
-            popupStage.setMinHeight(300);
-            popupStage.setResizable(false);
+  /**
+   * Sets the monopolyView.
+   *
+   * @param monopolyView
+   */
+  public static void setMonopolyView(MonopolyView monopolyView) {
+    MonopolyController.monopolyView = monopolyView;
+  }
 
-            VBox chooseIcons = new VBox(10);
-            List<ComboBox<Player>> playerComboBoxes = new ArrayList<>();
-            List<Player> players = playerFileReader.readPlayers();
-            List<String> pictureName = List.of("cheese.png", "mushroom.png", "olives.png", "pepperoni.png", "pineapple.png");
+  /**
+   * This method creats a new game.
+   */
+  public void newGame() {
+    playerFileReader = new PlayerFileReader();
+    if (playerFileReader.readPlayers().isEmpty()) {
+      PopupView.showInfoPopup("Can't create game",
+          "To create a new game, you need to add players first.");
+    } else {
+      Stage popupStage = new Stage();
+      popupStage.initModality(Modality.APPLICATION_MODAL);
+      popupStage.setTitle("New Game");
+      popupStage.setMinWidth(210);
+      popupStage.setMinHeight(300);
+      popupStage.setResizable(false);
 
-            for (int i = 0; i < 5; i++) {
+      VBox chooseIcons = new VBox(10);
+      List<ComboBox<Player>> playerComboBoxes = new ArrayList<>();
+      List<Player> players = playerFileReader.readPlayers();
+      List<String> pictureName = List.of("cheese.png", "mushroom.png", "olives.png",
+          "pepperoni.png", "pineapple.png");
 
-                HBox pictureMenuSplitter = new HBox(10);
-                Image picture = new Image(getClass().getResourceAsStream("/playerPieces/" + pictureName.get(i)));
-                ImageView imageView = new ImageView(picture);
-                imageView.setFitWidth(60); 
-                imageView.setPreserveRatio(true); 
-                StackPane pictureContainer = new StackPane(imageView);
-                ComboBox<Player> choosePlayer = new ComboBox<>(FXCollections.observableArrayList(players));
-                choosePlayer.getStyleClass().add("custom-combo");;
-               
-                choosePlayer.setPromptText("Choose player");
-                choosePlayer.setOnAction(e -> {
-                    Player selected = choosePlayer.getValue();
-                    if (selected != null) {
-                        for (ComboBox<Player> comboBox : playerComboBoxes) {
-                            if (comboBox != choosePlayer) {
-                                comboBox.getItems().remove(selected);
-                            }
-                        }
-                    }
-                });
+      for (int i = 0; i < 5; i++) {
 
-                playerComboBoxes.add(choosePlayer);
-                
-                pictureMenuSplitter.getChildren().addAll(pictureContainer, choosePlayer);
-                chooseIcons.getChildren().add(pictureMenuSplitter);
+        HBox pictureMenuSplitter = new HBox(10);
+        Image picture = new Image(
+            getClass().getResourceAsStream("/playerPieces/" + pictureName.get(i)));
+        ImageView imageView = new ImageView(picture);
+        imageView.setFitWidth(60);
+        imageView.setPreserveRatio(true);
+        StackPane pictureContainer = new StackPane(imageView);
+        ComboBox<Player> choosePlayer = new ComboBox<>(FXCollections.observableArrayList(players));
+        choosePlayer.getStyleClass().add("custom-combo");
+        ;
+
+        choosePlayer.setPromptText("Choose player");
+        choosePlayer.setOnAction(e -> {
+          Player selected = choosePlayer.getValue();
+          if (selected != null) {
+            for (ComboBox<Player> comboBox : playerComboBoxes) {
+              if (comboBox != choosePlayer) {
+                comboBox.getItems().remove(selected);
+              }
             }
+          }
+        });
 
             VBox chooseIconsLayout = new VBox(10, chooseIcons);
             chooseIconsLayout.setPadding(new Insets(20));
@@ -205,77 +214,288 @@ public class MonopolyController {
         choosePlayer.getStyleClass().add("custom-combo");
         choosePlayer.setPromptText("Choose player");
         playerComboBoxes.add(choosePlayer);
-        return choosePlayer;  
-    }
 
-    public void playerList(){
-        VBox playerListBox = new VBox();
-        List<Player> players = playerFileReader.readPlayers();
+        pictureMenuSplitter.getChildren().addAll(pictureContainer, choosePlayer);
+        chooseIcons.getChildren().add(pictureMenuSplitter);
+      }
 
-        for (Player player : players) {
-            Label playerLabel = new Label(player.getPlayerName() + " - " + player.getPlayerNumber() + " - " + player.getBirthDate());
-            playerListBox.getChildren().add(playerLabel);
+      VBox chooseIconsLayout = new VBox(10, chooseIcons);
+      chooseIconsLayout.setPadding(new Insets(20));
+      StackPane centerStartButton = new StackPane();
+      centerStartButton.setPadding(new Insets(20));
+      ArrayList<Player> selectedPlayers = new ArrayList<>();
+
+      Button startButton = new Button("Start Game");
+      startButton.setOnAction(e -> {
+        for (ComboBox<Player> comboBox : playerComboBoxes) {
+          Player selectedPlayer = comboBox.getValue();
+          if (selectedPlayer != null) {
+            selectedPlayer.setPicture(getClass().getResource(
+                "/playerPieces/" + pictureName.get(playerComboBoxes.indexOf(comboBox))));
+            selectedPlayers.add(selectedPlayer);
+          }
         }
-    }
 
-    public void buyPropertyHouse(Property property) {
-        if (property.getOwner().getBalance()<property.getHouseCost()) {
-            PopupView.showInfoPopup("Can't buy house!", "You don't have enought money to buy a house.");
+        Board board = BoardGameFactory.createMonopolyBoard();
+
+        if (selectedPlayers.isEmpty()) {
+          PopupView.showInfoPopup("Can't create game", "Please select players first.");
+        } else if (selectedPlayers.size() == 1) {
+          PopupView.showInfoPopup("Can't create game",
+              "You need more than 1 player to start the game.");
         } else {
-            property.buyHouse();
+          Game game = new Game(selectedPlayers, board);
+          game.start();
+
+          monopolyView.setGameBoard(game);
+          popupStage.close();
         }
+      });
+
+      centerStartButton.getChildren().add(startButton);
+
+      BorderPane mainLayout = new BorderPane();
+      mainLayout.setTop(chooseIconsLayout);
+      mainLayout.setBottom(centerStartButton);
+      mainLayout.getStylesheets()
+          .add(getClass().getResource("/Style/NewGame.css").toExternalForm());
+
+      popupStage.setScene(new Scene(mainLayout));
+      popupStage.getIcons()
+          .add(new Image(getClass().getResourceAsStream("/playerPieces/pineapple.png")));
+      popupStage.showAndWait();
+    }
+  }
+
+  /**
+   * Creates a VBox containing the properties of a player.
+   *
+   * @param player    the player whose properties are to be displayed
+   * @param tradeList the list of properties to be traded
+   * @return Returns a VBox containing the properties of the player
+   */
+  public VBox getPlayerPropertiesBox(Player player, ArrayList<Property> tradeList) {
+
+    VBox playerProperties = new VBox();
+    playerProperties.setSpacing(5);
+
+    if (player.getPropertyList().isEmpty()) {
+      Label noPropertiesLabel = new Label("You have no properties to trade. ");
+      playerProperties.getChildren().add(noPropertiesLabel);
+      return playerProperties;
+    } else {
+
+      for (Property property : player.getPropertyList()) {
+
+        HBox propertyBox = new HBox();
+        StackPane propertyStack = new StackPane();
+        Button addButton = new Button("Add");
+        Button removeButton = new Button("Remove");
+        Label propertyLabel = new Label(property.getName());
+        propertyBox.setStyle("-fx-background-color:" + property.getColor() + ";");
+
+        addButton.setOnAction(e -> {
+          propertyBox.getChildren().setAll(removeButton, propertyLabel);
+          tradeList.add(property);
+        });
+        removeButton.setOnAction(e2 -> {
+          propertyBox.getChildren().setAll(addButton, propertyLabel);
+          tradeList.remove(property);
+        });
+        addButton.setId("tradeButton");
+        removeButton.setId("tradeButton");
+
+        propertyStack.getChildren().add(propertyLabel);
+        propertyBox.getChildren().addAll(addButton, propertyStack);
+        playerProperties.getChildren().add(propertyBox);
+
+      }
+      return playerProperties;
+    }
+  }
+
+  /**
+   * Executes a trade between two players.
+   *
+   * @param p1           the first player
+   * @param p2           the second player
+   * @param p1Properties the properties of the first player
+   * @param p2Properties the properties of the second player
+   * @param p1Money      the money of the first player
+   * @param p2Money      the money of the second player
+   */
+  public void executeTrade(Player p1, Player p2, ArrayList<Property> p1Properties,
+      ArrayList<Property> p2Properties, int p1Money, int p2Money) {
+
+    for (Property property : p1Properties) {
+      p1.removeProperty(property);
+      p2.addProperty(property);
+    }
+    for (Property property : p2Properties) {
+      p2.removeProperty(property);
+      p1.addProperty(property);
     }
 
-    public void sellPropertyHouse(Property property) {
-        property.setPropertyLevel(property.getPropertyLevel()-1);
-        property.getOwner().addPlayerBalance(property.getHouseCost()/2);
-    }
+    p1.setBalance(p1.getBalance() - p1Money);
+    p2.setBalance(p2.getBalance() + p1Money);
 
-    public void pawnProperty(Property property) {
-        property.setPawned();
-        property.getOwner().addPlayerBalance(property.getPrice()/2);
-    }
+    p2.setBalance(p2.getBalance() - p2Money);
+    p1.setBalance(p1.getBalance() + p2Money);
 
-    public void rePurchaseProperty(Property property) {
-        property.rePurchase();
-        property.getOwner().addPlayerBalance(-1*property.getPrice());
-    }
+    p1Properties.clear();
+    p2Properties.clear();
+  }
 
-    public void throwDice(Game game, Player player) {
-        player.move(game);
-        genericGameView.showDice(player.getDicePaths());
-    }
+  /**
+   * Creates a dropdown menu for selecting players.
+   *
+   * @param game   the game instance
+   * @param active the active player
+   * @return a ComboBox for selecting players
+   */
+  public ComboBox<Player> createPlayerDropdown(Game game, Player active) {
+    List<Player> tempPlayers = new ArrayList<>(game.getPlayers());
+    tempPlayers.remove(active);
 
-    public void buyProperty(Property property, Player player){
-        property.setOwner(player);
-        player.addProperty(property);
-        player.addPlayerBalance(-1*property.getPrice());
-        System.out.println("Property bought: " + property.getOwner());
-    }
+    ComboBox<Player> choosePlayer = new ComboBox<>(FXCollections.observableArrayList(tempPlayers));
+    choosePlayer.getStyleClass().add("custom-combo");
+    choosePlayer.setPromptText("Choose player");
+    return choosePlayer;
+  }
 
-    public void useJailCard(Player player, Game game) {
-        player.useJailCard();
-        game.nextPlayer();
-    }
+  /**
+   * Buys a property.
+   *
+   * @param property the property to be bought.
+   * @param player   the player that buys the property.
+   */
+  public void buyProperty(Property property, Player player) {
+    property.setOwner(player);
+    player.addProperty(property);
+    player.addPlayerBalance(-1 * property.getPrice());
+  }
 
-    public void payForJail(Player player, Game game) {
-        player.addPlayerBalance(-2000);
-        player.setJailStatus(0);
-        game.nextPlayer();
-    }
+  /**
+   * Executes a property house purchase.
+   *
+   * @param property the property to be purchase a house for
+   */
+  public void buyPropertyHouse(Property property) {
 
-    public void throwJailDice(Player player, Game game, int diceThrows) {
-        Dice.rollDice(2, player);
-        URL[]dicePaths = player.getDicePaths();
-        genericGameView.showDice(player.getDicePaths());
-        diceThrows ++; 
-        if(dicePaths[0].equals(dicePaths[1])){
-            player.setJailStatus(0);
-            game.nextPlayer();
-        }else if(diceThrows == 3) {
-            player.turnInJail();
-            game.nextPlayer();
+    if (property.getOwner().getBalance() < property.getHouseCost()) {
+      PopupView.showInfoPopup("Can't buy house!", "You don't have enought money to buy a house.");
+    } else {
+      property.buyHouse();
+    }
+  }
+
+  /**
+   * Executes a property sale.
+   *
+   * @param property the property to be sold
+   */
+  public void sellPropertyHouse(Property property) {
+    property.setPropertyLevel(property.getPropertyLevel() - 1);
+    property.getOwner().addPlayerBalance(property.getHouseCost() / 2);
+  }
+
+  /**
+   * Pawns a property.
+   *
+   * @param property the property to be pawned. Gives the player 1/2 of property price.
+   */
+  public void pawnProperty(Property property) {
+    property.setPawned();
+    property.getOwner().addPlayerBalance(property.getPrice() / 2);
+  }
+
+  /**
+   * Unpawns a property.
+   *
+   * @param property the property to be unpawned. Gives the player 1/2 of property price.
+   */
+  public void rePurchaseProperty(Property property) {
+    property.rePurchase();
+    property.getOwner().addPlayerBalance(-1 * property.getPrice());
+  }
+
+  /**
+   * Moves the player and shows the dice paths.
+   *
+   * @param game   the game instance
+   * @param player the player to move
+   */
+  public void throwDice(Game game, Player player) {
+    player.move(game);
+    genericGameView.showDice(player.getDicePaths());
+  }
+
+  /**
+   * Makes a player use a jail card.
+   *
+   * @param player the player to use the jail card
+   * @param game   the game instance Skips to the next player after using the card.
+   */
+  public void useJailCard(Player player, Game game) {
+    player.useJailCard();
+    game.nextPlayer();
+  }
+
+  /**
+   * Makes a player pay to bail jail.
+   *
+   * @param player the player to pay
+   * @param game   the game instance
+   */
+  public void payForJail(Player player, Game game) {
+    player.addPlayerBalance(-2000);
+    player.setJailStatus(0);
+    game.nextPlayer();
+  }
+
+  /**
+   * Rolls the dice for a player in jail.
+   *
+   * @param player     the player to roll the dice
+   * @param game       the game instance
+   * @param diceThrows the number of times the player has rolled the dice
+   */
+  public void throwJailDice(Player player, Game game, int diceThrows) {
+    Dice.rollDice(2, player);
+    URL[] dicePaths = player.getDicePaths();
+    genericGameView.showDice(player.getDicePaths());
+    diceThrows++;
+    if (dicePaths[0].equals(dicePaths[1])) {
+      player.setJailStatus(0);
+      game.nextPlayer();
+    } else if (diceThrows == 3) {
+      player.turnInJail();
+      game.nextPlayer();
+    }
+  }
+
+  /**
+   * Checks if a player has won the game.
+   *
+   * @param game the game instance
+   */
+  public void checkForWinner(Game game) {
+    for (Player player : game.getPlayers()) {
+      if (player.getBalance() <= 0) {
+        player.setPlayerActive(false);
+        continue;
+      }
+
+      boolean hasUnpawned = false;
+      for (Property property : player.getProperties()) {
+        if (!property.isPawned()) {
+          hasUnpawned = true;
+          break;
         }
+      }
+      if (!hasUnpawned) {
+        player.setPlayerActive(false);
+      }
     }
 
     /**
@@ -316,4 +536,5 @@ public class MonopolyController {
             game.finish(lastActive);
         }
     }
+  }
 }

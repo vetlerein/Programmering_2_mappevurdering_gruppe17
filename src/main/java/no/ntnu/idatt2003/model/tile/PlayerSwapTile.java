@@ -10,11 +10,15 @@ import no.ntnu.idatt2003.model.Player;
  */
 public class PlayerSwapTile extends Tile {
 
+  /**
+   * Constructor for the PlayerSwapTile class
+   *
+   * @param location the location of the tile
+   */
+  public PlayerSwapTile(int location) {
+    super(location);
 
-    public PlayerSwapTile(int location) {
-        super(location);
-
-    }
+  }
 
     /**
      * Finds the player with the highest position and sets the current player position to that
@@ -36,5 +40,10 @@ public class PlayerSwapTile extends Tile {
         if (game.getLaddergameView() != null) {
             game.getLaddergameView().playerSwitch(player, playerToSwap);
         }   
-    }
+      
+    int newPosition = playerToSwap.getPosition();
+    playerToSwap.setPosition(player.getPosition());
+    player.setPosition(newPosition);
+    game.getLaddergameView().playerSwitch(player, playerToSwap);
+  }
 }

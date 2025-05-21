@@ -4,6 +4,10 @@ import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import no.ntnu.idatt2003.model.Player;
 
+/**
+ * ChanceCardMove class represents a chance card that moves the player to a new position on the
+ * board.
+ */
 public class ChanceCardMove implements ChanceCard {
     private final int newPosition;
     private final String description;
@@ -45,5 +49,6 @@ public class ChanceCardMove implements ChanceCard {
         }
         
     }
+
 }
 
