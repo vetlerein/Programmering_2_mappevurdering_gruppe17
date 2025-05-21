@@ -177,12 +177,13 @@ public class MonopolyController {
     }
 
     public void executeTrade(Player p1, Player p2, ArrayList<Property> p1Properties, ArrayList<Property> p2Properties, int p1Money, int p2Money) {
-
-        for (Property property : p1Properties) {
+        List<Property> propertiesFromP1 = new ArrayList<>(p1Properties);
+        List<Property> propertiesFromP2 = new ArrayList<>(p2Properties);
+        for (Property property : propertiesFromP1) {
             p1.removeProperty(property);
             p2.addProperty(property);
         }
-        for (Property property : p2Properties) {
+        for (Property property : propertiesFromP2) {
             p2.removeProperty(property);
             p1.addProperty(property);
         }
@@ -192,9 +193,6 @@ public class MonopolyController {
     
         p2.setBalance(p2.getBalance() - p2Money);
         p1.setBalance(p1.getBalance() + p2Money);
-
-        p1Properties.clear();
-        p2Properties.clear();
     }
 
 
@@ -221,12 +219,10 @@ public class MonopolyController {
     }
 
     public void buyPropertyHouse(Property property) {
-
         if (property.getOwner().getBalance()<property.getHouseCost()) {
             PopupView.showInfoPopup("Can't buy house!", "You don't have enought money to buy a house.");
         } else {
-            property.setPropertyLevel(property.getPropertyLevel()+1);
-            property.getOwner().addPlayerBalance(-1*property.getHouseCost());
+            property.buyHouse();
         }
     }
 
@@ -290,19 +286,22 @@ public class MonopolyController {
         for (Player player : game.getPlayers()) {
             if (player.getBalance() <= 0) {
                 player.setPlayerActive(false);
-                continue;
+            } else {
+                player.setPlayerActive(true);
+                break;
             }
     
             boolean hasUnpawned = false;
             for (Property property : player.getProperties()) {
                 if (property.isPawned() == false) {
                     hasUnpawned = true;
+                    player.setPlayerActive(true);
                     break;
                 }
             }
             if (!hasUnpawned) {
                 player.setPlayerActive(false);
-            }
+            } 
         }
     
         Player lastActive = null;
@@ -313,7 +312,6 @@ public class MonopolyController {
                 lastActive = player; 
             }
         }
-
         if (activeCount == 1 && lastActive != null) {
             game.finish(lastActive);
         }

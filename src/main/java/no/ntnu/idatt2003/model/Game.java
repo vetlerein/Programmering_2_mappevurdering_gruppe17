@@ -68,6 +68,9 @@ public class Game {
      */
     public void start(){
         players.sort((a, b) -> b.getBirthDate().compareTo(a.getBirthDate()));
+        for (Player player : players) {
+            player.setPlayerActive(true);
+        }
     }
 
     /**

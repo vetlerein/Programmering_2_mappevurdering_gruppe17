@@ -83,6 +83,7 @@ public class Property {
     public void buyHouse(){
         if(this.propertyLevel < 5 && this.owner.getBalance() > this.houseCost) {
             this.propertyLevel++;
+            this.owner.addPlayerBalance(-this.houseCost);
         }
     }
 
