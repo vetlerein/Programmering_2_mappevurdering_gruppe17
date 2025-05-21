@@ -17,35 +17,35 @@ import no.ntnu.idatt2003.model.Player;
  */
 public class PlayerFileReader {
 
-    /**
-     * @return the method returns an ArrayList with Player objects within.
-     */
-    public ArrayList<Player> readPlayers() {
-        String name;
-        int number;
-        Date birthDate;
-        
-        ArrayList<Player> players = new ArrayList<Player>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+  /**
+   * @return the method returns an ArrayList with Player objects within.
+   */
+  public ArrayList<Player> readPlayers() {
+    String name;
+    int number;
+    Date birthDate;
 
-        try (CSVReader csvReader = new CSVReader(new FileReader("data/players.csv"))) {
-            //https://www.geeksforgeeks.org/reading-csv-file-java-using-opencsv/
-            String[] nextRecord;
+    ArrayList<Player> players = new ArrayList<Player>();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            try {
-                while ((nextRecord = csvReader.readNext()) != null){
-                    name = nextRecord[0];
-                    number = Integer.parseInt(nextRecord[1]);
-                    birthDate = dateFormat.parse(nextRecord[2]);
-                    players.add(new Player(name, number, birthDate));              
-                }
-            } catch (CsvValidationException | NumberFormatException | IOException | ParseException e) {
-                e.printStackTrace();
-            }
-            
-        } catch (IOException e) {
-            e.printStackTrace();
+    try (CSVReader csvReader = new CSVReader(new FileReader("data/players.csv"))) {
+      //https://www.geeksforgeeks.org/reading-csv-file-java-using-opencsv/
+      String[] nextRecord;
+
+      try {
+        while ((nextRecord = csvReader.readNext()) != null) {
+          name = nextRecord[0];
+          number = Integer.parseInt(nextRecord[1]);
+          birthDate = dateFormat.parse(nextRecord[2]);
+          players.add(new Player(name, number, birthDate));
         }
-        return players;
+      } catch (CsvValidationException | NumberFormatException | IOException | ParseException e) {
+        e.printStackTrace();
+      }
+
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    return players;
+  }
 }

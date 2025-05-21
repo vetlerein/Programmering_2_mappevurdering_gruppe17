@@ -10,109 +10,116 @@ import no.ntnu.idatt2003.view.MonopolyView;
  * Controls the game.
  */
 public class Game {
-    public boolean gameActiveStatus;
-    public int playerAmount;
-    public int activePlayer;
-    public ArrayList<Player> players;
-    public Board board;
 
-    /**
-     * Constructs a game with a given amount of players, board width, board height and players.
-     *
-     * @param board the active gameboard
-     * @param players the active players in the game
-     */
-    public Game(ArrayList<Player> players, Board gameboard){
-        gameActiveStatus = true;
-        this.playerAmount = players.size();
-        this.players = players;
-        board = gameboard;
-    }
+  public boolean gameActiveStatus;
+  public int playerAmount;
+  public int activePlayer;
+  public ArrayList<Player> players;
+  public Board board;
 
-    public static GenericGameView genericGameView;
-    public static void setView(GenericGameView view){
-        genericGameView = view;
-    }
+  /**
+   * Constructs a game with a given amount of players, board width, board height and players.
+   *
+   * @param players the active players in the game
+   */
+  public Game(ArrayList<Player> players, Board gameboard) {
+    gameActiveStatus = true;
+    this.playerAmount = players.size();
+    this.players = players;
+    board = gameboard;
+  }
 
-    public static LaddergameView laddergameView;
-    public static void setLadderView(LaddergameView view){
-        laddergameView = view;
-    }
+  public static GenericGameView genericGameView;
 
-    public static MonopolyView monopolyView;
-    public static void setMonopolyView(MonopolyView view){
-        monopolyView = view;
-    }
+  public static void setView(GenericGameView view) {
+    genericGameView = view;
+  }
 
-    /**
-     * Returns the laddergameview.
-     */
-    public LaddergameView getLaddergameView(){
-        return laddergameView;
-    }
+  public static LaddergameView laddergameView;
 
-    /**
-     * The game is finished.
-     *
-     * @param player the winner of the game
-     */
-    public void finish(Player player){
-        gameActiveStatus = false;
-        if(genericGameView != null){
-            genericGameView.playerWon(player);
-        }
-    }
+  public static void setLadderView(LaddergameView view) {
+    laddergameView = view;
+  }
 
-    /**
-     * Starts the game.
-     */
-    public void start(){
-        players.sort((a, b) -> b.getBirthDate().compareTo(a.getBirthDate()));
-        for (Player player : players) {
-            player.setPlayerActive(true);
-        }
-    }
+  public static MonopolyView monopolyView;
 
-    /**
-     * Returns the active game board
-     * @return gameboard the active board
-     */
-    public Board getBoard() {
-        return board;
-    }
+  public static void setMonopolyView(MonopolyView view) {
+    monopolyView = view;
+  }
 
-    /**
-     * Returns game status
-     * @return game status
-     */
-    public boolean getGameStatus() {
-        return gameActiveStatus;
-    }
+  /**
+   * Returns the laddergameview.
+   */
+  public LaddergameView getLaddergameView() {
+    return laddergameView;
+  }
 
-    /**
-     * Returns the active player
-     * @return the index of the active player
-     */
-    public int getActivePlayer(){
-        return activePlayer;
+  /**
+   * The game is finished.
+   *
+   * @param player the winner of the game
+   */
+  public void finish(Player player) {
+    gameActiveStatus = false;
+    if (genericGameView != null) {
+      genericGameView.playerWon(player);
     }
+  }
 
-    /**
-     * Changes whose turn it is
-     */
-    public void nextPlayer() {
-        if (activePlayer == players.size() - 1) {
-            activePlayer = 0;
-        } else {
-            activePlayer++;
-        }
+  /**
+   * Starts the game.
+   */
+  public void start() {
+    players.sort((a, b) -> b.getBirthDate().compareTo(a.getBirthDate()));
+    for (Player player : players) {
+      player.setPlayerActive(true);
     }
+  }
 
-    /**
-     * Returns a list of the players in the game
-     * @return the players in the game
-     */
-    public ArrayList<Player> getPlayers(){
-        return this.players;
+  /**
+   * Returns the active game board
+   *
+   * @return gameboard the active board
+   */
+  public Board getBoard() {
+    return board;
+  }
+
+  /**
+   * Returns game status
+   *
+   * @return game status
+   */
+  public boolean getGameStatus() {
+    return gameActiveStatus;
+  }
+
+  /**
+   * Returns the active player
+   *
+   * @return the index of the active player
+   */
+  public int getActivePlayer() {
+    return activePlayer;
+  }
+
+  /**
+   * Changes whose turn it is
+   */
+  public void nextPlayer() {
+    if (activePlayer == players.size() - 1) {
+      activePlayer = 0;
+    } else {
+      activePlayer++;
     }
+  }
+
+  /**
+   * Returns a list of the players in the game
+   *
+   * @return the players in the game
+   */
+  public ArrayList<Player> getPlayers() {
+    return this.players;
+  }
 }
