@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import laddergameTest.TestSetup;
+import laddergameTest.dummyClasses.TestSetup;
 import no.ntnu.idatt2003.model.Dice;
 import no.ntnu.idatt2003.model.Player;
 
