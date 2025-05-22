@@ -1,6 +1,6 @@
 # Programming 2 Final Project - Group 17
 ## Features
-To see the full JavaDoc:   [click here](https://vetlerein.github.io/Programmering_2_mappevurdering_gruppe17/)
+To see the full JavaDoc:   [click here](https://vetlerein.github.io/Programmering_2_mappevurdering_gruppe17/apidocs/index.html)
 
 The main features of this application are:
 - Add a new player

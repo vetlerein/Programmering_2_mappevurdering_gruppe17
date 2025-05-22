@@ -111,9 +111,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.5.0</version>
         <configuration>
-          <!-- Where under docs/ the API should go -->
           <reportOutputDirectory>${project.basedir}/docs/apidocs</reportOutputDirectory>
-          <!-- Make sure you document all your packages -->
           <subpackages>no.ntnu.idatt2003</subpackages>
           <doclint>none</doclint>
           <failOnError>false</failOnError>
