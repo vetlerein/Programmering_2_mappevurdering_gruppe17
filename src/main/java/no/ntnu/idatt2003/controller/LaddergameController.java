@@ -175,6 +175,7 @@ public class LaddergameController {
       ArrayList<Player> selectedPlayers = new ArrayList<>();
 
       startButton.setOnAction(e -> {
+        selectedPlayers.clear();
         for (ComboBox<Player> comboBox : playerComboBoxes) {
           Player selectedPlayer = comboBox.getValue();
           if (selectedPlayer != null) {
