@@ -1,0 +1,8 @@
+no.ntnu.idatt2003.controller
+no.ntnu.idatt2003.gameExceptions
+no.ntnu.idatt2003.model
+no.ntnu.idatt2003.model.chanceCards
+no.ntnu.idatt2003.model.fileManagement.boardFiles
+no.ntnu.idatt2003.model.fileManagement.playerFileManagement
+no.ntnu.idatt2003.model.tile
+no.ntnu.idatt2003.view
