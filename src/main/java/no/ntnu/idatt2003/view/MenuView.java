@@ -64,8 +64,10 @@ public class MenuView {
       MonopolyView monopolyView = new MonopolyView();
       GenericGameView genericGameView = new GenericGameView();
       BorderPane monopoly = monopolyView.mainLayout();
-
-      Scene monopolyScene = new Scene(monopoly, stage.getWidth(), stage.getHeight());
+      Scene currentScene = stage.getScene();
+      
+      Scene monopolyScene = new Scene(monopoly, currentScene.getWidth(),
+          currentScene.getHeight());
       monopolyScene.getStylesheets()
           .add(getClass().getResource("/Style/Monopoly.css").toExternalForm());
       stage.setScene(monopolyScene);
