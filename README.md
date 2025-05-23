@@ -25,5 +25,5 @@ You need the following software installed and added to path.
   
 ## How to run
 Make sure you have Java and Maven installed (see **Requirements** above), then open a terminal in the project folder and run: 
-bash
-mvn clean javafx:run# Programmering_2_mappevurdering_gruppe17
+```bash
+mvn clean javafx:run
